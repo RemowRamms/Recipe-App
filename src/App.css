@@ -1,0 +1,22 @@
+/* Default background for light mode */
+body {
+  background-color: #fff; /* Light background */
+  color: #000; /* Light text color */
+}
+
+/* Dark mode styles */
+.bg-black {
+  background-color: #000; /* Dark background */
+}
+
+.text-white {
+  color: #fff; /* Light text for dark mode */
+}
+
+.text-black {
+  color: #000; /* Dark text for light mode */
+}
+
+.bg-white {
+  background-color: #fff; /* Light background */
+}

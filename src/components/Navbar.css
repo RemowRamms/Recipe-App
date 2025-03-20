@@ -1,0 +1,174 @@
+/* Navbar styles */
+.navbar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 7%;
+  background: #000;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Light theme styling */
+.navbar-light {
+  background-color: #fff;
+  color: #000;
+}
+
+.navbar-light .logo {
+  filter: brightness(0) saturate(100%) invert(0);
+}
+
+.navbar-light ul li {
+  color: #000;
+}
+
+.navbar-light .toggle-icon {
+  filter: brightness(0) saturate(100%) invert(0);
+}
+
+/* Dark theme styling */
+.navbar-dark {
+  background-color: #000;
+  color: #fff;
+}
+
+.navbar-dark .logo {
+  filter: brightness(0) saturate(100%) invert(1);
+}
+
+.navbar-dark ul li {
+  color: #fff;
+}
+
+.navbar-dark .toggle-icon {
+  filter: brightness(0) saturate(100%) invert(1);
+}
+
+/* Menu Items */
+ul {
+  flex: 1;
+  list-style: none;
+  text-align: center;
+}
+
+ul li {
+  display: inline-block;
+  /* margin: 10px 20px; */
+  padding: 20px;
+  font-size: 18px;
+  cursor: pointer;
+  position: relative; /* Needed for positioning the dropdown */
+}
+
+/* Dropdown Menu Styling */
+ul li ul {
+  display: none; /* Hide the dropdown by default */
+  position: absolute;
+  top: 100%; /* Position dropdown below the parent item */
+  left: 0;
+  background-color: #fff; /* Light mode dropdown background */
+  border: 1px solid #ccc; /* Light mode dropdown border */
+  min-width: 160px;
+  flex-direction: column; /* Align items vertically */
+  z-index: 10; /* Make sure dropdown appears above other content */
+}
+
+ul li:hover > ul {
+  display: flex; /* Show the dropdown on hover */
+}
+
+.navbar-light ul li ul {
+  background-color: #fff; /* Light mode dropdown background */
+  border: 1px solid #ccc; /* Light mode dropdown border */
+}
+
+.navbar-dark ul li ul {
+  background-color: #333; /* Dark mode dropdown background */
+  border: 1px solid #666; /* Dark mode dropdown border */
+}
+
+.navbar-light ul li ul li {
+  color: #000; /* Light mode dropdown text */
+}
+
+.navbar-dark ul li ul li {
+  color: #fff; /* Dark mode dropdown text */
+}
+
+.navbar-light ul li ul li:hover {
+  background-color: #f0f0f0; /* Light mode dropdown hover */
+}
+
+.navbar-dark ul li ul li:hover {
+  background-color: #666; /* Dark mode dropdown hover */
+}
+
+/* Search Box styling */
+.search-box {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  border-radius: 50px;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Light Mode Search Box */
+.navbar-light .search-box {
+  background-color: #f0f0f0;
+}
+
+/* Dark Mode Search Box */
+.navbar-dark .search-box {
+  background-color: #333;
+}
+
+.search-box input {
+  padding: 6px;
+  background: transparent;
+  border: 2px solid transparent;
+  outline: 0;
+  color: #fff;
+  font-size: 18px;
+  max-width: 200px;
+  border-radius: 50px;
+  transition: border-color 0.3s ease;
+}
+
+.search-box input::placeholder {
+  color: #fff;
+}
+
+/* Light Mode Search Box Input */
+.navbar-light .search-box input {
+  color: #000;
+}
+
+/* Dark Mode Search Box Input */
+.navbar-dark .search-box input {
+  color: #fff;
+}
+
+/* Light Mode Search Box Input Placeholder */
+.navbar-light .search-box input::placeholder {
+  color: #999;
+}
+
+/* Dark Mode Search Box Input Placeholder */
+.navbar-dark .search-box input::placeholder {
+  color: #ccc;
+}
+
+/* Search Box Icon */
+.search-box img {
+  width: 20px;
+  cursor: pointer;
+}
+
+/* Toggle Button */
+.toggle-icon {
+  width: 50px;
+  cursor: pointer;
+  margin-left: 40px;
+}
+
