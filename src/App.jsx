@@ -5,7 +5,7 @@ import recipes from "./data";
 import RecipeCard from "./components/RecipeCard"; 
 import Navbar from "./components/Navbar"; 
 import RecipeDetails from "./components/RecipeDetails"; 
-import Home from "./components/Home"; // Import the Home component
+import Home from "./components/Home"; 
 
 const App = () => {
   const current_theme = localStorage.getItem('current_theme');

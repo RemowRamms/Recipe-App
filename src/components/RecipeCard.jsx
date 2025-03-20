@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom"; // Import Link
+import { Link } from "react-router-dom"; 
 
 const RecipeCard = ({ recipe, theme }) => {
   return (
@@ -13,7 +13,7 @@ const RecipeCard = ({ recipe, theme }) => {
         />
       </Link>
 
-      {/* Recipe Title */}
+     
       <div className={`absolute bottom-0 left-0 right-0 p-4 text-center z-10 ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
         <h2 className="font-bold text-lg">{recipe.title}</h2>
       </div>

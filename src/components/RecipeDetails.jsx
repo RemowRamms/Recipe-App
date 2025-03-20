@@ -1,9 +1,9 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import recipes from "../data"; // Import the recipe data
+import recipes from "../data"; 
 
 const RecipeDetails = () => {
-  const { id } = useParams(); // Get the id from the URL
+  const { id } = useParams(); 
   const recipe = recipes.find((recipe) => recipe.id === parseInt(id)); // Find the recipe by id
 
   if (!recipe) {
@@ -13,13 +13,13 @@ const RecipeDetails = () => {
           Recipe not found.
         </div>
       </div>
-    ); // If no recipe is found with the given id
+    ); 
   }
 
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="flex flex-col items-center">
-        {/* Recipe Image */}
+        
         <img
           src={recipe.image}
           alt={`Image of ${recipe.title}`}
@@ -37,7 +37,7 @@ const RecipeDetails = () => {
           ))}
         </ul>
 
-        {/* Method Section */}
+        
         {recipe.method && Array.isArray(recipe.method) ? (
           <>
             <h2 className="text-xl font-semibold mb-2">Method</h2>
