@@ -6,6 +6,7 @@ import RecipeCard from "./components/RecipeCard";
 import Navbar from "./components/Navbar"; 
 import RecipeDetails from "./components/RecipeDetails"; 
 import Home from "./components/Home"; 
+import { AllRecipes } from './components/AllRecipes';
 
 const App = () => {
   const current_theme = localStorage.getItem('current_theme');
@@ -48,16 +49,13 @@ const App = () => {
 
             {/* Recipe List Route */}
             <Route path="/recipes" element={
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {/* Map over filtered recipes */}
-                {filteredRecipes.length > 0 ? (
-                  filteredRecipes.map((recipe) => (
-                    <RecipeCard key={recipe.id} recipe={recipe} theme={theme} />
-                  ))
-                ) : (
-                  <p className="col-span-3 text-center">No recipes found.</p>
-                )}
-              </div>
+              <AllRecipes
+              theme={theme}
+              filteredRecipes={filteredRecipes}
+              // isLoggedIn={isLoggedIn}
+              // setShowLoginModal={setShowLoginModal}
+              // addToFavorites={addToFavorites}
+            />
             } />
 
             {/* Recipe Details Route */}
