@@ -2,11 +2,28 @@ import './App.css';
 import React, { useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom"; 
 import recipes from "./data"; 
-import RecipeCard from "./components/RecipeCard"; 
+// import RecipeCard from "./components/RecipeCard"; 
 import Navbar from "./components/Navbar"; 
 import RecipeDetails from "./components/RecipeDetails"; 
 import Home from "./components/Home"; 
+import BreakfastRecipes from "./components/BreakfastRecipes";
+import LunchRecipes from "./components/LunchRecipes";
+import DinnerRecipes from "./components/DinnerRecipes";
+import TrendingRecipes from "./components/TrendingRecipes";
+import TopRatedRecipes from "./components/TopRatedRecipes";
+import ChickenRecipes from "./components/ChickenRecipes";
+import BeefRecipes from "./components/BeefRecipes";
+import FishRecipes from "./components/FishRecipes";
+import VeganRecipes from "./components/VeganRecipes";
+import KetoRecipes from "./components/KetoRecipes";
+import GlutenFreeRecipes from "./components/GlutenFreeRecipes";
+import ChristmasRecipes from "./components/ChristmasRecipes";
+import ThanksgivingRecipes from "./components/ThanksgivingRecipes";
 import { AllRecipes } from './components/AllRecipes';
+import SummerRecipes from "./components/SummerRecipes";
+import WinterRecipes from "./components/WinterRecipes";
+// mport Login from "./components/Login";
+
 
 const App = () => {
   const current_theme = localStorage.getItem('current_theme');
@@ -43,12 +60,195 @@ const App = () => {
         />
 
         <div className="container mx-auto px-4">
-          <Routes>
-            {/* Home Page Route */}
-            <Route path="/" element={<Home />} />
+      
+            
 
-            {/* Recipe List Route */}
-            <Route path="/recipes" element={
+       <Routes>
+
+        {/* Home Page Route */}
+        <Route path="/" element={<Home />} />
+
+{/* Recipe List Route */}
+        <Route path="/" element={<Home searchQuery={searchQuery} />} />
+        <Route
+          path="/breakfast"
+          element={
+            <BreakfastRecipes
+              theme={theme}
+              // isLoggedIn={isLoggedIn}
+              // setShowLoginModal={setShowLoginModal}
+              // addToFavorites={addToFavorites}
+            />
+          }
+        />
+
+        <Route
+          path="/lunch"
+          element={
+            <LunchRecipes
+              theme={theme}
+              // isLoggedIn={isLoggedIn}
+              // setShowLoginModal={setShowLoginModal}
+              // addToFavorites={addToFavorites}
+            />
+          }
+        />
+
+        <Route
+          path="/dinner"
+          element={
+            <DinnerRecipes
+              theme={theme}
+              // isLoggedIn={isLoggedIn}
+              // setShowLoginModal={setShowLoginModal}
+              // addToFavorites={addToFavorites}
+            />
+          }
+        />
+
+        <Route
+          path="/trending"
+          element={
+            <TrendingRecipes
+              theme={theme}
+              // isLoggedIn={isLoggedIn}
+              // setShowLoginModal={setShowLoginModal}
+              // addToFavorites={addToFavorites}
+            />
+          }
+        />
+
+        <Route
+          path="/top-rated"
+          element={
+            <TopRatedRecipes
+              theme={theme}
+              // isLoggedIn={isLoggedIn}
+              // setShowLoginModal={setShowLoginModal}
+              // addToFavorites={addToFavorites}
+            />
+          }
+        />
+
+        <Route
+          path="/chicken"
+          element={
+            <ChickenRecipes
+              theme={theme}
+              // isLoggedIn={isLoggedIn}
+              // setShowLoginModal={setShowLoginModal}
+              // addToFavorites={addToFavorites}
+            />
+          }
+        />
+
+        <Route
+          path="/beef"
+          element={
+            <BeefRecipes
+              theme={theme}
+              // isLoggedIn={isLoggedIn}
+              // setShowLoginModal={setShowLoginModal}
+              // addToFavorites={addToFavorites}
+            />
+          }
+        />
+
+        <Route
+          path="/fish"
+          element={
+            <FishRecipes
+              theme={theme}
+              // isLoggedIn={isLoggedIn}
+              // setShowLoginModal={setShowLoginModal}
+              // addToFavorites={addToFavorites}
+            />
+          }
+        />
+
+        <Route
+          path="/vegan"
+          element={
+            <VeganRecipes
+              theme={theme}
+              // isLoggedIn={isLoggedIn}
+              // setShowLoginModal={setShowLoginModal}
+              // addToFavorites={addToFavorites}
+            />
+          }
+        />
+
+        <Route
+          path="/keto"
+          element={
+            <KetoRecipes
+              theme={theme}
+              // isLoggedIn={isLoggedIn}
+              // setShowLoginModal={setShowLoginModal}
+              // addToFavorites={addToFavorites}
+            />
+          }
+        />
+        <Route
+          path="/gluten-free"
+          element={
+            <GlutenFreeRecipes
+              theme={theme}
+              // isLoggedIn={isLoggedIn}
+              // setShowLoginModal={setShowLoginModal}
+              // addToFavorites={addToFavorites}
+            />
+          }
+        />
+           
+           <Route
+          path="/christmas"
+          element={
+            <ChristmasRecipes
+              theme={theme}
+              // isLoggedIn={isLoggedIn}
+              // setShowLoginModal={setShowLoginModal}
+              // addToFavorites={addToFavorites}
+            />
+          }
+        />
+        <Route
+          path="/thanksgiving"
+          element={
+            <ThanksgivingRecipes
+              theme={theme}
+              // isLoggedIn={isLoggedIn}
+              // setShowLoginModal={setShowLoginModal}
+              // addToFavorites={addToFavorites}
+            />
+          }
+        />
+
+           <Route
+          path="/summer"
+          element={
+            <SummerRecipes
+              theme={theme}
+              // isLoggedIn={isLoggedIn}
+              // setShowLoginModal={setShowLoginModal}
+              // addToFavorites={addToFavorites}
+            />
+          }
+        />
+        <Route
+          path="/winter"
+          element={
+            <WinterRecipes
+              theme={theme}
+              // isLoggedIn={isLoggedIn}
+              // setShowLoginModal={setShowLoginModal}
+              // addToFavorites={addToFavorites}
+            />
+          }
+          />
+
+           <Route path="/recipes" 
+            element={
               <AllRecipes
               theme={theme}
               filteredRecipes={filteredRecipes}
@@ -56,10 +256,19 @@ const App = () => {
               // setShowLoginModal={setShowLoginModal}
               // addToFavorites={addToFavorites}
             />
-            } />
+            } 
+            />
 
             {/* Recipe Details Route */}
-            <Route path="/recipe/:id" element={<RecipeDetails />} />
+            <Route path="/recipe/:id" element={<RecipeDetails 
+            theme={theme}
+            // isLoggedIn={isLoggedIn}
+            // setShowLoginModal={setShowLoginModal}
+            // handleRate={handleRate}
+            // recipeRatings={recipeRatings}
+            />
+            }
+             />
           </Routes>
         </div>
       </div>
