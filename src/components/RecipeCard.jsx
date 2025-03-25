@@ -22,31 +22,33 @@ const RecipeCard = ({
     }
   };
   return (
-    <div className={`relative rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300`}>
-      {/* Recipe Image wrapped in Link */}
+    <>
+      <div className={`relative rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300`}>
       <Link to={`/recipe/${recipe.id}`}>
+      {/* Recipe Image wrapped in Link */}
         <img
           className="w-full h-32 object-cover"
           src={recipe.image}
           alt={recipe.title}
         />
-      </Link>
 
+      </Link>
      
       <div className={`absolute bottom-0 left-0 right-0 p-4 text-center ${theme === 'dark' ? 'text-white' : 'text-white'}`}>
         <h2 className="font-bold text-lg">{recipe.title}</h2>
+      </div>
         <button
           onClick={handleHeartClick}
           className="absolute left-4 bottom-4 text-xl"
-        >
+          >
           <FaHeart
             className={`text-3xl ${
               isFavorite ? "text-red-500" : "text-gray-500"
             }`}
-          />
+            />
         </button>
-      </div>
     </div>
+    </>
   );
 };
 

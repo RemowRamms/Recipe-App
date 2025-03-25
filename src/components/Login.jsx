@@ -35,7 +35,7 @@ const Login = ({ onLogin, theme, setIsLoginVisible }) => {
     setIsLoginVisible(false);
 
     // Redirect to home page after successful login/sign-up
-    navigate("/");
+    // navigate("/");
   };
 
   const toggleForm = () => {

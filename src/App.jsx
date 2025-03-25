@@ -22,7 +22,7 @@ import ThanksgivingRecipes from "./components/ThanksgivingRecipes";
 import { AllRecipes } from './components/AllRecipes';
 import SummerRecipes from "./components/SummerRecipes";
 import WinterRecipes from "./components/WinterRecipes";
-// mport Login from "./components/Login";
+import Login from "./components/Login";
 
 
 const App = () => {
@@ -30,11 +30,15 @@ const App = () => {
   const [theme, setTheme] = useState(current_theme ? current_theme : 'light');
   const [searchQuery, setSearchQuery] = useState("");  // State for search query
   const [filteredRecipes, setFilteredRecipes] = useState(recipes);  // Filtered recipes
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [favoriteRecipes, setFavoriteRecipes] = useState([]);
 
   // Handle search input change
   const handleSearchChange = (event) => {
     const query = event.target.value.toLowerCase();  // Convert to lowercase for case-insensitive search
     setSearchQuery(query);
+
 
     // Filter recipes based on search query
     const filtered = recipes.filter((recipe) =>
@@ -43,10 +47,26 @@ const App = () => {
     setFilteredRecipes(filtered);
   };
 
+  const addToFavorites = (recipeId) => {
+    if (!isLoggedIn) {
+      setShowLoginModal(true);
+    } else {
+      if (favoriteRecipes.includes(recipeId)) {
+        setFavoriteRecipes(favoriteRecipes.filter((id) => id !== recipeId));
+      } else {
+        setFavoriteRecipes([...favoriteRecipes, recipeId]);
+      }
+      console.log(`Toggled favorite status for recipe ${recipeId}`);
+    }
+  };
   // Effect to store theme in localStorage
   React.useEffect(() => {
     localStorage.setItem('current_theme', theme);
   }, [theme]);
+
+  const handleRate = (recipeId, userId, rating) => {
+    // Your existing handleRate function here
+  };
 
   return (
     <Router> 
@@ -59,8 +79,16 @@ const App = () => {
           onSearchChange={handleSearchChange} 
         />
 
+        {showLoginModal && (
+          <Login
+            theme={theme}
+            onLogin={() => setIsLoggedIn(true)}
+            setIsLoginVisible={setShowLoginModal}
+          />
+        )}
+
         <div className="container mx-auto px-4">
-      
+
             
 
        <Routes>
@@ -75,9 +103,9 @@ const App = () => {
           element={
             <BreakfastRecipes
               theme={theme}
-              // isLoggedIn={isLoggedIn}
-              // setShowLoginModal={setShowLoginModal}
-              // addToFavorites={addToFavorites}
+              isLoggedIn={isLoggedIn}
+              setShowLoginModal={setShowLoginModal}
+              addToFavorites={addToFavorites}
             />
           }
         />
@@ -87,9 +115,9 @@ const App = () => {
           element={
             <LunchRecipes
               theme={theme}
-              // isLoggedIn={isLoggedIn}
-              // setShowLoginModal={setShowLoginModal}
-              // addToFavorites={addToFavorites}
+              isLoggedIn={isLoggedIn}
+              setShowLoginModal={setShowLoginModal}
+              addToFavorites={addToFavorites}
             />
           }
         />
@@ -99,9 +127,9 @@ const App = () => {
           element={
             <DinnerRecipes
               theme={theme}
-              // isLoggedIn={isLoggedIn}
-              // setShowLoginModal={setShowLoginModal}
-              // addToFavorites={addToFavorites}
+              isLoggedIn={isLoggedIn}
+              setShowLoginModal={setShowLoginModal}
+              addToFavorites={addToFavorites}
             />
           }
         />
@@ -111,9 +139,9 @@ const App = () => {
           element={
             <TrendingRecipes
               theme={theme}
-              // isLoggedIn={isLoggedIn}
-              // setShowLoginModal={setShowLoginModal}
-              // addToFavorites={addToFavorites}
+              isLoggedIn={isLoggedIn}
+              setShowLoginModal={setShowLoginModal}
+              addToFavorites={addToFavorites}
             />
           }
         />
@@ -123,9 +151,9 @@ const App = () => {
           element={
             <TopRatedRecipes
               theme={theme}
-              // isLoggedIn={isLoggedIn}
-              // setShowLoginModal={setShowLoginModal}
-              // addToFavorites={addToFavorites}
+              isLoggedIn={isLoggedIn}
+              setShowLoginModal={setShowLoginModal}
+              addToFavorites={addToFavorites}
             />
           }
         />
@@ -135,9 +163,9 @@ const App = () => {
           element={
             <ChickenRecipes
               theme={theme}
-              // isLoggedIn={isLoggedIn}
-              // setShowLoginModal={setShowLoginModal}
-              // addToFavorites={addToFavorites}
+              isLoggedIn={isLoggedIn}
+              setShowLoginModal={setShowLoginModal}
+              addToFavorites={addToFavorites}
             />
           }
         />
@@ -147,9 +175,9 @@ const App = () => {
           element={
             <BeefRecipes
               theme={theme}
-              // isLoggedIn={isLoggedIn}
-              // setShowLoginModal={setShowLoginModal}
-              // addToFavorites={addToFavorites}
+              isLoggedIn={isLoggedIn}
+              setShowLoginModal={setShowLoginModal}
+              addToFavorites={addToFavorites}
             />
           }
         />
@@ -159,9 +187,9 @@ const App = () => {
           element={
             <FishRecipes
               theme={theme}
-              // isLoggedIn={isLoggedIn}
-              // setShowLoginModal={setShowLoginModal}
-              // addToFavorites={addToFavorites}
+              isLoggedIn={isLoggedIn}
+              setShowLoginModal={setShowLoginModal}
+              addToFavorites={addToFavorites}
             />
           }
         />
@@ -171,9 +199,9 @@ const App = () => {
           element={
             <VeganRecipes
               theme={theme}
-              // isLoggedIn={isLoggedIn}
-              // setShowLoginModal={setShowLoginModal}
-              // addToFavorites={addToFavorites}
+              isLoggedIn={isLoggedIn}
+              setShowLoginModal={setShowLoginModal}
+              addToFavorites={addToFavorites}
             />
           }
         />
@@ -183,9 +211,9 @@ const App = () => {
           element={
             <KetoRecipes
               theme={theme}
-              // isLoggedIn={isLoggedIn}
-              // setShowLoginModal={setShowLoginModal}
-              // addToFavorites={addToFavorites}
+              isLoggedIn={isLoggedIn}
+              setShowLoginModal={setShowLoginModal}
+              addToFavorites={addToFavorites}
             />
           }
         />
@@ -194,9 +222,9 @@ const App = () => {
           element={
             <GlutenFreeRecipes
               theme={theme}
-              // isLoggedIn={isLoggedIn}
-              // setShowLoginModal={setShowLoginModal}
-              // addToFavorites={addToFavorites}
+              isLoggedIn={isLoggedIn}
+              setShowLoginModal={setShowLoginModal}
+              addToFavorites={addToFavorites}
             />
           }
         />
@@ -206,9 +234,9 @@ const App = () => {
           element={
             <ChristmasRecipes
               theme={theme}
-              // isLoggedIn={isLoggedIn}
-              // setShowLoginModal={setShowLoginModal}
-              // addToFavorites={addToFavorites}
+              isLoggedIn={isLoggedIn}
+              setShowLoginModal={setShowLoginModal}
+              addToFavorites={addToFavorites}
             />
           }
         />
@@ -217,9 +245,9 @@ const App = () => {
           element={
             <ThanksgivingRecipes
               theme={theme}
-              // isLoggedIn={isLoggedIn}
-              // setShowLoginModal={setShowLoginModal}
-              // addToFavorites={addToFavorites}
+              isLoggedIn={isLoggedIn}
+              setShowLoginModal={setShowLoginModal}
+              addToFavorites={addToFavorites}
             />
           }
         />
@@ -229,9 +257,9 @@ const App = () => {
           element={
             <SummerRecipes
               theme={theme}
-              // isLoggedIn={isLoggedIn}
-              // setShowLoginModal={setShowLoginModal}
-              // addToFavorites={addToFavorites}
+              isLoggedIn={isLoggedIn}
+              setShowLoginModal={setShowLoginModal}
+              addToFavorites={addToFavorites}
             />
           }
         />
@@ -240,9 +268,9 @@ const App = () => {
           element={
             <WinterRecipes
               theme={theme}
-              // isLoggedIn={isLoggedIn}
-              // setShowLoginModal={setShowLoginModal}
-              // addToFavorites={addToFavorites}
+              isLoggedIn={isLoggedIn}
+              setShowLoginModal={setShowLoginModal}
+              addToFavorites={addToFavorites}
             />
           }
           />
@@ -252,9 +280,9 @@ const App = () => {
               <AllRecipes
               theme={theme}
               filteredRecipes={filteredRecipes}
-              // isLoggedIn={isLoggedIn}
-              // setShowLoginModal={setShowLoginModal}
-              // addToFavorites={addToFavorites}
+              isLoggedIn={isLoggedIn}
+              setShowLoginModal={setShowLoginModal}
+              addToFavorites={addToFavorites}
             />
             } 
             />
@@ -262,9 +290,9 @@ const App = () => {
             {/* Recipe Details Route */}
             <Route path="/recipe/:id" element={<RecipeDetails 
             theme={theme}
-            // isLoggedIn={isLoggedIn}
-            // setShowLoginModal={setShowLoginModal}
-            // handleRate={handleRate}
+            isLoggedIn={isLoggedIn}
+            setShowLoginModal={setShowLoginModal}
+            handleRate={handleRate}
             // recipeRatings={recipeRatings}
             />
             }
