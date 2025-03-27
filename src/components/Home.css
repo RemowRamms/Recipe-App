@@ -1,4 +1,4 @@
-.hero-item{
+/* .hero-item{
         position: absolute;
         justify-content: center;
         align-items: center;
@@ -6,19 +6,19 @@
         color: #fff;
         width: 50%;
         top: 160px;
-        left: 102px;
+        left: 102px; */
         /* bottom: 0; */
-        padding: 0 0 0 64px;
+        /* padding: 0 0 0 64px;
         background: linear-gradient(to right, #000, #0000);
-        height: 101.3vh;
+        height: 100 vh;
 
         h1 {
           margin-bottom: 1rem;
           font-size: xx-large;
         }
-}
+} */
 
-.view-recipes-btn {
+/* .view-recipes-btn {
   background-color: #f59e0b; 
   color: white;
   padding: 1rem 2rem; 
@@ -28,13 +28,14 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
   text-decoration: none; 
   transition: all 0.3s ease; 
-}
+} */
 
-p{
+/* p{
   font-size: medium;
-}
+} */
 
-.view-recipes-btn:hover {
+/* .view-recipes-btn:hover {
   background-color: #eab308; 
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); 
-}
+} */
+

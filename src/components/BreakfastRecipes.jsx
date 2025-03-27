@@ -1,4 +1,3 @@
-// BreakfastRecipes.jsx
 import React from "react";
 import RecipeCard from "./RecipeCard";
 import recipes from "../data";

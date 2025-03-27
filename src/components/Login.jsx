@@ -18,10 +18,10 @@ const Login = ({ onLogin, theme, setIsLoginVisible }) => {
       return;
     }
 
-    // Simulate sign-up logic (e.g., save user data, etc.)
+    
     if (isSignUp) {
       console.log("Signing up with:", email, password);
-      //  Here you would typically make an API call to register the user.
+    
     } else {
       // Simulate login logic (e.g., check credentials, etc.)
       console.log("Logging in with:", email, password);

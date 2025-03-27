@@ -2,10 +2,17 @@ const recipes = [
   {
     id: 1,
     title: "Beef Braised Lamb Shanks",
-    description: "A classic Italian pasta.",
+    // description: "A classic Italian pasta.",
     image: "/images/Beef Braised Lamb Shanks.jpg",
-    ingredients: ["Eggs", "Pancetta", "Black Pepper"],
-    method: [],
+    ingredients: ["4 Lamb shanks","1 & half Tbsp 7 Colours Grill Seasoning TM", "2 Tbsp Butter", "1 Onion (chopped)","1 tsp Ginger (minced)", "1 tsp Garlic (minced)", "2 Carrots(chopped)", "2 sticks of Celery(chopped)","1 tsp Curry paste","1 Tbsp Curry powder","1tsp Paprika","Pinch each salt & pepper","1 Tbsp Tomato paste", "3 springs fresh Thyme", "3 Bay leaves", "330ml Beer(can use non-alcholic", "2 cups Beer broth"],
+    method: ["Season lamb shanks with 1 Tbsp Seven Colours Grill SeasoningTM.",
+      "Heat butter in a large casserole, brown lamb shanks over medium to high heat.",
+      "Remove from the casserole and set aside.",
+      "1 tsp Seven Colours Grill Seasoning TM, salt and pepper, tomato paste, fresh herbs and cook for 3 minutes, stirring occasionally.",
+      "Pour in the beer and beef broth.",
+      "Return seared lamb shanks to the pot.",
+      "Cover and cook for 2 hours or until the meat is falling off the bones.",
+    ],
     category: "Dinner",
     diet: null,
     meat: "beef",
@@ -17,7 +24,7 @@ const recipes = [
   {
     id: 2,
     title: "Beef Lasagna",
-    description: "A flavorful Italian lasagna with beef and cheese.",
+    // description: "A flavorful Italian lasagna with beef and cheese.",
     image: "/images/Beef Lasagna Recipe.jpg",
     ingredients: ["Ground Beef", "Lasagna Noodles", "Tomato Sauce", "Cheese", "Spices"],
     method: [],
@@ -32,7 +39,7 @@ const recipes = [
   {
     id: 3,
     title: "Roasted Potato Salad with Broccoli",
-    description: "A healthy and tasty roasted potato salad with broccoli.",
+    // description: "A healthy and tasty roasted potato salad with broccoli.",
     image: "/images/Roasted Potato Salad with broccoli.jpg",
     ingredients: ["Potatoes", "Broccoli", "Olive Oil", "Garlic", "Salt"],
     method: [],
@@ -47,7 +54,7 @@ const recipes = [
   {
     id: 4,
     title: "Mutton Stew and Dumplings",
-    description: "A hearty mutton stew with soft dumplings.",
+    // description: "A hearty mutton stew with soft dumplings.",
     image: "/images/Mutton Stew and Dumplings.jpg",
     ingredients: ["Mutton", "Flour", "Spices", "Garlic", "Vegetables"],
     method: [],
@@ -62,7 +69,7 @@ const recipes = [
   {
     id: 5,
     title: "Chakalaka Pork Shank",
-    description: "A flavorful South African dish of pork shank with chakalaka.",
+    // description: "A flavorful South African dish of pork shank with chakalaka.",
     image: "/images/Chakalaka Pork Shank.jpg",
     ingredients: ["Pork Shank", "Chakalaka", "Tomato Sauce", "Spices", "Garlic"],
     method: [],
@@ -77,7 +84,7 @@ const recipes = [
   {
     id: 6,
     title: "Chicken Mayo Sandwitch",
-    description: "A classic Indian chicken curry with aromatic spices.",
+    // description: "A classic Indian chicken curry with aromatic spices.",
     image: "/images/Chicken Mayo Sandwitch.jpg",
     ingredients: ["Chicken", "Yogurt", "Tomato Sauce", "Curry Powder", "Ginger"],
     method: [],
@@ -92,7 +99,7 @@ const recipes = [
   {
     id: 7,
     title: "One pot mince & cheesy pasta",
-    description: "A comforting beef stew with vegetables and a rich gravy.",
+    // description: "A comforting beef stew with vegetables and a rich gravy.",
     image: "/images/One pot mince & cheesy pasta.jpg",
     ingredients: ["Beef", "Carrots", "Potatoes", "Onion", "Beef Broth"],
     method: [],
@@ -107,7 +114,7 @@ const recipes = [
   {
     id: 8,
     title: "Savoury Waffle Chicken Burger",
-    description: "A healthy vegetable stir fry with soy sauce and garlic.",
+    // description: "A healthy vegetable stir fry with soy sauce and garlic.",
     image: "/images/Savoury Waffle Chicken Burger.jpg",
     ingredients: ["Bell Peppers", "Broccoli", "Soy Sauce", "Garlic", "Ginger"],
     method: [],
@@ -122,7 +129,7 @@ const recipes = [
   {
     id: 9,
     title: "Apple + Hummus Combo",
-    description: "Spicy shrimp tacos with fresh toppings and a tangy sauce.",
+    // description: "Spicy shrimp tacos with fresh toppings and a tangy sauce.",
     image: "/images/Apple + Hummus Combo.jpg",
     ingredients: ["Shrimp", "Taco Shells", "Lettuce", "Tomato", "Avocado"],
     method: [],

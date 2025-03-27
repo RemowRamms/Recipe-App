@@ -11,12 +11,11 @@ const Home = () => {
         <img
           src={yourImage} 
           alt="Recipe" 
-          className="w-full h-[500px] object-cover rounded-lg shadow-lg" 
+          className="w-full h-dvh object-cover rounded-lg shadow-lg" 
         />
         
         
-        <div className=// absolute top-3 left-0 right-0 bottom-0 flex flex-col justify-center items-center text-center text-white bg-gradient-to-r from-blue-500 via-purple-500 to-red-500 bg-opacity-60 
-        "hero-item">
+        <div className="absolute justify-center items-center place-content-center text-white w-1/2 top-[0px] h-dvh bg-linear-to-r from-black px-10">
           <h1 className="text-5xl font-extrabold mb-6">Discover Tasty Recipes to Try!</h1>
           {/* <p className="text-xl mb-6">
           Cook up something amazing with easy-to-follow recipes!

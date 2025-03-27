@@ -1,7 +1,6 @@
-// VeganRecipes.jsx
 import React from "react";
-import RecipeCard from "./RecipeCard"; // Adjust path if needed
-import recipes from "../data"; // Import your recipe data
+import RecipeCard from "./RecipeCard"; 
+import recipes from "../data"; 
 
 const VeganRecipes = ({
   theme,

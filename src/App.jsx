@@ -28,8 +28,8 @@ import Login from "./components/Login";
 const App = () => {
   const current_theme = localStorage.getItem('current_theme');
   const [theme, setTheme] = useState(current_theme ? current_theme : 'light');
-  const [searchQuery, setSearchQuery] = useState("");  // State for search query
-  const [filteredRecipes, setFilteredRecipes] = useState(recipes);  // Filtered recipes
+  const [searchQuery, setSearchQuery] = useState(""); 
+  const [filteredRecipes, setFilteredRecipes] = useState(recipes);  
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [favoriteRecipes, setFavoriteRecipes] = useState([]);
@@ -65,7 +65,7 @@ const App = () => {
   }, [theme]);
 
   const handleRate = (recipeId, userId, rating) => {
-    // Your existing handleRate function here
+    
   };
 
   return (

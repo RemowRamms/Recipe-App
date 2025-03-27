@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom"; // Import Link from react-router-dom
+import { Link, useNavigate } from "react-router-dom"; 
 import "./Navbar.css";
 import logo_light from "../assets/logo-black.png";
 import logo_dark from "../assets/logo-white.png";
