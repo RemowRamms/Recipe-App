@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import yourImage from "/images/food-homepage.webp"; 
-import "./Home.css";
 
 const Home = () => {
   return (

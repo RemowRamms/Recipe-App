@@ -75,7 +75,7 @@ const Navbar = ({ theme, setTheme, searchQuery, onSearchChange }) => {
       dropdown: ["Breakfast", "Lunch", "Dinner"],
     },
     { name: "Popular", dropdown: ["Trending", "Top Rated"] },
-    { name: "Meat & Seafood", dropdown: ["Chicken", "Beef", "Fish"] },
+    { name: "Meat", dropdown: ["Chicken", "Beef", "Fish"] },
     { name: "Healthy & Diet", dropdown: ["Vegan", "Keto", "Gluten-Free"] },
     { name: "Holidays", dropdown: ["Christmas", "Thanksgiving"] },
     { name: "Seasonal", dropdown: ["Summer", "Winter"] },

@@ -2,8 +2,17 @@ import React from "react";
 import RecipeCard from "./RecipeCard";
 import recipes from "../data";
 
-const ChickenRecipes = ({ theme, isLoggedIn, setShowLoginModal, addToFavorites, addComment }) => {
-  const chickenRecipes = recipes.filter(recipe => recipe.ingredients.includes("chicken"));
+const ChickenRecipes = ({
+  theme,
+  isLoggedIn,
+  setShowLoginModal,
+  addToFavorites,
+  addComment,
+}) => {
+
+  const chickenRecipes = recipes.filter((recipe) => recipe.meat === "Chicken");
+  console.log('chicken:', chickenRecipes);
+
 
   return (
     <div className="container mx-auto py-8">
