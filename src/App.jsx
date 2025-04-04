@@ -13,7 +13,7 @@ import TrendingRecipes from "./components/TrendingRecipes";
 import TopRatedRecipes from "./components/TopRatedRecipes";
 import ChickenRecipes from "./components/ChickenRecipes";
 import BeefRecipes from "./components/BeefRecipes";
-import FishRecipes from "./components/FishRecipes";
+import FishRecipes from "./components/PorkChopsRecipes";
 import VeganRecipes from "./components/VeganRecipes";
 import KetoRecipes from "./components/KetoRecipes";
 import GlutenFreeRecipes from "./components/GlutenFreeRecipes";
@@ -70,7 +70,7 @@ const App = () => {
 
   return (
     <Router> 
-      <div className={`min-h-screen py-8 ${theme === 'dark' ? 'bg-black text-white' : 'bg-white text-black'}`}>
+      <div className={`min-h-screen py-8 ${theme === 'dark' ? 'bg-black text-white' : 'bg-azure-2 text-azure-12'}`}>
         {/* Pass the search query and handler to Navbar */}
         <Navbar 
           theme={theme} 

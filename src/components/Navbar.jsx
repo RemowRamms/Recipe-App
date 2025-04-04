@@ -39,8 +39,8 @@ const Navbar = ({ theme, setTheme, searchQuery, onSearchChange }) => {
       case "Beef":
         navigate("/beef");
         break;
-      case "Fish":
-        navigate("/fish");
+      case "Pork chops":
+        navigate("/pork chops");
         break;
       case "Vegan":
         navigate("/vegan");
@@ -75,7 +75,7 @@ const Navbar = ({ theme, setTheme, searchQuery, onSearchChange }) => {
       dropdown: ["Breakfast", "Lunch", "Dinner"],
     },
     { name: "Popular", dropdown: ["Trending", "Top Rated"] },
-    { name: "Meat", dropdown: ["Chicken", "Beef", "Fish"] },
+    { name: "Meat", dropdown: ["Chicken", "Beef", "Pork chops"] },
     { name: "Healthy & Diet", dropdown: ["Vegan", "Keto", "Gluten-Free"] },
     { name: "Holidays", dropdown: ["Christmas", "Thanksgiving"] },
     { name: "Seasonal", dropdown: ["Summer", "Winter"] },

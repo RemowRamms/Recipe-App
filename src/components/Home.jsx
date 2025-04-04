@@ -4,7 +4,7 @@ import yourImage from "/images/food-homepage.webp";
 
 const Home = () => {
   return (
-    <div className="relative container mx-auto px-4 py-8">
+    <div className="relative containe mx-auto px-4 py-8">
       {/* Image section */}
       <div className="relative">
         <img
@@ -21,7 +21,7 @@ const Home = () => {
           </p> */}
           <Link
             to="/recipes" 
-            className="bg-yellow-500 text-white px-8 py-4 rounded-full text-lg font-semibold shadow-lg hover:bg-yellow-600 transition-all view-recipes-btn"
+            className="bg-azure-12 text-white px-8 py-4 rounded-full text-lg font-semibold shadow-lg hover:bg-azure-9 transition-all view-recipes-btn"
           >
             SEE THE RECIPES
           </Link>

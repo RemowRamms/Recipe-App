@@ -23,18 +23,18 @@ const RecipeCard = ({
   };
   return (
     <>
-      <div className={`relative rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300`}>
+      <div className=" border-azure-7 border relative rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 h-full">
       <Link to={`/recipe/${recipe.id}`}>
       {/* Recipe Image wrapped in Link */}
         <img
-          className="w-full h-32 object-cover"
+          className="w-full h- object-cover "
           src={recipe.image}
           alt={recipe.title}
         />
 
       </Link>
      
-      <div className={`absolute bottom-0 left-0 right-0 p-4 text-center ${theme === 'dark' ? 'text-white' : 'text-white'}`}>
+      <div className={` bottom-0 left-0 right-0 p-4 text-center ${theme === 'dark' ? 'text-azure-2' : 'text-azure-12'}`}>
         <h2 className="font-bold text-lg">{recipe.title}</h2>
       </div>
         <button

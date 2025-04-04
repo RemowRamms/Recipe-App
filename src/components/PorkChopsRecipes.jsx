@@ -2,12 +2,12 @@ import React from "react";
 import RecipeCard from "./RecipeCard";
 import recipes from "../data";
 
-const FishRecipes = ({ theme, isLoggedIn, setShowLoginModal, addToFavorites, addComment }) => {
-  const fishRecipes = recipes.filter(recipe => recipe.ingredients.includes("fish"));
+const PorkChopsRecipes = ({ theme, isLoggedIn, setShowLoginModal, addToFavorites, addComment }) => {
+  const fishRecipes = recipes.filter(recipe => recipe.ingredients.includes("PorkChops"));
 
   return (
     <div className="container mx-auto py-8">
-      <h1>Fish Recipes</h1>
+      <h1>Pork Chops Recipes</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {fishRecipes.map(recipe => (
           <RecipeCard
@@ -25,4 +25,4 @@ const FishRecipes = ({ theme, isLoggedIn, setShowLoginModal, addToFavorites, add
   );
 };
 
-export default FishRecipes;
+export default PorkChopsRecipes;

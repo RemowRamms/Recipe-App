@@ -1,1 +1,35 @@
 @import "tailwindcss";
+
+
+@theme {
+  --color-mint-500: oklch(0.72 0.11 178);
+}
+
+@theme{
+
+
+  --color-azure-1: oklch(97.6% 0.025 207);
+  --color-azure-2: oklch(96.6% 0.031 212);
+  --color-azure-3: oklch(92.5% 0.054 224);
+  --color-azure-4: oklch(83.4% 0.109 232);
+  --color-azure-5: oklch(79.4% 0.135 233);
+  --color-azure-6: oklch(70.2% 0.197 235);
+  --color-azure-7: oklch(66.7% 0.208 243);
+  --color-azure-8: oklch(58.7% 0.186 243);
+  --color-azure-9: oklch(53.7% 0.171 244);
+  --color-azure-10: oklch(49.7% 0.159 244);
+  --color-azure-11: oklch(42.7% 0.139 245);
+  --color-azure-12: oklch(35.7% 0.119 246);
+  --color-azure-13: oklch(27.7% 0.095 247);
+  --color-azure-14: oklch(20.7% 0.075 250);
+  --color-azure-15: oklch(16.7% 0.064 252);
+  --color-azure-16: oklch(10.6% 0.047 257);
+  --color-azure: var(--azure-6);
+
+  --background-1: var(--color-azure-1);
+  --background-2: var(--mint-2);
+  --background-3: var(--mint-3);
+  --text-1: var(--mint-13);
+  --text-2: var(--mint-15);
+  --brand-color: var(--mint-6);
+}
