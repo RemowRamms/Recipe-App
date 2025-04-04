@@ -60,12 +60,18 @@ ul li {
   position: relative; /* Needed for positioning the dropdown */
 }
 
+ul li:hover {
+  text-decoration: underline;
+}
+
 /* Dropdown Menu Styling */
 ul li ul {
   display: none; /* Hide the dropdown by default */
   position: absolute;
   top: 100%; /* Position dropdown below the parent item */
   left: 0;
+  text-decoration: none;
+  padding: 0.1 rem;
   background-color: #fff; /* Light mode dropdown background */
   border: 1px solid #ccc; /* Light mode dropdown border */
   min-width: 160px;
@@ -74,7 +80,9 @@ ul li ul {
 }
 
 ul li:hover > ul {
-  display: flex; /* Show the dropdown on hover */
+  display: flex;
+   /* Show the dropdown on hover */
+   
 }
 
 .navbar-light ul li ul {
@@ -97,10 +105,13 @@ ul li:hover > ul {
 
 .navbar-light ul li ul li:hover {
   background-color: oklch(83.4% 0.109 232); /* Light mode dropdown hover */
+  text-decoration: none;
 }
 
 .navbar-dark ul li ul li:hover {
-  background-color:oklch(35.7% 0.119 246); /* Dark mode dropdown hover */
+  background-color:oklch(35.7% 0.119 246);
+ /* Dark mode dropdown hover */
+ text-decoration: none;
 }
 
 /* Search Box styling */

@@ -75,10 +75,11 @@ body {
   right: 10px;
   background: transparent;
   border: none;
-  font-size: 24px;
+  font-size: 32px;
   color: #333;
   cursor: pointer;
   transition: color 0.3s ease;
+  padding: 0.25rem 0.5rem;
 }
 
 .close-modal-btn:hover {
