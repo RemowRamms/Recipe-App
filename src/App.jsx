@@ -23,6 +23,7 @@ import { AllRecipes } from './components/AllRecipes';
 import SummerRecipes from "./components/SummerRecipes";
 import WinterRecipes from "./components/WinterRecipes";
 import Login from "./components/Login";
+import RecipePage from './components/RecipePage';
 
 
 const App = () => {

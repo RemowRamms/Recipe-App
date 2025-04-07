@@ -71,10 +71,11 @@ ul li ul {
   top: 100%; /* Position dropdown below the parent item */
   left: 0;
   text-decoration: none;
-  padding: 0.1 rem;
+  line-height: 10px;
+  
   background-color: #fff; /* Light mode dropdown background */
   border: 1px solid #ccc; /* Light mode dropdown border */
-  min-width: 160px;
+  width: 145px;
   flex-direction: column; /* Align items vertically */
   z-index: 10; /* Make sure dropdown appears above other content */
 }
