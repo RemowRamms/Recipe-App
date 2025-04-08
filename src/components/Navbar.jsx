@@ -10,13 +10,16 @@ import toggle_dark from "../assets/day.png";
 
 const Navbar = ({ theme, setTheme, searchQuery, onSearchChange }) => {
   const [dropdownOpen, setDropdownOpen] = useState(null);
+  const [activeDropdown, setActiveDropdown] = useState(null);
   const navigate = useNavigate();
 
   const toggle_mode = () => {
     setTheme(theme === "light" ? "dark" : "light");
   };
   
-  const handleDropdownItemClick = (item) => {
+  const handleDropdownItemClick = (parentIndex,item) => {
+    setActiveDropdown(parentIndex)
+    setDropdownOpen(null);
     switch (item) {
       case "Breakfast":
         navigate("/breakfast");
@@ -71,9 +74,7 @@ const Navbar = ({ theme, setTheme, searchQuery, onSearchChange }) => {
 
   const menuItems = [
     {
-      name: "Recipe",
-      dropdown: ["Breakfast", "Lunch", "Dinner"],
-    },
+      name: "Recipe",dropdown: ["Breakfast", "Lunch", "Dinner"]},
     { name: "Popular", dropdown: ["Trending", "Top Rated"] },
     { name: "Meat", dropdown: ["Chicken", "Beef", "Pork chops"] },
     { name: "Healthy & Diet", dropdown: ["Vegan", "Keto", "Gluten-Free"] },
@@ -97,22 +98,24 @@ const Navbar = ({ theme, setTheme, searchQuery, onSearchChange }) => {
         {menuItems.map((item, index) => (
           <li
             key={index}
-            className="relative group"
+            className= {`relative group cursor-pointer  ${ activeDropdown === index ? "underline underline-offset-[10px] font-semibold decoration-[3px] dark: decoration-azure-12" : ""}`}
             onMouseEnter={() => setDropdownOpen(index)}
             onMouseLeave={() => setDropdownOpen(null)}
           >
             {item.name}
             {item.dropdown && (
               <ul
-                className={`absolute left-0  w-48 bg-white border rounded shadow-md transition-all duration-300 ease-in-out transform ${
-                  dropdownOpen === index ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
-                }`}
-                onMouseEnter={() => setDropdownOpen(index)}  // When hovering over dropdown, keep it open
-                onMouseLeave={() => setDropdownOpen(null)}   // Close when leaving the dropdown
+                className={`${dropdownOpen === index }`}
+                //onMouseEnter={() => setDropdownOpen(index)}  // When hovering over dropdown, keep it open
+                //onMouseLeave={() => setDropdownOpen(null)}   // Close when leaving the dropdown
               >
                 {item.dropdown.map((dropdownItem, i) => (
                   <li key={i} className="px-4 py-2 focus:bg-gray-100 text-black"
-                    onClick={() => handleDropdownItemClick(dropdownItem)}
+                    onClick={() =>{
+                      //Logic to handle the menu item ensuring its underlined should come from handle drop down item
+                      handleDropdownItemClick(index,dropdownItem)
+                    } 
+                  }
                   >
                     {dropdownItem}
                   </li>
@@ -144,7 +147,7 @@ const Navbar = ({ theme, setTheme, searchQuery, onSearchChange }) => {
         onClick={toggle_mode}
         src={theme === "light" ? toggle_light : toggle_dark}
         alt="Toggle Icon"
-        className="toggle-icon"
+        className="toggle-icon "
       />
     </div>
   );

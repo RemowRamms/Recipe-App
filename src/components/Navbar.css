@@ -60,9 +60,19 @@ ul li {
   position: relative; /* Needed for positioning the dropdown */
 }
 
-ul li:hover {
+.navbar-dark li:hover {
   text-decoration: underline;
+  text-decoration-color:oklch(35.7% 0.119 246);
+  text-underline-offset: 10px;
+  text-decoration-thickness: 3px;
 }
+.navbar-light li:hover {
+  text-decoration: underline;
+  text-decoration-color:oklch(83.4% 0.109 232);
+  text-underline-offset: 10px;
+  text-decoration-thickness: 3px;
+}
+
 
 /* Dropdown Menu Styling */
 ul li ul {
