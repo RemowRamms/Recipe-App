@@ -1,9 +1,8 @@
 import React from "react";
 
-const pages = [1, 2, 3];
-const currentPage = 2;
+var currentPage = 1;
 
-export function Pagination() {
+export function Pagination({setCurrentPage, pages}) {
   return (
     <nav className="flex gap-2 items-center justify-center" aria-label="Pagination">
       <a
@@ -15,6 +14,13 @@ export function Pagination() {
       </a>
       {pages.map((page) => (
         <a
+          onClick={() => {
+            setCurrentPage(page)
+           currentPage = page
+
+          }
+
+        }
           key={page}
           aria-current={page === currentPage ? "page" : undefined}
           className={`px-3 py-1.5 rounded border transition ${
@@ -28,7 +34,7 @@ export function Pagination() {
       ))}
       
       <a
-        href="#"
+
         aria-label="Next"
         className="px-3 py-1.5 rounded border border-gray-300 text-gray-700 hover:bg-gray-100 transition"
       >

@@ -14,6 +14,7 @@ export const AllRecipes = ({
 
    const [currentPage, setCurrentPage] = useState(1);
    const recipesPerPage = 8; // Number of recipes per page (adjust as needed)
+   
   
   
    // Calculate indexes for the current page
@@ -21,6 +22,12 @@ export const AllRecipes = ({
    const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage;
    const currentRecipes = filteredRecipes.slice(indexOfFirstRecipe, indexOfLastRecipe);
 
+   // Calculate total number of pages
+const totalPages = Math.ceil(filteredRecipes.length / recipesPerPage);
+
+const pages = [...Array(totalPages)].map((_, index) => index + 1);
+
+console.log(pages);
 
   return (
     <div className="container mx-auto py-8">
@@ -40,7 +47,9 @@ export const AllRecipes = ({
       </div>
       <div className="mt-2 w-full ">
 
-        <Pagination/>
+        <Pagination setCurrentPage={setCurrentPage}
+        pages = {pages}
+        />
       </div>
     </div>
   );
