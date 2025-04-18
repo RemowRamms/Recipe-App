@@ -14,7 +14,7 @@ const Home = () => {
         />
         
         
-        <div className="absolute justify-center items-center place-content-center text-white w-1/2 top-[0px] h-dvh bg-linear-to-r from-black px-10">
+        <div className="absolute justify-center items-center place-content-center text-white w-1/2 top-[0px] h-dvh bg-linear-to-r from-black px-10 rounded-lg">
           <h1 className="text-5xl font-extrabold mb-6">Discover Tasty Recipes to Try!</h1>
           {/* <p className="text-xl mb-6">
           Cook up something amazing with easy-to-follow recipes!

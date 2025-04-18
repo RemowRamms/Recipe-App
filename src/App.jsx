@@ -105,6 +105,7 @@ const App = () => {
             <BreakfastRecipes
               theme={theme}
               isLoggedIn={isLoggedIn}
+              filteredRecipes={filteredRecipes}
               setShowLoginModal={setShowLoginModal}
               addToFavorites={addToFavorites}
             />
@@ -117,6 +118,7 @@ const App = () => {
             <LunchRecipes
               theme={theme}
               isLoggedIn={isLoggedIn}
+              filteredRecipes={filteredRecipes}
               setShowLoginModal={setShowLoginModal}
               addToFavorites={addToFavorites}
             />
@@ -129,6 +131,7 @@ const App = () => {
             <DinnerRecipes
               theme={theme}
               isLoggedIn={isLoggedIn}
+              filteredRecipes={filteredRecipes}
               setShowLoginModal={setShowLoginModal}
               addToFavorites={addToFavorites}
             />
@@ -141,6 +144,7 @@ const App = () => {
             <TrendingRecipes
               theme={theme}
               isLoggedIn={isLoggedIn}
+              filteredRecipes={filteredRecipes}
               setShowLoginModal={setShowLoginModal}
               addToFavorites={addToFavorites}
             />
@@ -153,6 +157,7 @@ const App = () => {
             <TopRatedRecipes
               theme={theme}
               isLoggedIn={isLoggedIn}
+              filteredRecipes={filteredRecipes}
               setShowLoginModal={setShowLoginModal}
               addToFavorites={addToFavorites}
             />
@@ -165,6 +170,7 @@ const App = () => {
             <ChickenRecipes
               theme={theme}
               isLoggedIn={isLoggedIn}
+              filteredRecipes={filteredRecipes}
               setShowLoginModal={setShowLoginModal}
               addToFavorites={addToFavorites}
             />
@@ -177,6 +183,7 @@ const App = () => {
             <BeefRecipes
               theme={theme}
               isLoggedIn={isLoggedIn}
+              filteredRecipes={filteredRecipes}
               setShowLoginModal={setShowLoginModal}
               addToFavorites={addToFavorites}
             />
@@ -189,6 +196,7 @@ const App = () => {
             <FishRecipes
               theme={theme}
               isLoggedIn={isLoggedIn}
+              filteredRecipes={filteredRecipes}
               setShowLoginModal={setShowLoginModal}
               addToFavorites={addToFavorites}
             />
@@ -201,6 +209,7 @@ const App = () => {
             <VeganRecipes
               theme={theme}
               isLoggedIn={isLoggedIn}
+              filteredRecipes={filteredRecipes}
               setShowLoginModal={setShowLoginModal}
               addToFavorites={addToFavorites}
             />
@@ -213,6 +222,7 @@ const App = () => {
             <KetoRecipes
               theme={theme}
               isLoggedIn={isLoggedIn}
+              filteredRecipes={filteredRecipes}
               setShowLoginModal={setShowLoginModal}
               addToFavorites={addToFavorites}
             />
@@ -224,6 +234,7 @@ const App = () => {
             <GlutenFreeRecipes
               theme={theme}
               isLoggedIn={isLoggedIn}
+              filteredRecipes={filteredRecipes}
               setShowLoginModal={setShowLoginModal}
               addToFavorites={addToFavorites}
             />
@@ -236,6 +247,7 @@ const App = () => {
             <ChristmasRecipes
               theme={theme}
               isLoggedIn={isLoggedIn}
+              filteredRecipes={filteredRecipes}
               setShowLoginModal={setShowLoginModal}
               addToFavorites={addToFavorites}
             />
@@ -247,6 +259,7 @@ const App = () => {
             <ThanksgivingRecipes
               theme={theme}
               isLoggedIn={isLoggedIn}
+              filteredRecipes={filteredRecipes}
               setShowLoginModal={setShowLoginModal}
               addToFavorites={addToFavorites}
             />
@@ -259,6 +272,7 @@ const App = () => {
             <SummerRecipes
               theme={theme}
               isLoggedIn={isLoggedIn}
+              filteredRecipes={filteredRecipes}
               setShowLoginModal={setShowLoginModal}
               addToFavorites={addToFavorites}
             />
@@ -269,6 +283,7 @@ const App = () => {
           element={
             <WinterRecipes
               theme={theme}
+              filteredRecipes={filteredRecipes}
               isLoggedIn={isLoggedIn}
               setShowLoginModal={setShowLoginModal}
               addToFavorites={addToFavorites}

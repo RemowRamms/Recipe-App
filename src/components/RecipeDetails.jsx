@@ -35,7 +35,6 @@ const RecipeDetails = () => {
  <h1 className="text-3xl font-bold mb-4">{recipe.title}</h1>
  {/* <p className="text-lg text-center mb-6">{recipe.description}</p> */}
 
-
  <div className="flex">
  <div className="w-1/2 pr-2">
  <h2 className="text-xl font-semibold mb-2">Ingredients</h2>
@@ -47,7 +46,6 @@ const RecipeDetails = () => {
  ))}
  </ol>
  </div>
-
 
  <div className="w-1/2 pl-2">
  {recipe.method && Array.isArray(recipe.method) ? (
@@ -68,6 +66,8 @@ const RecipeDetails = () => {
  </>
  ) : null}
  </div>
+
+ 
  </div>
  </div>
  </div>

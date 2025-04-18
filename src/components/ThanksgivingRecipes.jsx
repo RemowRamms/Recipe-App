@@ -1,14 +1,14 @@
 import React from "react";
 import RecipeCard from "./RecipeCard";
-import recipes from "../data";
+// import recipes from "../data";
 
-const ThanksgivingRecipes = ({ theme, isLoggedIn, setShowLoginModal, addToFavorites, addComment }) => {
-  const thanksgivingRecipes = recipes.filter(recipe => recipe.holiday === "thanksgiving");
+const ThanksgivingRecipes = ({ theme, isLoggedIn, setShowLoginModal, addToFavorites, addComment, filteredRecipes}) => {
+  const thanksgivingRecipes = filteredRecipes.filter(recipe => recipe.holiday === "thanksgiving");
 
   return (
     <div className="container mx-auto py-8">
       <h1>Thanksgiving Recipes</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {thanksgivingRecipes.map(recipe => (
           <RecipeCard
             key={recipe.id}

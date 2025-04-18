@@ -1,6 +1,7 @@
 import React, { useState }from "react";
 import { FaHeart } from "react-icons/fa";
 import { Link } from "react-router-dom"; 
+import { GiBowlOfRice } from "react-icons/gi";
 
 const RecipeCard = ({
    recipe, 
@@ -27,7 +28,7 @@ const RecipeCard = ({
       <Link to={`/recipe/${recipe.id}`}>
       {/* Recipe Image wrapped in Link */}
         <img
-          className="w-full h- object-cover "
+          className="w-full h-48 object-cover cursor-pointer"
           src={recipe.image}
           alt={recipe.title}
         />
@@ -35,11 +36,11 @@ const RecipeCard = ({
       </Link>
      
       <div className={` bottom-0 left-0 right-0 p-4 text-center ${theme === 'dark' ? 'text-azure-2' : 'text-azure-12'}`}>
-        <h2 className="font-bold text-lg">{recipe.title}</h2>
+        <h2 className=" flex mt-1 font-bold tracking-wide text-lg mb-4">{recipe.title}</h2>
       </div>
         <button
           onClick={handleHeartClick}
-          className="absolute left-4 bottom-4 text-xl"
+          className="absolute top-1 left-2 cursor-pointer"
           >
           <FaHeart
             className={`text-3xl ${
@@ -47,6 +48,14 @@ const RecipeCard = ({
             }`}
             />
         </button>
+
+        <div className='absolute bottom-2 right-2 bg-white bg-opacity-80 rounded-full px-2 py-1 cursor-default flex items-center gap-1 text-sm '>
+        <GiBowlOfRice size={16} className="text-gray-800 dark:text-black"/>
+        <span className="text-gray-800 dark:text-white">
+        {recipe.servings ? `${recipe.servings} servings` : "Servings: N/A"}
+        </span>
+        </div>
+
     </div>
     </>
   );
