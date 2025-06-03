@@ -2,14 +2,14 @@ import React, { useState } from "react";
 import recipes from "../data";
 import SearchBar from "./SearchBar";
 import RecipeList from "./RecipeList";
-import Pagination from "./Pagination"; // Import the Pagination component
+import {Pagination} from "./Pagination2"; 
 
-const itemsPerPage = 6; // 3 columns x 3 rows
+const itemsPerPage = 6; 
 
 const RecipePage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredRecipes, setFilteredRecipes] = useState(recipes);
-  const [currentPage, setCurrentPage] = useState(1);  // Pagination State
+  const [currentPage, setCurrentPage] = useState(1);  
 
   const handleSearchChange = (event) => {
     const query = event.target.value.toLowerCase();
@@ -19,7 +19,7 @@ const RecipePage = () => {
       recipe.title.toLowerCase().includes(query)
     );
     setFilteredRecipes(filtered);
-    setCurrentPage(1); // Reset to page 1 when search changes
+    setCurrentPage(1);
   };
 
   // Pagination Calculation
@@ -42,10 +42,10 @@ const RecipePage = () => {
           Explore Recipes
         </h1>
         <SearchBar searchQuery={searchQuery} onSearchChange={handleSearchChange} />
-        <RecipeList recipes={recipesToDisplay} /> {/* Use recipesToDisplay */}
+        <RecipeList recipes={recipesToDisplay} /> 
 
         {/* Pagination Component */}
-        {totalPages > 1 && (  // Only show if there's more than one page
+        {totalPages > 1 && (  
           <Pagination
             currentPage={currentPage}
             totalPages={totalPages}

@@ -24,6 +24,7 @@ import SummerRecipes from "./components/SummerRecipes";
 import WinterRecipes from "./components/WinterRecipes";
 import Login from "./components/Login";
 import RecipePage from './components/RecipePage';
+import { fetchRecipesBySearch } from './api/fetchRecipes';
 
 
 const App = () => {
@@ -35,13 +36,13 @@ const App = () => {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [favoriteRecipes, setFavoriteRecipes] = useState([]);
 
-  // Handle search input change
   const handleSearchChange = (event) => {
-    const query = event.target.value.toLowerCase();  // Convert to lowercase for case-insensitive search
+    const query = event.target.value.toLowerCase();  
     setSearchQuery(query);
+    const data = fetchRecipesBySearch(query);
+    console.log(data)
+    
 
-
-    // Filter recipes based on search query
     const filtered = recipes.filter((recipe) =>
       recipe.title.toLowerCase().includes(query)
     );
@@ -60,7 +61,7 @@ const App = () => {
       console.log(`Toggled favorite status for recipe ${recipeId}`);
     }
   };
-  // Effect to store theme in localStorage
+ 
   React.useEffect(() => {
     localStorage.setItem('current_theme', theme);
   }, [theme]);
@@ -94,10 +95,8 @@ const App = () => {
 
        <Routes>
 
-        {/* Home Page Route */}
         <Route path="/" element={<Home />} />
 
-{/* Recipe List Route */}
         <Route path="/" element={<Home searchQuery={searchQuery} />} />
         <Route
           path="/breakfast"
@@ -303,13 +302,13 @@ const App = () => {
             } 
             />
 
-            {/* Recipe Details Route */}
+            
             <Route path="/recipe/:id" element={<RecipeDetails 
             theme={theme}
             isLoggedIn={isLoggedIn}
             setShowLoginModal={setShowLoginModal}
             handleRate={handleRate}
-            // recipeRatings={recipeRatings}
+            
             />
             }
              />

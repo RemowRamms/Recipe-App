@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import RecipeCard from "./RecipeCard";
-import Pagination from "./Pagination"; // Import the Pagination component
+import {Pagination} from "./Pagination2"; // Import the Pagination component
 
 
 const RecipeList = ({ recipes }) => {

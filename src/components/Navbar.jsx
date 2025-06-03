@@ -132,7 +132,7 @@ const Navbar = ({ theme, setTheme, searchQuery, onSearchChange }) => {
           type="text"
           id="search-input"
           name="search"
-          placeholder="Search"
+          placeholder="Search recipes..."
           value={searchQuery}  // Bind searchQuery to input field
           onChange={onSearchChange}  // Pass the function to handle the input change
         />

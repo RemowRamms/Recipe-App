@@ -11,6 +11,7 @@ const SearchBar = ({ searchQuery, onSearchChange }) => {
         className="w-full p-3 border rounded-lg bg-white dark:bg-darkBlue text-darkBlue dark:text-lightBlue placeholder-lightBlue dark:placeholder-lightBlue focus:outline-none focus:ring-2 focus:ring-yellow"
       />
     </div>
+    
   );
 };
 

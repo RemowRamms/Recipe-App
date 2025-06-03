@@ -23,24 +23,15 @@ const Login = ({ onLogin, theme, setIsLoginVisible }) => {
       console.log("Signing up with:", email, password);
     
     } else {
-      // Simulate login logic (e.g., check credentials, etc.)
       console.log("Logging in with:", email, password);
-      // Here you would typically make an API call to authenticate the user.
     }
-
-    // Call the onLogin function from App to mark the user as logged in
     onLogin();
-
-    // Hide the login modal after successful login
     setIsLoginVisible(false);
-
-    // Redirect to home page after successful login/sign-up
-    // navigate("/");
   };
 
   const toggleForm = () => {
     setIsSignUp(!isSignUp);
-    setErrorMessage(""); // Clear error message when toggling forms
+    setErrorMessage(""); 
   };
 
   return (
@@ -105,7 +96,7 @@ const Login = ({ onLogin, theme, setIsLoginVisible }) => {
         className="overlay"
         onClick={() => setIsLoginVisible(false)}
       ></div>{" "}
-      {/* Close on overlay click */}
+      
     </div>
   );
 };

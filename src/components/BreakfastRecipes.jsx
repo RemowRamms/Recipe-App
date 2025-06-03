@@ -1,26 +1,39 @@
-import React from "react";
+import React, { useState } from "react";
 import RecipeCard from "./RecipeCard";
-// import recipes from "../data";
+import { Pagination } from "./Pagination2";
 
-// const BreakfastRecipes = ({
-//   theme,
-//   isLoggedIn,
-//   setShowLoginModal,
-//   addToFavorites,
-//   addComment,
-//   filteredRecipes
-// }) => {
-  // const breakfastRecipes = recipes.filter((recipe) => recipe.category === "Breakfast");
-  // console.log('breakfastRecipes:', breakfastRecipes);
+const BreakfastRecipes = ({
+  theme,
+  isLoggedIn,
+  setShowLoginModal,
+  addToFavorites,
+  addComment,
+  filteredRecipes
+}) => {
 
-  const BreakfastRecipes = ({ theme, isLoggedIn, setShowLoginModal, addToFavorites, addComment, filteredRecipes }) => {
-    const breakfastRecipes = filteredRecipes.filter(recipe => recipe.category === "Breakfast");
+  // filter to only breakfast recipes
+  const breakfastRecipes = filteredRecipes.filter(
+    (recipe) => recipe.category === "Breakfast"
+  );
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const recipesPerPage = 8;
+
+  // Slice based on breakfastRecipes
+  const indexOfLastRecipe = currentPage * recipesPerPage;
+  const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage;
+  const currentRecipes = breakfastRecipes.slice(indexOfFirstRecipe, indexOfLastRecipe);
+
+  //Pagination based on breakfastRecipes
+  const totalPages = Math.ceil(breakfastRecipes.length / recipesPerPage);
+  const pages = [...Array(totalPages)].map((_, index) => index + 1);
 
   return (
     <div className="container mx-auto py-8">
-      <h1>Breakfast Recipes</h1>
+      <h1 className="text-2xl font-bold mb-4">Breakfast Recipes</h1>
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {breakfastRecipes.map((recipe) => (
+        {currentRecipes.map((recipe) => (
           <RecipeCard
             key={recipe.id}
             recipe={recipe}
@@ -32,6 +45,13 @@ import RecipeCard from "./RecipeCard";
           />
         ))}
       </div>
+
+      {/* Show pagination only if needed */}
+      {totalPages > 1 && (
+        <div className="mt-6">
+          <Pagination pages={pages} setCurrentPage={setCurrentPage} />
+        </div>
+      )}
     </div>
   );
 };

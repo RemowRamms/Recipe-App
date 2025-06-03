@@ -5,7 +5,7 @@ import yourImage from "/images/food-homepage.webp";
 const Home = () => {
   return (
     <div className="relative containe mx-auto px-4 py-8">
-      {/* Image section */}
+      
       <div className="relative">
         <img
           src={yourImage} 
