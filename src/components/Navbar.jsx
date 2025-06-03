@@ -106,13 +106,12 @@ const Navbar = ({ theme, setTheme, searchQuery, onSearchChange }) => {
             {item.dropdown && (
               <ul
                 className={`${dropdownOpen === index }`}
-                //onMouseEnter={() => setDropdownOpen(index)}  // When hovering over dropdown, keep it open
-                //onMouseLeave={() => setDropdownOpen(null)}   // Close when leaving the dropdown
+                
               >
                 {item.dropdown.map((dropdownItem, i) => (
                   <li key={i} className="px-4 py-2 focus:bg-gray-100 text-black"
                     onClick={() =>{
-                      //Logic to handle the menu item ensuring its underlined should come from handle drop down item
+                      
                       handleDropdownItemClick(index,dropdownItem)
                     } 
                   }
@@ -126,6 +125,8 @@ const Navbar = ({ theme, setTheme, searchQuery, onSearchChange }) => {
         ))}
       </ul>
 
+      
+
       {/* Search Box */}
       <div className="search-box">
         <input
@@ -133,8 +134,8 @@ const Navbar = ({ theme, setTheme, searchQuery, onSearchChange }) => {
           id="search-input"
           name="search"
           placeholder="Search recipes..."
-          value={searchQuery}  // Bind searchQuery to input field
-          onChange={onSearchChange}  // Pass the function to handle the input change
+          value={searchQuery}
+          onChange={onSearchChange}
         />
         <img
           src={theme === "light" ? search_icon_dark : search_icon_light}

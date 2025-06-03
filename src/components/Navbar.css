@@ -57,7 +57,7 @@ ul li {
   padding: 20px;
   font-size: 18px;
   cursor: pointer;
-  position: relative; /* Needed for positioning the dropdown */
+  position: relative; 
 }
 
 .navbar-dark li:hover {
@@ -115,17 +115,16 @@ ul li:hover > ul {
 }
 
 .navbar-light ul li ul li:hover {
-  background-color: oklch(83.4% 0.109 232); /* Light mode dropdown hover */
+  background-color: oklch(83.4% 0.109 232); 
   text-decoration: none;
 }
 
 .navbar-dark ul li ul li:hover {
   background-color:oklch(35.7% 0.119 246);
- /* Dark mode dropdown hover */
  text-decoration: none;
 }
 
-/* Search Box styling */
+/* Search Box*/
 .search-box {
   display: flex;
   align-items: center;
@@ -192,5 +191,9 @@ ul li:hover > ul {
   width: 50px;
   cursor: pointer;
   margin-left: 40px;
+}
+
+.sidebar{
+
 }
 
