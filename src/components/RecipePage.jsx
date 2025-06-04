@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import recipes from "../data";
-import SearchBar from "./SearchBar";
 import RecipeList from "./RecipeList";
 import {Pagination} from "./Pagination2"; 
 

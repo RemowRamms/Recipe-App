@@ -1,32 +1,53 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import RecipeCard from "./RecipeCard";
 import { Pagination } from "./Pagination2";
-
-
+import search_icon_light from "../assets/search-w.png";
+import search_icon_dark from "../assets/search-b.png";
+import "./styles/AllRecipes.css"; 
+import { fetchRecipesBySearch, transformMealPayloadToMockDataStructure } from "../api/fetchRecipes";
 export const AllRecipes = ({
   theme,
   isLoggedIn,
   setShowLoginModal,
   addToFavorites,
   addComment,
-  filteredRecipes
+  filteredRecipes,
 }) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState("");
+  const recipesPerPage = 8;
 
-   const [currentPage, setCurrentPage] = useState(1);
-   const recipesPerPage = 8; 
-   
-  
-  
-   // Calculate indexes for the current page
-   const indexOfLastRecipe = currentPage * recipesPerPage;
-   const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage;
-   const currentRecipes = filteredRecipes.slice(indexOfFirstRecipe, indexOfLastRecipe);
 
-const totalPages = Math.ceil(filteredRecipes.length / recipesPerPage);
+  const onSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
 
-const pages = [...Array(totalPages)].map((_, index) => index + 1);
+  // Calculate indexes for the current page
+  const indexOfLastRecipe = currentPage * recipesPerPage;
+  const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage;
+  const [newData, setNewData] = React.useState([]);
+      useEffect(() => {
+        const fetchData = async () => {
+          fetchRecipesBySearch(searchQuery).then((data) => {
+            console.log(data);
+            const transformedData = data.map(meal => transformMealPayloadToMockDataStructure(meal));
+            console.log(transformedData);
+            setNewData(transformedData);
+          });
+        };
+        fetchData();
+      }, [searchQuery]);
 
-console.log(pages);
+  const currentRecipes = newData.slice(
+    indexOfFirstRecipe,
+    indexOfLastRecipe
+  );
+
+  const totalPages = Math.ceil(newData.length / recipesPerPage);
+
+  const pages = [...Array(totalPages)].map((_, index) => index + 1);
+
+  console.log(pages);
 
   return (
     <div className="container mx-auto py-8">
@@ -44,14 +65,26 @@ console.log(pages);
           />
         ))}
       </div>
-      <div className="mt-2 w-full ">
 
-        <Pagination setCurrentPage={setCurrentPage}
-        pages = {pages}
+     {/* Search Box */}
+      <div className="search-box">
+        <input
+          type="text"
+          id="search-input"
+          name="search"
+          placeholder="What are you craving?"
+          value={searchQuery}
+          onChange={onSearchChange}
         />
+        <img
+          src={theme === "light" ? search_icon_dark : search_icon_light}
+          alt="Search Icon"
+        />
+      </div> 
+
+      <div className="mt-2 w-full ">
+        <Pagination setCurrentPage={setCurrentPage} pages={pages} />
       </div>
     </div>
   );
 };
-
-

@@ -2,6 +2,8 @@ import React, { useState }from "react";
 import { FaHeart } from "react-icons/fa";
 import { Link } from "react-router-dom"; 
 import { GiBowlOfRice } from "react-icons/gi";
+// import "./styles/RecipeCard.css"; // Import your CSS
+
 
 const RecipeCard = ({
    recipe, 
@@ -38,7 +40,7 @@ const RecipeCard = ({
       <div className={` bottom-0 left-0 right-0 p-4 text-center ${theme === 'dark' ? 'text-azure-2' : 'text-azure-12'}`}>
         <h2 className=" flex mt-1 font-bold tracking-wide text-lg mb-4">{recipe.title}</h2>
       </div>
-        <button
+        {/* <button
           onClick={handleHeartClick}
           className="absolute top-1 left-2 cursor-pointer"
           >
@@ -47,7 +49,7 @@ const RecipeCard = ({
               isFavorite ? "text-red-500" : "text-gray-500"
             }`}
             />
-        </button>
+        </button> */}
 
         <div className='absolute bottom-2 right-2 bg-white bg-opacity-80 rounded-full px-2 py-1 cursor-default flex items-center gap-1 text-sm '>
         <GiBowlOfRice size={16} className="text-gray-800 dark:text-black"/>

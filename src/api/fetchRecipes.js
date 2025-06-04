@@ -9,6 +9,16 @@ export  const fetchRecipesBySearch = async (query) => {
   
 };
 
+export  const searchById= async (query) => {
+  const res = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${query}`);
+  const data = await res.json();
+
+  console.log(data);
+
+  return data.meals || [];
+  
+};
+
 export function transformMealPayloadToMockDataStructure(payload) {
   const ingredients = [];
   if (payload) {

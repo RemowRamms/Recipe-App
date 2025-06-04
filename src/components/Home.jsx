@@ -21,7 +21,7 @@ const Home = () => {
           </p> */}
           <Link
             to="/recipes" 
-            className="bg-azure-12 text-white px-8 py-4 rounded-full text-lg font-semibold shadow-lg hover:bg-azure-9 transition-all view-recipes-btn"
+            className="bg-azure-12 text-white px-8 py-4 rounded-lg text-lg font-semibold shadow-lg hover:bg-azure-9 transition-all view-recipes-btn"
           >
             SEE THE RECIPES
           </Link>

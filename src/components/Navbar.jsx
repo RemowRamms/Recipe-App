@@ -1,96 +1,44 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom"; 
+import { Link, useNavigate } from "react-router-dom";
 import "./Navbar.css";
 import logo_light from "../assets/logo-black.png";
 import logo_dark from "../assets/logo-white.png";
-import search_icon_light from "../assets/search-w.png";
-import search_icon_dark from "../assets/search-b.png";
 import toggle_light from "../assets/night.png";
 import toggle_dark from "../assets/day.png";
+import Login from "./Login"; // Adjust the path if needed
 
-const Navbar = ({ theme, setTheme, searchQuery, onSearchChange }) => {
-  const [dropdownOpen, setDropdownOpen] = useState(null);
-  const [activeDropdown, setActiveDropdown] = useState(null);
-  const navigate = useNavigate();
+const Navbar = ({ theme, setTheme }) => {
+  const [isLoginVisible, setIsLoginVisible] = useState(false);
 
   const toggle_mode = () => {
     setTheme(theme === "light" ? "dark" : "light");
   };
-  
-  const handleDropdownItemClick = (parentIndex,item) => {
-    setActiveDropdown(parentIndex)
-    setDropdownOpen(null);
-    switch (item) {
-      case "Breakfast":
-        navigate("/breakfast");
-        break;
-      case "Lunch":
-        navigate("/lunch");
-        break;
-      case "Dinner":
-        navigate("/dinner");
-        break;
-      case "Trending":
-        navigate("/trending");
-        break;
-      case "Top Rated":
-        navigate("/top-rated");
-        break;
-      case "Chicken":
-        navigate("/chicken");
-        break;
-      case "Beef":
-        navigate("/beef");
-        break;
-      case "Pork chops":
-        navigate("/pork chops");
-        break;
-      case "Vegan":
-        navigate("/vegan");
-        break;
-      case "Keto":
-        navigate("/keto");
-        break;
-      case "Gluten-Free":
-        navigate("/gluten-free");
-        break;
-      case "Christmas":
-        navigate("/christmas");
-        break;
-      case "Thanksgiving":
-        navigate("/thanksgiving");
-        break;
-      case "Summer":
-        navigate("/summer");
-        break;
-      case "Winter":
-        navigate("/winter");
-        break;
-      default:
-        navigate(`/?search=${item}`); // Default search for others
-        break;
-    }
-  };
 
   const menuItems = [
     {
-      name: "Recipe",dropdown: ["Breakfast", "Lunch", "Dinner"]},
-    { name: "Popular", dropdown: ["Trending", "Top Rated"] },
-    { name: "Meat", dropdown: ["Chicken", "Beef", "Pork chops"] },
-    { name: "Healthy & Diet", dropdown: ["Vegan", "Keto", "Gluten-Free"] },
-    { name: "Holidays", dropdown: ["Christmas", "Thanksgiving"] },
-    { name: "Seasonal", dropdown: ["Summer", "Winter"] },
+      name: "Home",
+    },
+    {
+      name: "Recipes",
+    },
+    {
+      name: "Favourites",
+    },
   ];
 
   return (
-    <div className={`navbar ${theme === "dark" ? "navbar-dark" : "navbar-light"}`}>
-      {/* Logo */}
-      <Link to="/"> {/* Wrap the logo in a Link to navigate to the home page */}
+    <div
+      className={`navbar ${theme === "dark" ? "navbar-dark" : "navbar-light"}`}
+    >
+      <Link to="/" className="logo">
         <img
           src={theme === "light" ? logo_light : logo_dark}
           alt="Logo"
-          className="logo"
+          className="logo-img"
         />
+        <div className="logo-name">
+          Daily<span>Best</span>Recipes
+        </div>
       </Link>
 
       {/* Menu Items */}
@@ -98,58 +46,52 @@ const Navbar = ({ theme, setTheme, searchQuery, onSearchChange }) => {
         {menuItems.map((item, index) => (
           <li
             key={index}
-            className= {`relative group cursor-pointer  ${ activeDropdown === index ? "underline underline-offset-[10px] font-semibold decoration-[3px] dark: decoration-azure-12" : ""}`}
-            onMouseEnter={() => setDropdownOpen(index)}
-            onMouseLeave={() => setDropdownOpen(null)}
+            className="cursor-pointer hover:underline underline-offset-[10px] font-medium"
           >
-            {item.name}
-            {item.dropdown && (
-              <ul
-                className={`${dropdownOpen === index }`}
-                
-              >
-                {item.dropdown.map((dropdownItem, i) => (
-                  <li key={i} className="px-4 py-2 focus:bg-gray-100 text-black"
-                    onClick={() =>{
-                      
-                      handleDropdownItemClick(index,dropdownItem)
-                    } 
-                  }
-                  >
-                    {dropdownItem}
-                  </li>
-                ))}
-              </ul>
-            )}
+            <Link to={`/${item.name === "Home" ? "" : item.name.toLowerCase()}`}>
+              {item.name}
+            </Link>
+
           </li>
         ))}
       </ul>
 
-      
-
-      {/* Search Box */}
-      <div className="search-box">
-        <input
-          type="text"
-          id="search-input"
-          name="search"
-          placeholder="Search recipes..."
-          value={searchQuery}
-          onChange={onSearchChange}
-        />
-        <img
-          src={theme === "light" ? search_icon_dark : search_icon_light}
-          alt="Search Icon"
-        />
-      </div>
+      {/* Profile Button */}
+      <button
+        className="profile-button"
+        onClick={() => setIsLoginVisible(true)}
+        aria-label="Sign in or sign up"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          className="w-[50px] h-[50px]"
+        >
+          <path
+            fillRule="evenodd"
+            d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z"
+            clipRule="evenodd"
+          />
+        </svg>
+      </button>
 
       {/* Toggle Button */}
       <img
         onClick={toggle_mode}
         src={theme === "light" ? toggle_light : toggle_dark}
         alt="Toggle Icon"
-        className="toggle-icon "
+        className="toggle-icon"
       />
+
+      {/* Login Modal */}
+      {isLoginVisible && (
+        <Login
+          theme={theme}
+          onLogin={() => console.log("Logged in")}
+          setIsLoginVisible={setIsLoginVisible}
+        />
+      )}
     </div>
   );
 };
