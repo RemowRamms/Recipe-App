@@ -1,12 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import recipes from '../data';
+
+import { searchById, transformMealPayloadToMockDataStructure  } from '../api/fetchRecipes';
 
 
 const RecipeDetails = () => {
- const { id } = useParams();
- const recipe = recipes.find((recipe) => recipe.id === parseInt(id));
+const { id } = useParams();
 
+const [recipe, setRecipe] = React.useState(null);
+      useEffect(() => {
+        const fetchData = async () => {
+          searchById(id).then((data) => {
+      
+            const transformedData = data.map(meal => transformMealPayloadToMockDataStructure(meal));
+            console.log(transformedData[0]);
+            setRecipe(transformedData[0]);
+          });
+        };
+        fetchData();
+      }, [id]);
 
  if (!recipe) {
  return (
