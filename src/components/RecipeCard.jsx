@@ -1,65 +1,72 @@
-import React, { useState }from "react";
+import React, { useState } from "react";
 import { FaHeart } from "react-icons/fa";
-import { Link } from "react-router-dom"; 
+import { Link } from "react-router-dom";
 import { GiBowlOfRice } from "react-icons/gi";
-// import "./styles/RecipeCard.css"; // Import your CSS
-
 
 const RecipeCard = ({
-   recipe, 
-   theme,
-   isLoggedIn,
-   setShowLoginModal,
-   addToFavorites,
-   }) => {
-    const [isFavorite, setIsFavorite] = useState(false); // Track if the recipe is added to favorites
+  recipe,
+  theme,
+  isLoggedIn,
+  setShowLoginModal,
+  addToFavorites,
+}) => {
+  const [isFavorite, setIsFavorite] = useState(false);
 
   const handleHeartClick = () => {
     if (!isLoggedIn) {
-      setShowLoginModal(true); // Show the login modal if the user is not logged in
+      setShowLoginModal(true);
     } else {
-      setIsFavorite(!isFavorite); // Toggle favorite status
+      setIsFavorite(!isFavorite);
       if (!isFavorite) {
-        addToFavorites(recipe.id); // Add recipe to favorites
+        addToFavorites(recipe.id);
       }
     }
   };
+
   return (
-    <>
-      <div className=" border-azure-7 border relative rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 h-full">
+    <div
+      className={`relative rounded-xl overflow-hidden transition-shadow duration-300 h-full 
+        border 
+        ${theme === "dark"
+          ? "bg-gray-600/50 text-white border-gray-700"
+          : "bg-white text-black shadow-lg hover:shadow-2xl border-gray-200" 
+        }`}
+    >
+      
       <Link to={`/recipe/${recipe.id}`}>
-      {/* Recipe Image wrapped in Link */}
         <img
           className="w-full h-48 object-cover cursor-pointer"
           src={recipe.image}
           alt={recipe.title}
         />
-
       </Link>
-     
-      <div className={` bottom-0 left-0 right-0 p-4 text-center ${theme === 'dark' ? 'text-azure-2' : 'text-azure-12'}`}>
-        <h2 className=" flex mt-1 font-bold tracking-wide text-lg mb-4">{recipe.title}</h2>
+
+      
+      <div className="p-4 text-center">
+        <h2 className="mt-1 font-semibold text-lg tracking-wide mb-2 border-b-2 border-yellow-400 inline-block">
+          {recipe.title}
+        </h2>
       </div>
-        {/* <button
-          onClick={handleHeartClick}
-          className="absolute top-1 left-2 cursor-pointer"
-          >
-          <FaHeart
-            className={`text-3xl ${
-              isFavorite ? "text-red-500" : "text-gray-500"
-            }`}
-            />
-        </button> */}
 
-        <div className='absolute bottom-2 right-2 bg-white bg-opacity-80 rounded-full px-2 py-1 cursor-default flex items-center gap-1 text-sm '>
-        <GiBowlOfRice size={16} className="text-gray-800 dark:text-black"/>
-        <span className="text-gray-800 dark:text-white">
-        {recipe.servings ? `${recipe.servings} servings` : "Servings: N/A"}
-        </span>
-        </div>
+      {/* Heart Icon */}
+      <button
+        onClick={handleHeartClick}
+        className="absolute top-2 left-2 text-2xl"
+        title="Add to favorites"
+      >
+        <FaHeart
+          className={`transition-colors duration-200 ${
+            isFavorite ? "text-yellow-400" : "text-gray-400 dark:text-gray-500"
+          }`}
+        />
+      </button>
 
+      {/* Servings Info */}
+      {/* <div className="absolute bottom-2 right-2 bg-yellow-400 text-black rounded-full px-3 py-1 flex items-center gap-1 text-sm shadow-md">
+        <GiBowlOfRice size={16} />
+        <span>{recipe.servings ? `${recipe.servings} servings` : "Servings: N/A"}</span>
+      </div> */}
     </div>
-    </>
   );
 };
 

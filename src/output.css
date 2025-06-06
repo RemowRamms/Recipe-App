@@ -26,10 +26,10 @@
   --color-azure-16: oklch(10.6% 0.047 257);
   --color-azure: var(--azure-6);
 
-  --background-1: var(--color-azure-1);
+  /*--background-1: var(--color-azure-1);
   --background-2: var(--mint-2);
   --background-3: var(--mint-3);
   --text-1: var(--mint-13);
   --text-2: var(--mint-15);
-  --brand-color: var(--mint-6);
+  --brand-color: var(--mint-6);*/
 }

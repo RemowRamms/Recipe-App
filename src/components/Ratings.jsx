@@ -5,8 +5,7 @@ const Ratings = ({ recipeId, handleRate, recipeRatings }) => {
   const [rating, setRating] = useState(null);
   const [hover, setHover] = useState(null);
   const userId = "user1"; 
-
-  // Initialize rating from props
+  
   useEffect(() => {
     if (
       recipeRatings &&

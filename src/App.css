@@ -6,7 +6,7 @@ body {
 
 /* Dark mode styles */
 .bg-black {
-  background-color: #000; /* Dark background */
+  background-color: #000; 
 }
 
 .text-white {
@@ -18,5 +18,5 @@ body {
 }
 
 .bg-white {
-  background-color: #fff; /* Light background */
+  background-color: #fff; 
 }

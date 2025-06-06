@@ -20,8 +20,8 @@ const Home = () => {
           Cook up something amazing with easy-to-follow recipes!
           </p> */}
           <Link
-            to="/recipes" 
-            className="bg-azure-12 text-white px-8 py-4 rounded-lg text-lg font-semibold shadow-lg hover:bg-azure-9 transition-all view-recipes-btn"
+            to="/recipes"
+            className="bg-yellow-500 text-white px-8 py-4 rounded-lg text-lg font-semibold shadow-lg hover:bg-yellow-600 transition-all view-recipes-btn"
           >
             SEE THE RECIPES
           </Link>

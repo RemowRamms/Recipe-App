@@ -3,7 +3,6 @@ import RecipeCard from "./RecipeCard";
 import { Pagination } from "./Pagination2";
 import search_icon_light from "../assets/search-w.png";
 import search_icon_dark from "../assets/search-b.png";
-import "./styles/AllRecipes.css"; 
 import { fetchRecipesBySearch, transformMealPayloadToMockDataStructure } from "../api/fetchRecipes";
 export const AllRecipes = ({
   theme,
@@ -22,7 +21,7 @@ export const AllRecipes = ({
     setSearchQuery(e.target.value);
   };
 
-  // Calculate indexes for the current page
+  // pagination 
   const indexOfLastRecipe = currentPage * recipesPerPage;
   const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage;
   const [newData, setNewData] = React.useState([]);
@@ -51,6 +50,31 @@ export const AllRecipes = ({
 
   return (
     <div className="container mx-auto py-8">
+
+      <div className="flex justify-center mb-6">
+  <div className="flex items-center gap-2 w-full max-w-md px-5 py-2 
+                  border-2 rounded-[20px] 
+                  bg-white dark:bg-black 
+                  border-gray-400 dark:border-gray-600">
+    <input
+      type="text"
+      placeholder="What are you craving?"
+      value={searchQuery}
+      onChange={onSearchChange}
+      className="bg-transparent outline-none w-full text-black dark:text-white 
+                 placeholder:text-gray-500 dark:placeholder:text-gray-400 text-lg"
+    />
+    <img
+      src={theme === "light" ? search_icon_dark : search_icon_light}
+      alt="Search Icon"
+      className="w-5 cursor-pointer"
+    />
+  </div>
+</div>
+
+
+
+
       {/* <h1>All Recipes</h1> */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {currentRecipes.map((recipe) => (
@@ -66,23 +90,9 @@ export const AllRecipes = ({
         ))}
       </div>
 
-     {/* Search Box */}
-      <div className="search-box">
-        <input
-          type="text"
-          id="search-input"
-          name="search"
-          placeholder="What are you craving?"
-          value={searchQuery}
-          onChange={onSearchChange}
-        />
-        <img
-          src={theme === "light" ? search_icon_dark : search_icon_light}
-          alt="Search Icon"
-        />
-      </div> 
+     
 
-      <div className="mt-2 w-full ">
+      <div className="mt-2 w-full p-[40px] flex justify-center">
         <Pagination setCurrentPage={setCurrentPage} pages={pages} />
       </div>
     </div>

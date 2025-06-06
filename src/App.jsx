@@ -57,7 +57,7 @@ const App = () => {
 
   return (
     <Router> 
-      <div className={`min-h-screen py-8 ${theme === 'dark' ? 'bg-black text-white' : 'bg-azure-2 text-azure-12'}`}>
+      <div className={`min-h-screen  ${theme === 'dark' ? 'bg-black text-white' : 'bg-white text-black'}`}>
         {/* Pass the search query and handler to Navbar */}
         <Navbar 
           theme={theme} 
