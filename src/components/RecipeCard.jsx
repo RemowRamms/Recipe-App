@@ -27,12 +27,12 @@ const RecipeCard = ({
     <div
       className={`relative rounded-xl overflow-hidden transition-shadow duration-300 h-full 
         border 
-        ${theme === "dark"
-          ? "bg-gray-600/50 text-white border-gray-700"
-          : "bg-white text-black shadow-lg hover:shadow-2xl border-gray-200" 
+        ${
+          theme === "dark"
+            ? "bg-gray-600/50 text-white border-gray-700"
+            : "bg-white text-black shadow-lg hover:shadow-2xl border-gray-200"
         }`}
     >
-      
       <Link to={`/recipe/${recipe.id}`}>
         <img
           className="w-full h-48 object-cover cursor-pointer"
@@ -41,12 +41,25 @@ const RecipeCard = ({
         />
       </Link>
 
-      
-      <div className="p-4 text-center">
-        <h2 className="mt-1 font-semibold text-lg tracking-wide mb-2 border-b-2 border-yellow-400 inline-block">
+      <div className="p-4 pb-12 text-center">
+        <h2 className="mt-1 font-semibold text-lg tracking-wide mb-4 border-b-2 border-yellow-400 inline-block">
           {recipe.title}
         </h2>
       </div>
+
+      {/* View Recipe Button */}
+      <Link
+  to={`/recipe/${recipe.id}`}
+  className={`absolute bottom-2 right-2 font-semibold px-4 py-2 rounded-lg text-sm transition-colors duration-200
+    ${
+      theme === "dark"
+        ? "bg-gray-500 hover:bg-yellow-300 text-white"
+        : "bg-yellow-400/50 hover:bg-yellow-500 text-black"
+    }`}
+>
+  View Recipe
+</Link>
+
 
       {/* Heart Icon */}
       <button
@@ -56,7 +69,7 @@ const RecipeCard = ({
       >
         <FaHeart
           className={`transition-colors duration-200 ${
-            isFavorite ? "text-yellow-400" : "text-gray-400 dark:text-gray-500"
+            isFavorite ? "text-red-600" : "text-gray-400 dark:text-gray-500"
           }`}
         />
       </button>

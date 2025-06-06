@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import RecipeCard from "./RecipeCard";
 import { Pagination } from "./Pagination2";
-import search_icon_light from "../assets/search-w.png";
+// import search_icon_light from "../assets/search-w.png";
 import search_icon_dark from "../assets/search-b.png";
 import { fetchRecipesBySearch, transformMealPayloadToMockDataStructure } from "../api/fetchRecipes";
 export const AllRecipes = ({
@@ -65,7 +65,7 @@ export const AllRecipes = ({
                  placeholder:text-gray-500 dark:placeholder:text-gray-400 text-lg"
     />
     <img
-      src={theme === "light" ? search_icon_dark : search_icon_light}
+      src={theme === "light" ? search_icon_dark : search_icon_dark}
       alt="Search Icon"
       className="w-5 cursor-pointer"
     />
