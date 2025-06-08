@@ -22,14 +22,20 @@ const RecipeCard = ({
       }
     }
   };
+  
+
 
   return (
+    
+
+
+    
     <div
       className={`relative rounded-xl overflow-hidden transition-shadow duration-300 h-full 
         border 
         ${
           theme === "dark"
-            ? "bg-gray-600/50 text-white border-gray-700"
+            ? "bg-black text-white border-gray-700"
             : "bg-white text-black shadow-lg hover:shadow-2xl border-gray-200"
         }`}
     >
@@ -53,7 +59,7 @@ const RecipeCard = ({
   className={`absolute bottom-2 right-2 font-semibold px-4 py-2 rounded-lg text-sm transition-colors duration-200
     ${
       theme === "dark"
-        ? "bg-gray-500 hover:bg-yellow-300 text-white"
+        ? "bg-white/80 hover:bg-yellow-500/80 text-black"
         : "bg-yellow-400/50 hover:bg-yellow-500 text-black"
     }`}
 >

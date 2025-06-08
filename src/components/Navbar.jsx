@@ -24,11 +24,10 @@ const Navbar = ({ theme, setTheme }) => {
     <div
       className={`w-full h-[55px] p-[40px] flex items-center justify-between px-[7%] transition duration-200 
         ${theme === "dark"
-          ? "bg-gray-600/50 text-white"
+          ? "bg-black text-white"
           : "bg-white text-gray-900 shadow-md"
         }`}
     >
-      {/* Logo */}
       <Link to="/" className="flex items-center gap-3">
         <img
           src={theme === "light" ? logo_light : logo_dark}
@@ -40,7 +39,7 @@ const Navbar = ({ theme, setTheme }) => {
         </h1>
       </Link>
 
-      {/* Right section: Menu + Profile + Toggle */}
+      
       <div className="flex items-center gap-6">
         {/* Menu */}
         <ul className="flex space-x-6 text-sm font-semibold uppercase">
@@ -66,7 +65,6 @@ const Navbar = ({ theme, setTheme }) => {
           })}
         </ul>
 
-        {/* Profile icon */}
         <button
           className="bg-none border-none cursor-pointer text-inherit flex items-center"
           onClick={() => setIsLoginVisible(true)}
@@ -86,7 +84,6 @@ const Navbar = ({ theme, setTheme }) => {
           </svg>
         </button>
 
-        {/* Theme toggle at far right corner */}
         <img
           onClick={toggle_mode}
           src={theme === "light" ? toggle_light : toggle_dark}
@@ -95,7 +92,6 @@ const Navbar = ({ theme, setTheme }) => {
         />
       </div>
 
-      {/* Login Modal */}
       {isLoginVisible && (
         <Login
           theme={theme}
