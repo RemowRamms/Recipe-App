@@ -1,13 +1,7 @@
 import React, { useState, useEffect } from "react";
 import RecipeCard from "./RecipeCard";
-
 import { Pagination } from "./Pagination2";
-// import search_icon_light from "../assets/search-w.png";
-import search_icon_dark from "../assets/search-b.png";
-import {
-  fetchRecipesBySearch,
-  transformMealPayloadToMockDataStructure,
-} from "../api/fetchRecipes";
+import ClipLoader from "react-spinners/ClipLoader";
 
 export const AllRecipes = ({
   theme,
@@ -16,61 +10,30 @@ export const AllRecipes = ({
   addToFavorites,
   addComment,
   filteredRecipes,
-  newData
+  newData,
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+
   const recipesPerPage = 8;
-
-  const onSearchChange = (e) => {
-    setSearchQuery(e.target.value);
-  };
-
   const indexOfLastRecipe = currentPage * recipesPerPage;
   const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage;
- 
-  
-
   const currentRecipes = newData.slice(indexOfFirstRecipe, indexOfLastRecipe);
 
   const totalPages = Math.ceil(newData.length / recipesPerPage);
-
   const pages = [...Array(totalPages)].map((_, index) => index + 1);
-  const [isLoading] = useState(true);
 
-  console.log(pages);
+  useEffect(() => {
+    if (newData.length > 0) {
+      setIsLoading(false);
+    }
+  }, [newData]);
 
   return (
     <div className="container mx-auto py-8">
-      
-
-      {isLoading && currentRecipes.length === 0 ? (
-        <div className="container mx-auto px-4 py-8">
-          <div className="text-center text-2xl font-bold">
-            {/* Loading recipes... */}
-            <div className="flex justify-center items-center py-8">
-              <svg
-                className="animate-spin h-20 w-20 text-yellow-500"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <circle
-                  className="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  strokeWidth="4"
-                />
-                <path
-                  className="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8v8z"
-                />
-              </svg>
-            </div>
-          </div>
+      {isLoading ? (
+        <div className="flex justify-center items-center min-h-[300px]">
+          <ClipLoader color="#facc15" size={80} />
         </div>
       ) : (
         <>

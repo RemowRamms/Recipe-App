@@ -1,16 +1,22 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import ClipLoader from "react-spinners/ClipLoader";
 
-import { searchById, transformMealPayloadToMockDataStructure } from '../api/fetchRecipes';
+import {
+  searchById,
+  transformMealPayloadToMockDataStructure,
+} from '../api/fetchRecipes';
 
 const RecipeDetails = () => {
   const { id } = useParams();
+  const [recipe, setRecipe] = useState(null);
 
-  const [recipe, setRecipe] = React.useState(null);
   useEffect(() => {
     const fetchData = async () => {
       searchById(id).then((data) => {
-        const transformedData = data.map(meal => transformMealPayloadToMockDataStructure(meal));
+        const transformedData = data.map(meal =>
+          transformMealPayloadToMockDataStructure(meal)
+        );
         console.log(transformedData[0]);
         setRecipe(transformedData[0]);
       });
@@ -20,10 +26,8 @@ const RecipeDetails = () => {
 
   if (!recipe) {
     return (
-      <div className="container mx-auto px-4 py-8">
-        <div className="text-center text-2xl font-bold">
-          Loading.
-        </div>
+      <div className="flex justify-center items-center min-h-[300px]">
+        <ClipLoader color="#facc15" size={80} />
       </div>
     );
   }
@@ -40,7 +44,9 @@ const RecipeDetails = () => {
         </div>
 
         <div className="w-full md:w-2/3 p-4">
-          <h1 className="text-3xl font-bold mb-6 border-b-4 border-yellow-400 inline-block pb-1">{recipe.title}</h1>
+          <h1 className="text-3xl font-bold mb-6 border-b-4 border-yellow-400 inline-block pb-1">
+            {recipe.title}
+          </h1>
 
           <div className="flex">
             <div className="flex w-full h-100 overflow-y-auto">
