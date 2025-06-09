@@ -9,7 +9,7 @@ const RecipeCard = ({
   isLoggedIn,
   setShowLoginModal,
   addToFavorites,
-  isFavorite, // passed from parent
+  isFavorite, 
 }) => {
   const [localFavorite, setLocalFavorite] = useState(isFavorite);
 
@@ -21,8 +21,8 @@ const RecipeCard = ({
     if (!isLoggedIn) {
       setShowLoginModal(true);
     } else {
-      addToFavorites(recipe.id); // assume toggle logic
-      setLocalFavorite(!localFavorite); // temporary UI feedback
+      addToFavorites(recipe.id); 
+      setLocalFavorite(!localFavorite); 
     }
   };
 
@@ -32,7 +32,7 @@ const RecipeCard = ({
         border 
         ${
           theme === "dark"
-            ? "bg-black text-white border-gray-700"
+            ? "bg-[#1E1E1E] text-white border-gray-800 shadow-md shadow-black/30"
             : "bg-white text-black shadow-lg hover:shadow-2xl border-gray-200"
         }`}
     >
@@ -50,7 +50,6 @@ const RecipeCard = ({
         </h2>
       </div>
 
-      {/* View Recipe Button */}
       <Link
         to={`/recipe/${recipe.id}`}
         className={`absolute bottom-2 right-2 font-semibold px-4 py-2 rounded-lg text-sm transition-colors duration-200
@@ -63,7 +62,6 @@ const RecipeCard = ({
         View Recipe
       </Link>
 
-      {/* Heart Icon */}
       <button
         onClick={handleHeartClick}
         className="absolute top-2 left-2 text-2xl"

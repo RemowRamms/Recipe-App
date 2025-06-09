@@ -58,7 +58,7 @@ const App = () => {
 
   return (
     <Router> 
-      <div className={`min-h-screen  ${theme === 'dark' ? 'bg-black text-white' : 'bg-white text-black'}`}>
+      <div className={`min-h-screen  ${theme === 'dark' ? 'bg-[#121212] text-white' : 'bg-white text-black'}`}>
         <Navbar 
           theme={theme} 
           setTheme={setTheme} 

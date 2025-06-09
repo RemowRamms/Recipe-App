@@ -49,7 +49,7 @@ const Navbar = ({ theme, setTheme, setNewData }) => {
       className={`w-full h-[55px] p-[40px] flex items-center justify-between px-[7%] transition duration-200 
         ${
           theme === "dark"
-            ? "bg-black text-white"
+            ? "bg-[#1A1A1A] text-white"
             : "bg-white text-gray-900 shadow-md"
         }`}
     >
@@ -103,7 +103,7 @@ const Navbar = ({ theme, setTheme, setNewData }) => {
             value={searchQuery}
             onChange={onSearchChange}
             placeholder="Search..."
-            className="bg-transparent w-full outline-none text-sm text-black dark:text-white placeholder:text-gray-500"
+            className={`bg-transparent w-full outline-none text-sm ${theme === "dark" ? "text-white" : "text-black"} placeholder:text-gray-500`}
           />
         </div>
 
