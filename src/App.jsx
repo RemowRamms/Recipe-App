@@ -13,6 +13,7 @@ import { fetchRecipesBySearch } from './api/fetchRecipes';
 
 
 const App = () => {
+  const [newData, setNewData] = useState([]);
   const current_theme = localStorage.getItem('current_theme');
   const [theme, setTheme] = useState(current_theme ? current_theme : 'light');
   const [searchQuery, setSearchQuery] = useState(""); 
@@ -63,6 +64,7 @@ const App = () => {
           setTheme={setTheme} 
           searchQuery={searchQuery} 
           onSearchChange={handleSearchChange} 
+          setNewData={setNewData}
         />
 
         {showLoginModal && (
@@ -92,6 +94,7 @@ const App = () => {
               isLoggedIn={isLoggedIn}
               setShowLoginModal={setShowLoginModal}
               addToFavorites={addToFavorites}
+              newData={newData}
             />
             } 
             />

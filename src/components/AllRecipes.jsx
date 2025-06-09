@@ -8,6 +8,7 @@ import {
   fetchRecipesBySearch,
   transformMealPayloadToMockDataStructure,
 } from "../api/fetchRecipes";
+
 export const AllRecipes = ({
   theme,
   isLoggedIn,
@@ -15,6 +16,7 @@ export const AllRecipes = ({
   addToFavorites,
   addComment,
   filteredRecipes,
+  newData
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
@@ -24,23 +26,10 @@ export const AllRecipes = ({
     setSearchQuery(e.target.value);
   };
 
-  // pagination
   const indexOfLastRecipe = currentPage * recipesPerPage;
   const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage;
-  const [newData, setNewData] = React.useState([]);
-  useEffect(() => {
-    const fetchData = async () => {
-      fetchRecipesBySearch(searchQuery).then((data) => {
-        console.log(data);
-        const transformedData = data.map((meal) =>
-          transformMealPayloadToMockDataStructure(meal)
-        );
-        console.log(transformedData);
-        setNewData(transformedData);
-      });
-    };
-    fetchData();
-  }, [searchQuery]);
+ 
+  
 
   const currentRecipes = newData.slice(indexOfFirstRecipe, indexOfLastRecipe);
 
@@ -53,30 +42,7 @@ export const AllRecipes = ({
 
   return (
     <div className="container mx-auto py-8">
-      <div className="flex justify-center mb-6">
-        <div
-          className={`flex items-center gap-2 w-full max-w-md px-5 py-2 border-2 rounded-[20px]
-      ${theme === "dark"
-        ? "bg-white/80 border-gray-600"
-        : "bg-white border-gray-400"}`}
-  >
-    <input
-      type="text"
-      placeholder="What are you craving?"
-      value={searchQuery}
-      onChange={onSearchChange}
-      className={`bg-transparent outline-none w-full text-lg
-        ${theme === "dark"
-          ? "text-white placeholder:text-gray-400"
-          : "text-black placeholder:text-gray-500"}`}
-    />
-          <img
-            src={theme === "light" ? search_icon_dark : search_icon_dark}
-            alt="Search Icon"
-            className="w-5 cursor-pointer"
-          />
-        </div>
-      </div>
+      
 
       {isLoading && currentRecipes.length === 0 ? (
         <div className="container mx-auto px-4 py-8">
@@ -107,24 +73,25 @@ export const AllRecipes = ({
           </div>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {currentRecipes.map((recipe) => (
-            <RecipeCard
-              key={recipe.id}
-              recipe={recipe}
-              theme={theme}
-              isLoggedIn={isLoggedIn}
-              setShowLoginModal={setShowLoginModal}
-              addToFavorites={addToFavorites}
-              addComment={addComment}
-            />
-          ))}
-        </div>
+        <>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {currentRecipes.map((recipe) => (
+              <RecipeCard
+                key={recipe.id}
+                recipe={recipe}
+                theme={theme}
+                isLoggedIn={isLoggedIn}
+                setShowLoginModal={setShowLoginModal}
+                addToFavorites={addToFavorites}
+                addComment={addComment}
+              />
+            ))}
+          </div>
+          <div className="mt-2 w-full p-[40px] flex justify-center">
+            <Pagination setCurrentPage={setCurrentPage} pages={pages} />
+          </div>
+        </>
       )}
-
-      <div className="mt-2 w-full p-[40px] flex justify-center">
-        <Pagination setCurrentPage={setCurrentPage} pages={pages} />
-      </div>
     </div>
   );
 };
