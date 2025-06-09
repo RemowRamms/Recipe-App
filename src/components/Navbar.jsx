@@ -5,6 +5,8 @@ import logo_dark from "../assets/logo-white.png";
 import toggle_light from "../assets/night.png";
 import toggle_dark from "../assets/day.png";
 import Login from "./Login";
+import {CircleUserRound, Moon, Sun} from "lucide-react";
+
 
 const Navbar = ({ theme, setTheme }) => {
   const [isLoginVisible, setIsLoginVisible] = useState(false);
@@ -70,26 +72,17 @@ const Navbar = ({ theme, setTheme }) => {
           onClick={() => setIsLoginVisible(true)}
           aria-label="Sign in or sign up"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            className="w-[40px] h-[40px]"
-          >
-            <path
-              fillRule="evenodd"
-              d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z"
-              clipRule="evenodd"
-            />
-          </svg>
+          <CircleUserRound className="w-8 h-8" />
+          
         </button>
 
-        <img
-          onClick={toggle_mode}
-          src={theme === "light" ? toggle_light : toggle_dark}
-          alt="Toggle Icon"
-          className="w-10 h-10 cursor-pointer ml-4"
-        />
+      
+        <button 
+        className="bg-none border-none cursor-pointer text-inherit flex items-center"
+        onClick={toggle_mode}>
+          {theme === "light" ? <Sun className="w-8 h-8" /> : <Moon className="w-8 h-8" />}
+        
+        </button>
       </div>
 
       {isLoginVisible && (

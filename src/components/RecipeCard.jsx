@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaHeart } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { GiBowlOfRice } from "react-icons/gi";
@@ -9,27 +9,24 @@ const RecipeCard = ({
   isLoggedIn,
   setShowLoginModal,
   addToFavorites,
+  isFavorite, // passed from parent
 }) => {
-  const [isFavorite, setIsFavorite] = useState(false);
+  const [localFavorite, setLocalFavorite] = useState(isFavorite);
+
+  useEffect(() => {
+    setLocalFavorite(isFavorite);
+  }, [isFavorite]);
 
   const handleHeartClick = () => {
     if (!isLoggedIn) {
       setShowLoginModal(true);
     } else {
-      setIsFavorite(!isFavorite);
-      if (!isFavorite) {
-        addToFavorites(recipe.id);
-      }
+      addToFavorites(recipe.id); // assume toggle logic
+      setLocalFavorite(!localFavorite); // temporary UI feedback
     }
   };
-  
-
 
   return (
-    
-
-
-    
     <div
       className={`relative rounded-xl overflow-hidden transition-shadow duration-300 h-full 
         border 
@@ -55,17 +52,16 @@ const RecipeCard = ({
 
       {/* View Recipe Button */}
       <Link
-  to={`/recipe/${recipe.id}`}
-  className={`absolute bottom-2 right-2 font-semibold px-4 py-2 rounded-lg text-sm transition-colors duration-200
-    ${
-      theme === "dark"
-        ? "bg-white/80 hover:bg-yellow-500/80 text-black"
-        : "bg-yellow-400/50 hover:bg-yellow-500 text-black"
-    }`}
->
-  View Recipe
-</Link>
-
+        to={`/recipe/${recipe.id}`}
+        className={`absolute bottom-2 right-2 font-semibold px-4 py-2 rounded-lg text-sm transition-colors duration-200
+          ${
+            theme === "dark"
+              ? "bg-white/80 hover:bg-yellow-500/80 text-black"
+              : "bg-yellow-400/50 hover:bg-yellow-500 text-black"
+          }`}
+      >
+        View Recipe
+      </Link>
 
       {/* Heart Icon */}
       <button
@@ -75,7 +71,7 @@ const RecipeCard = ({
       >
         <FaHeart
           className={`transition-colors duration-200 ${
-            isFavorite ? "text-red-600" : "text-gray-400 dark:text-gray-500"
+            localFavorite ? "text-red-600" : "text-gray-400 dark:text-gray-500"
           }`}
         />
       </button>
