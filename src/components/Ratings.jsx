@@ -1,78 +1,54 @@
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 import { FaStar } from "react-icons/fa";
 
-const Ratings = ({ recipeId, handleRate, recipeRatings }) => {
-  const [rating, setRating] = useState(null);
-  const [hover, setHover] = useState(null);
-  const userId = "user1"; 
-  
-  useEffect(() => {
-    if (
-      recipeRatings &&
-      recipeRatings[recipeId] &&
-      recipeRatings[recipeId][userId]
-    ) {
-      setRating(recipeRatings[recipeId][userId]);
+export default function StarRating({
+  noOfStars = 5,
+  initialRating = 0,
+  readOnly = false,
+  onRatingChange = () => {},
+}) {
+  const [rating, setRating] = useState(initialRating);
+  const [hover, setHover] = useState(0);
+
+  function handleClick(getCurrentIndex) {
+    if (!readOnly) {
+      setRating(getCurrentIndex);
+      onRatingChange(getCurrentIndex);
     }
-  }, [recipeId, recipeRatings, userId]);
+  }
 
-  const containerStyle = {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  };
+  function handleMouseEnter(getCurrentIndex) {
+    if (!readOnly) {
+      setHover(getCurrentIndex);
+    }
+  }
 
-  const inputStyle = {
-    display: "none",
-  };
-
-  const labelStyle = {
-    cursor: "pointer",
-    width: "2rem",
-    height: "2rem",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  };
-
-  const svgStyle = {
-    width: "100%",
-    height: "100%",
-    fill: "#d1d5db",
-    transition: "fill 0.2s ease",
-  };
+  function handleMouseLeave() {
+    if (!readOnly) {
+      setHover(rating);
+    }
+  }
 
   return (
-    <div style={containerStyle}>
-      {[...Array(5)].map((star, i) => {
-        const ratingValue = i + 1;
+    <div className="flex space-x-1">
+      {[...Array(noOfStars)].map((_, index) => {
+        index += 1;
+
         return (
-          <label key={i} style={labelStyle}>
-            <input
-              type="radio"
-              name="rating"
-              style={inputStyle}
-              value={ratingValue}
-              onClick={() => {
-                setRating(ratingValue);
-                handleRate(recipeId, userId, ratingValue);
-              }}
-              onMouseEnter={() => setHover(ratingValue)}
-              onMouseLeave={() => setHover(null)}
-            />
-            <FaStar
-              className="star"
-              style={{
-                ...svgStyle,
-                fill:
-                  ratingValue <= (hover || rating) ? "#fbbf24" : "#d1d5db",
-              }}
-            />
-          </label>
+          <FaStar
+            key={index}
+            className={`${readOnly ? "" : "cursor-pointer"} transition-colors duration-200 ${
+              index <= (hover || rating || initialRating)
+                ? "text-yellow-400"
+                : "text-gray-400"
+            }`}
+            onClick={() => handleClick(index)}
+            onMouseMove={() => handleMouseEnter(index)}
+            onMouseLeave={handleMouseLeave}
+            size={readOnly ? 20 : 40}
+          />
         );
       })}
     </div>
   );
-};
-
-export default Ratings;
+}

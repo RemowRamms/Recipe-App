@@ -131,9 +131,9 @@ const Navbar = ({ theme, setTheme, setNewData }) => {
           onClick={toggle_mode}
         >
           {theme === "light" ? (
-            <Sun className="w-8 h-8" />
-          ) : (
             <Moon className="w-8 h-8" />
+          ) : (
+            <Sun className="w-8 h-8" />
           )}
         </button>
       </div>

@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import ClipLoader from "react-spinners/ClipLoader";
+import StarRating from './Ratings';
 
 import {
   searchById,
   transformMealPayloadToMockDataStructure,
 } from '../api/fetchRecipes';
 
-const RecipeDetails = () => {
+const RecipeDetails = ({ isLoggedIn, setShowLoginModal, handleRate }) => {
   const { id } = useParams();
   const [recipe, setRecipe] = useState(null);
 
@@ -23,6 +24,14 @@ const RecipeDetails = () => {
     };
     fetchData();
   }, [id]);
+
+  const handleRatingChange = (newRating) => {
+    if (!isLoggedIn) {
+      setShowLoginModal(true);
+      return;
+    }
+    handleRate(recipe.id, newRating);
+  };
 
   if (!recipe) {
     return (
@@ -41,6 +50,17 @@ const RecipeDetails = () => {
             alt={`Image of ${recipe.title}`}
             className="w-full h-auto object-cover rounded-lg shadow-lg mb-6"
           />
+          <div className="mt-4 flex flex-col items-center space-y-2">
+            <h3 className="text-lg font-semibold">Rate this recipe:</h3>
+            <StarRating 
+              initialRating={recipe.rating} 
+              onRatingChange={handleRatingChange} 
+              readOnly={!isLoggedIn}
+            />
+            {!isLoggedIn && (
+              <p className="text-sm text-gray-500">Sign in to rate this recipe</p>
+            )}
+          </div>
         </div>
 
         <div className="w-full md:w-2/3 p-4">

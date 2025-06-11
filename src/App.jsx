@@ -2,7 +2,6 @@ import './App.css';
 import React, { useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom"; 
 import recipes from "./data"; 
-// import RecipeCard from "./components/RecipeCard"; 
 import Navbar from "./components/Navbar"; 
 import RecipeDetails from "./components/RecipeDetails"; 
 import Home from "./components/Home"; 
@@ -21,6 +20,7 @@ const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [favoriteRecipes, setFavoriteRecipes] = useState([]);
+  const [recipeRatings, setRecipeRatings] = useState({});
 
   const handleSearchChange = (event) => {
     const query = event.target.value.toLowerCase();  
@@ -47,14 +47,26 @@ const App = () => {
       console.log(`Toggled favorite status for recipe ${recipeId}`);
     }
   };
- 
-  React.useEffect(() => {
+   React.useEffect(() => {
     localStorage.setItem('current_theme', theme);
   }, [theme]);
-
-  const handleRate = (recipeId, userId, rating) => {
+  
+  const handleRate = (recipeId, rating) => {
+    if (!isLoggedIn) return;
     
+    setRecipeRatings(prev => ({
+      ...prev,
+      [recipeId]: rating
+    }));
+    // In a real application, you would save this to a backend
+    console.log(`Recipe ${recipeId} rated with ${rating} stars`);
   };
+
+  // Combine recipe data with ratings
+  const recipesWithRatings = newData.map(recipe => ({
+    ...recipe,
+    rating: recipeRatings[recipe.id] || recipe.rating || 0
+  }));
 
   return (
     <Router> 
@@ -76,39 +88,30 @@ const App = () => {
         )}
 
         <div className="container mx-auto px-4">
-
-            
-
-       <Routes>
-
-        <Route path="/" element={<Home />} />
-
-        <Route path="/" element={<Home searchQuery={searchQuery} />} />
-        
-
-           <Route path="/recipes" 
-            element={
-              <AllRecipes
-              theme={theme}
-              filteredRecipes={filteredRecipes}
-              isLoggedIn={isLoggedIn}
-              setShowLoginModal={setShowLoginModal}
-              addToFavorites={addToFavorites}
-              newData={newData}
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/recipes" 
+              element={
+                <AllRecipes
+                  theme={theme}
+                  filteredRecipes={filteredRecipes}
+                  isLoggedIn={isLoggedIn}
+                  setShowLoginModal={setShowLoginModal}
+                  addToFavorites={addToFavorites}
+                  newData={recipesWithRatings}
+                />
+              } 
             />
-            } 
+            <Route 
+              path="/recipe/:id" 
+              element={
+                <RecipeDetails 
+                  isLoggedIn={isLoggedIn}
+                  setShowLoginModal={setShowLoginModal}
+                  handleRate={handleRate}
+                />
+              }
             />
-
-            
-            <Route path="/recipe/:id" element={<RecipeDetails 
-            theme={theme}
-            isLoggedIn={isLoggedIn}
-            setShowLoginModal={setShowLoginModal}
-            handleRate={handleRate}
-            
-            />
-            }
-             />
           </Routes>
         </div>
       </div>

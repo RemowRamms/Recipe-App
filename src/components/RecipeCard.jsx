@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FaHeart } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { GiBowlOfRice } from "react-icons/gi";
+import StarRating from "./Ratings";
 
 const RecipeCard = ({
   recipe,
@@ -45,22 +46,15 @@ const RecipeCard = ({
       </Link>
 
       <div className="p-4 pb-12 text-center">
-        <h2 className="mt-1 font-semibold text-lg tracking-wide mb-4 border-b-2 border-yellow-400 inline-block">
+        <h2 className="mt-1 font-semibold text-lg tracking-wide mb-2 border-b-2 border-yellow-400 inline-block">
           {recipe.title}
         </h2>
+        {/* <div className="flex justify-center mt-2">
+          <StarRating readOnly initialRating={recipe.rating} />
+        </div> */}
       </div>
 
-      <Link
-        to={`/recipe/${recipe.id}`}
-        className={`absolute bottom-2 right-2 font-semibold px-4 py-2 rounded-lg text-sm transition-colors duration-200
-          ${
-            theme === "dark"
-              ? "bg-white/80 hover:bg-yellow-500/80 text-black"
-              : "bg-yellow-400/50 hover:bg-yellow-500 text-black"
-          }`}
-      >
-        View Recipe
-      </Link>
+
 
       <button
         onClick={handleHeartClick}
@@ -73,12 +67,6 @@ const RecipeCard = ({
           }`}
         />
       </button>
-
-      {/* Servings Info */}
-      {/* <div className="absolute bottom-2 right-2 bg-yellow-400 text-black rounded-full px-3 py-1 flex items-center gap-1 text-sm shadow-md">
-        <GiBowlOfRice size={16} />
-        <span>{recipe.servings ? `${recipe.servings} servings` : "Servings: N/A"}</span>
-      </div> */}
     </div>
   );
 };

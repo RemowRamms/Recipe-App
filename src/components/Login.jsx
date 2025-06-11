@@ -32,9 +32,9 @@ const Login = ({ onLogin, theme, setIsLoginVisible }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
       <div
-        className={`relative z-60 w-full max-w-[320px] rounded-xl p-6 shadow-xl transition-all
+        className={`relative z-60 w-full max-w-[360px] min-h-[400px] rounded-xl p-6 shadow-2xl ring-1 ring-gray-300 dark:ring-gray-600 transition-all
           ${theme === "dark" ? "bg-[#2d2d2d] text-white" : "bg-white text-black"}
         `}
       >
@@ -57,8 +57,8 @@ const Login = ({ onLogin, theme, setIsLoginVisible }) => {
               className={`w-full px-4 py-2 rounded-md text-sm border focus:outline-none focus:ring-2 transition
                 ${
                   theme === "dark"
-                    ? "bg-[#444] border-[#555] text-white focus:ring-blue-500"
-                    : "bg-gray-100 border-gray-300 text-black focus:ring-blue-500"
+                    ? "bg-[#444] border-[#555] text-white focus:ring-yellow-500"
+                    : "bg-gray-100 border-gray-300 text-black focus:ring-yellow-500"
                 }
               `}
               value={email}
@@ -75,8 +75,8 @@ const Login = ({ onLogin, theme, setIsLoginVisible }) => {
               className={`w-full px-4 py-2 rounded-md text-sm border focus:outline-none focus:ring-2 transition
                 ${
                   theme === "dark"
-                    ? "bg-[#444] border-[#555] text-white focus:ring-blue-500"
-                    : "bg-gray-100 border-gray-300 text-black focus:ring-blue-500"
+                    ? "bg-[#444] border-[#555] text-white focus:ring-yellow-500"
+                    : "bg-gray-100 border-gray-300 text-black focus:ring-yellow-500"
                 }
               `}
               value={password}
@@ -92,7 +92,7 @@ const Login = ({ onLogin, theme, setIsLoginVisible }) => {
 
           <button
             type="submit"
-            className="w-full py-3 rounded-md bg-blue-600 text-white font-semibold text-sm hover:bg-blue-700 transition"
+            className="w-full py-3 rounded-md bg-yellow-600 text-white font-semibold text-sm hover:bg-yellow-500 transition"
           >
             {isSignUp ? "Sign Up" : "Sign In"}
           </button>

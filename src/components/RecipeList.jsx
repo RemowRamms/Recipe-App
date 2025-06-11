@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import RecipeCard from "./RecipeCard";
-import {Pagination} from "./Pagination2"; // Import the Pagination component
+import {Pagination} from "./Pagination2";
 
 
 const RecipeList = ({ recipes }) => {
  const [currentPage, setCurrentPage] = useState(1);
- const recipesPerPage = 6; // Number of recipes per page (adjust as needed)
+ const recipesPerPage = 6; 
 
 
- // Calculate indexes for the current page
  const indexOfLastRecipe = currentPage * recipesPerPage;
  const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage;
  const currentRecipes = recipes.slice(indexOfFirstRecipe, indexOfLastRecipe);
@@ -32,7 +31,7 @@ const RecipeList = ({ recipes }) => {
  </div>
 
 
- {/* Pagination component */}
+
  {recipes.length > 0 && (
  <Pagination
  recipesPerPage={recipesPerPage}
