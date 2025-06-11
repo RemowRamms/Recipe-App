@@ -9,8 +9,8 @@ export const AllRecipes = ({
   setShowLoginModal,
   addToFavorites,
   addComment,
-  filteredRecipes,
   newData,
+  favoriteRecipes,
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
@@ -47,6 +47,7 @@ export const AllRecipes = ({
                 setShowLoginModal={setShowLoginModal}
                 addToFavorites={addToFavorites}
                 addComment={addComment}
+                isFavorite={favoriteRecipes?.includes(recipe.id)}
               />
             ))}
           </div>

@@ -44,6 +44,7 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
 
 .recipe-grid > .recipe-card {  
   animation: fadeIn 0.3s ease-out forwards;

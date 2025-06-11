@@ -1,19 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import logo_light from "../assets/logo-black.png";
 import logo_dark from "../assets/logo-white.png";
 import Login from "./Login";
-import { CircleUserRound, Moon, Sun, Search } from "lucide-react";
+import { CircleUserRound, Moon, Sun, Search, LogOut, User } from "lucide-react";
+import { fetchRecipesBySearch, transformMealPayloadToMockDataStructure } from '../api/fetchRecipes';
 
-
-import {
-  fetchRecipesBySearch,
-  transformMealPayloadToMockDataStructure,
-} from "../api/fetchRecipes";
-
-const Navbar = ({ theme, setTheme, setNewData }) => {
+const Navbar = ({ 
+  theme, 
+  setTheme, 
+  setNewData, 
+  isLoggedIn,
+  onLogout,
+  currentUser,
+  onLogin
+}) => {
   const [isLoginVisible, setIsLoginVisible] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
   const location = useLocation();
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
@@ -21,6 +26,7 @@ const Navbar = ({ theme, setTheme, setNewData }) => {
   const onSearchChange = (e) => {
     setSearchQuery(e.target.value);
   };
+
   const toggle_mode = () => {
     setTheme(theme === "light" ? "dark" : "light");
   };
@@ -30,6 +36,7 @@ const Navbar = ({ theme, setTheme, setNewData }) => {
     { name: "Recipes", path: "/recipes" },
     { name: "Favourites", path: "/favourites" },
   ];
+
   useEffect(() => {
     const fetchData = async () => {
       fetchRecipesBySearch(searchQuery).then((data) => {
@@ -42,16 +49,27 @@ const Navbar = ({ theme, setTheme, setNewData }) => {
       });
     };
     fetchData();
-  }, [searchQuery]);
+  }, [searchQuery, setNewData]);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsDropdownOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const getUserInitial = () => {
+    return currentUser?.email?.[0]?.toUpperCase() || '?';
+  };
 
   return (
-    <div
-      className={`w-full h-[55px] p-[40px] flex items-center justify-between px-[7%] transition duration-200 
-        ${
-          theme === "dark"
-            ? "bg-[#1A1A1A] text-white"
-            : "bg-white text-gray-900 shadow-md"
-        }`}
+    <div className={`w-full h-[55px] p-[40px] flex items-center justify-between px-[7%] transition duration-200 
+      ${theme === "dark" ? "bg-[#1A1A1A] text-white" : "bg-white text-gray-900 shadow-md"}`}
     >
       <Link to="/" className="flex items-center gap-3">
         <img
@@ -92,8 +110,7 @@ const Navbar = ({ theme, setTheme, setNewData }) => {
       </ul>
 
       <div className="flex items-center gap-4">
-        <div
-          className={`transition-all duration-300 ease-in-out overflow-hidden 
+        <div className={`transition-all duration-300 ease-in-out overflow-hidden 
           ${isSearchOpen ? "w-64 opacity-100 px-4" : "w-0 opacity-0 px-0"} 
           h-10 flex items-center border border-gray-400 rounded-full
           ${theme === "dark" ? "bg-white/20 border-gray-600" : "bg-white"}`}
@@ -118,13 +135,49 @@ const Navbar = ({ theme, setTheme, setNewData }) => {
           <Search className="w-8 h-8" />
         </button>
 
-        <button
-          className="bg-none border-none cursor-pointer text-inherit flex items-center"
-          onClick={() => setIsLoginVisible(true)}
-          aria-label="Sign in or sign up"
-        >
-          <CircleUserRound className="w-8 h-8" />
-        </button>
+        {isLoggedIn ? (
+          <div className="relative" ref={dropdownRef}>
+            <button
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold 
+                ${theme === "dark" ? "bg-yellow-500" : "bg-yellow-400"} 
+                text-white hover:opacity-90 transition-opacity`}
+              aria-label="User menu"
+            >
+              {getUserInitial()}
+            </button>
+
+            {isDropdownOpen && (
+              <div className={`absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 z-50
+                ${theme === "dark" ? "bg-[#2d2d2d] text-white" : "bg-white text-gray-900"}
+                border ${theme === "dark" ? "border-gray-700" : "border-gray-200"}`}
+              >
+                <div className="px-4 py-2 text-sm border-b border-gray-200 dark:border-gray-700">
+                  Signed in as<br />
+                  <span className="font-semibold">{currentUser?.email}</span>
+                </div>
+                <button
+                  onClick={() => {
+                    onLogout();
+                    setIsDropdownOpen(false);
+                  }}
+                  className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2"
+                >
+                  <LogOut className="w-4 h-4" />
+                  Sign out
+                </button>
+              </div>
+            )}
+          </div>
+        ) : (
+          <button
+            className="bg-none border-none cursor-pointer text-inherit flex items-center"
+            onClick={() => setIsLoginVisible(true)}
+            aria-label="Sign in or sign up"
+          >
+            <CircleUserRound className="w-8 h-8" />
+          </button>
+        )}
 
         <button
           className="bg-none border-none cursor-pointer text-inherit flex items-center"
@@ -137,11 +190,14 @@ const Navbar = ({ theme, setTheme, setNewData }) => {
           )}
         </button>
       </div>
-
+      
       {isLoginVisible && (
         <Login
           theme={theme}
-          onLogin={() => console.log("Logged in")}
+          onLogin={(userData) => {
+            setIsLoginVisible(false);
+            onLogin(userData);
+          }}
           setIsLoginVisible={setIsLoginVisible}
         />
       )}

@@ -1,12 +1,16 @@
-import { useRecipeContext } from "../contexts/RecipeContext";
-import { useAuthContext } from "../contexts/AuthContext"; // Optional for auth check
-import RecipeCard from "../components/RecipeCard";
+import React from "react";
+import RecipeCard from "../RecipeCard";
+import "../Styles/Favourites.css";
 
-function Favorites() {
-  const { favorites } = useRecipeContext();
-  const { user } = useAuthContext(); // Optional
-
-  if (!user) {
+function Favorites({ 
+  favoriteRecipes, 
+  recipes, 
+  isLoggedIn, 
+  theme,
+  setShowLoginModal,
+  addToFavorites 
+}) {
+  if (!isLoggedIn) {
     return (
       <div className="text-center p-16 bg-white/5 rounded-xl max-w-xl mx-auto my-8">
         <h2 className="mb-4 text-2xl text-red-600 font-semibold">Please Sign In</h2>
@@ -17,16 +21,39 @@ function Favorites() {
     );
   }
 
-  if (favorites && favorites.length > 0) {
+  // Get all available recipes (local + searched)
+  const allRecipes = [
+    ...recipes,
+    ...JSON.parse(localStorage.getItem('searchedRecipes') || '[]')
+  ].reduce((unique, item) => {
+    // Remove duplicates based on id
+    const exists = unique.find(recipe => recipe.id === item.id);
+    if (!exists) {
+      unique.push(item);
+    }
+    return unique;
+  }, []);
+
+  // Filter recipes to get only the favorited ones
+  const favoritedRecipes = allRecipes.filter(recipe => favoriteRecipes.includes(recipe.id));
+
+  if (favoritedRecipes.length > 0) {
     return (
-      <div className="w-full px-8 py-8 box-border">
-        <h2 className="mb-8 text-center text-4xl font-bold text-shadow-sm">
+      <div className="container mx-auto py-8">
+        <h2 className="mb-8 text-center text-4xl font-bold">
           Your Favorites
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 animate-fadeIn">
-          {favorites.map((recipe) => (
-            <div key={recipe.id} className="animate-fadeIn">
-              <RecipeCard recipe={recipe} />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {favoritedRecipes.map((recipe) => (
+            <div key={recipe.id} className="recipe-card">
+              <RecipeCard 
+                recipe={recipe}
+                theme={theme}
+                isLoggedIn={isLoggedIn}
+                setShowLoginModal={setShowLoginModal}
+                addToFavorites={addToFavorites}
+                isFavorite={true}
+              />
             </div>
           ))}
         </div>

@@ -2,7 +2,14 @@ import React from "react";
 import RecipeCard from "./RecipeCard";
 import recipes from "../data";
 
-const TopRatedRecipes = ({ theme, isLoggedIn, setShowLoginModal, addToFavorites, addComment, filteredRecipes }) => {
+const TopRatedRecipes = ({ 
+  theme, 
+  isLoggedIn, 
+  setShowLoginModal, 
+  addToFavorites, 
+  addComment,
+  favoriteRecipes 
+}) => {
   const topRatedRecipes = recipes.filter(recipe => recipe.rating >= 4);
 
   return (
@@ -18,6 +25,7 @@ const TopRatedRecipes = ({ theme, isLoggedIn, setShowLoginModal, addToFavorites,
             setShowLoginModal={setShowLoginModal}
             addToFavorites={addToFavorites}
             addComment={addComment}
+            isFavorite={favoriteRecipes?.includes(recipe.id)}
           />
         ))}
       </div>

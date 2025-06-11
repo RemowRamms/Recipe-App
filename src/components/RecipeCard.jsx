@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { FaHeart } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { GiBowlOfRice } from "react-icons/gi";
 import StarRating from "./Ratings";
 
 const RecipeCard = ({
@@ -10,20 +9,14 @@ const RecipeCard = ({
   isLoggedIn,
   setShowLoginModal,
   addToFavorites,
-  isFavorite, 
+  isFavorite,
 }) => {
-  const [localFavorite, setLocalFavorite] = useState(isFavorite);
-
-  useEffect(() => {
-    setLocalFavorite(isFavorite);
-  }, [isFavorite]);
-
-  const handleHeartClick = () => {
+  const handleHeartClick = (e) => {
+    e.preventDefault(); // Prevent navigation when clicking the heart
     if (!isLoggedIn) {
       setShowLoginModal(true);
     } else {
-      addToFavorites(recipe.id); 
-      setLocalFavorite(!localFavorite); 
+      addToFavorites(recipe.id);
     }
   };
 
@@ -37,36 +30,34 @@ const RecipeCard = ({
             : "bg-white text-black shadow-lg hover:shadow-2xl border-gray-200"
         }`}
     >
-      <Link to={`/recipe/${recipe.id}`}>
+      <Link to={`/recipe/${recipe.id}`} className="block">
         <img
           className="w-full h-48 object-cover cursor-pointer"
           src={recipe.image}
           alt={recipe.title}
         />
+
+        <div className="p-4 pb-12 text-center">
+          <h2 className="mt-1 font-semibold text-lg tracking-wide mb-2 border-b-2 border-yellow-400 inline-block">
+            {recipe.title}
+          </h2>
+          <div className="flex justify-center mt-2">
+            <StarRating readOnly initialRating={recipe.rating} />
+          </div>
+        </div>
+
+        <button
+          onClick={handleHeartClick}
+          className="absolute top-2 right-2 text-2xl p-2 rounded-full bg-black/30 hover:bg-black/50 transition-colors duration-200"
+          title={isFavorite ? "Remove from favorites" : "Add to favorites"}
+        >
+          <FaHeart
+            className={`transition-colors duration-200 ${
+              isFavorite ? "text-red-600" : "text-white"
+            }`}
+          />
+        </button>
       </Link>
-
-      <div className="p-4 pb-12 text-center">
-        <h2 className="mt-1 font-semibold text-lg tracking-wide mb-2 border-b-2 border-yellow-400 inline-block">
-          {recipe.title}
-        </h2>
-        {/* <div className="flex justify-center mt-2">
-          <StarRating readOnly initialRating={recipe.rating} />
-        </div> */}
-      </div>
-
-
-
-      <button
-        onClick={handleHeartClick}
-        className="absolute top-2 left-2 text-2xl"
-        title="Add to favorites"
-      >
-        <FaHeart
-          className={`transition-colors duration-200 ${
-            localFavorite ? "text-red-600" : "text-gray-400 dark:text-gray-500"
-          }`}
-        />
-      </button>
     </div>
   );
 };
