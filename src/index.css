@@ -1,6 +1,5 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss/preflight";
+@import "tailwindcss/utilities";
 
 *{
   margin: 0;
@@ -8,6 +7,38 @@
   box-sizing: border-box;
   font-family: sans-serif;
 }
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollbar-light::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 8px;
+}
+
+.scrollbar-light::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 8px;
+}
+
+.scrollbar-light::-webkit-scrollbar-thumb:hover {
+  background: #666;
+}
+
+.scrollbar-dark::-webkit-scrollbar-track {
+  background: #2d2d2d;
+  border-radius: 8px;
+}
+
+.scrollbar-dark::-webkit-scrollbar-thumb {
+  background: #666;
+  border-radius: 8px;
+}
+
+.scrollbar-dark::-webkit-scrollbar-thumb:hover {
+  background: #888;
+}
+
 .container{
   width: 100vw;
   min-height: 100vh;

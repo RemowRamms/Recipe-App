@@ -15,19 +15,21 @@ export const AllRecipes = ({
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
 
+  const validRecipes = newData.filter((recipe) => recipe && recipe.id);
+
   const recipesPerPage = 8;
   const indexOfLastRecipe = currentPage * recipesPerPage;
   const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage;
-  const currentRecipes = newData.slice(indexOfFirstRecipe, indexOfLastRecipe);
+  const currentRecipes = validRecipes.slice(indexOfFirstRecipe, indexOfLastRecipe);
 
-  const totalPages = Math.ceil(newData.length / recipesPerPage);
+  const totalPages = Math.ceil(validRecipes.length / recipesPerPage);
   const pages = [...Array(totalPages)].map((_, index) => index + 1);
 
   useEffect(() => {
-    if (newData.length > 0) {
+    if (validRecipes.length > 0) {
       setIsLoading(false);
     }
-  }, [newData]);
+  }, [validRecipes.length]);
 
   return (
     <div className="container mx-auto py-8">
@@ -51,9 +53,15 @@ export const AllRecipes = ({
               />
             ))}
           </div>
-          <div className="mt-2 w-full p-[40px] flex justify-center">
-            <Pagination setCurrentPage={setCurrentPage} pages={pages} />
-          </div>
+          {totalPages > 1 && (
+            <div className="mt-2 w-full p-[40px] flex justify-center">
+              <Pagination
+                setCurrentPage={setCurrentPage}
+                pages={pages}
+                currentPage={currentPage}
+              />
+            </div>
+          )}
         </>
       )}
     </div>

@@ -5,6 +5,7 @@ export default function StarRating({
   noOfStars = 5,
   initialRating = 0,
   readOnly = false,
+  theme = "light",
   onRatingChange = () => {},
 }) {
   const [rating, setRating] = useState(initialRating);
@@ -39,13 +40,13 @@ export default function StarRating({
             key={index}
             className={`${readOnly ? "" : "cursor-pointer"} transition-colors duration-200 ${
               index <= (hover || rating || initialRating)
-                ? "text-yellow-400"
-                : "text-gray-400"
+                ? "text-yellow-500"
+                : theme === "dark" ? "text-gray-500" : "text-gray-400"
             }`}
             onClick={() => handleClick(index)}
             onMouseMove={() => handleMouseEnter(index)}
             onMouseLeave={handleMouseLeave}
-            size={readOnly ? 20 : 40}
+            size={readOnly ? 16 : 24}
           />
         );
       })}

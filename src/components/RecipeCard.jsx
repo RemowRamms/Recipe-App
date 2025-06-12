@@ -1,7 +1,6 @@
-import React from "react";
-import { FaHeart } from "react-icons/fa";
+import React, { useEffect, useState } from "react";
+import { FaHeart, FaRegCommentDots } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import StarRating from "./Ratings";
 
 const RecipeCard = ({
   recipe,
@@ -10,9 +9,30 @@ const RecipeCard = ({
   setShowLoginModal,
   addToFavorites,
   isFavorite,
-}) => {
+}) => {  const [reviewCount, setReviewCount] = useState(0);
+
+  useEffect(() => {
+    const loadReviewCount = () => {
+      const savedReviews = JSON.parse(
+        localStorage.getItem(`reviews_${recipe.id}`) || "[]"
+      );
+      setReviewCount(savedReviews.length);
+    };
+
+    loadReviewCount();
+
+    const handleStorageChange = (e) => {
+      if (e.key === `reviews_${recipe.id}`) {
+        loadReviewCount();
+      }
+    };
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, [recipe.id]);
+
   const handleHeartClick = (e) => {
-    e.preventDefault(); // Prevent navigation when clicking the heart
+    e.preventDefault();
     if (!isLoggedIn) {
       setShowLoginModal(true);
     } else {
@@ -22,33 +42,54 @@ const RecipeCard = ({
 
   return (
     <div
-      className={`relative rounded-xl overflow-hidden transition-shadow duration-300 h-full 
-        border 
+      className={`relative rounded-xl overflow-hidden transition-all duration-300 h-full group hover:-translate-y-1
+        border hover:shadow-xl
         ${
           theme === "dark"
             ? "bg-[#1E1E1E] text-white border-gray-800 shadow-md shadow-black/30"
-            : "bg-white text-black shadow-lg hover:shadow-2xl border-gray-200"
+            : "bg-white text-gray-800 shadow-lg border-gray-200"
         }`}
     >
-      <Link to={`/recipe/${recipe.id}`} className="block">
-        <img
-          className="w-full h-48 object-cover cursor-pointer"
-          src={recipe.image}
-          alt={recipe.title}
-        />
+      <Link to={`/recipe/${recipe.id}`} className="block h-full">
+        <div className="aspect-w-16 aspect-h-9 overflow-hidden">
+          <img
+            className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
+            src={recipe.image}
+            alt={recipe.title}
+          />
+        </div>
 
-        <div className="p-4 pb-12 text-center">
-          <h2 className="mt-1 font-semibold text-lg tracking-wide mb-2 border-b-2 border-yellow-400 inline-block">
+        <div className="p-4 pb-12">
+          <h2
+            className={`font-semibold text-lg tracking-wide mb-2 line-clamp-1 ${
+              theme === "dark" ? "text-white" : "text-gray-900"
+            }`}
+          >
             {recipe.title}
           </h2>
-          <div className="flex justify-center mt-2">
-            <StarRating readOnly initialRating={recipe.rating} />
+          <p
+            className={`text-sm mb-4 line-clamp-2 ${
+              theme === "dark" ? "text-gray-300" : "text-gray-700"
+            }`}
+          >
+            {recipe.description}
+          </p>
+
+          <div className="absolute bottom-3 right-3 flex items-center text-xs gap-1">
+            <FaRegCommentDots className="w-3 h-3" />
+            <span
+              className={`group-hover:text-yellow-600 transition-colors duration-200 ${
+                theme === "dark" ? "text-gray-400" : "text-gray-600"
+              }`}
+            >
+              Reviews ({reviewCount})
+            </span>
           </div>
         </div>
 
         <button
           onClick={handleHeartClick}
-          className="absolute top-2 right-2 text-2xl p-2 rounded-full bg-black/30 hover:bg-black/50 transition-colors duration-200"
+          className="absolute top-3 right-3 text-2xl p-2 rounded-full bg-black/30 hover:bg-black/50 transition-colors duration-200"
           title={isFavorite ? "Remove from favorites" : "Add to favorites"}
         >
           <FaHeart

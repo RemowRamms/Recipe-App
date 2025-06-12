@@ -4,11 +4,11 @@ import "../Styles/Favourites.css";
 
 function Favorites({ 
   favoriteRecipes, 
-  recipes, 
   isLoggedIn, 
   theme,
   setShowLoginModal,
-  addToFavorites 
+  addToFavorites,
+  searchQuery 
 }) {
   if (!isLoggedIn) {
     return (
@@ -20,22 +20,23 @@ function Favorites({
       </div>
     );
   }
+  const savedRecipes = JSON.parse(localStorage.getItem('searchedRecipes') || '[]');
+  
 
-  // Get all available recipes (local + searched)
-  const allRecipes = [
-    ...recipes,
-    ...JSON.parse(localStorage.getItem('searchedRecipes') || '[]')
-  ].reduce((unique, item) => {
-    // Remove duplicates based on id
-    const exists = unique.find(recipe => recipe.id === item.id);
-    if (!exists) {
-      unique.push(item);
+  console.log('Saved Recipes:', savedRecipes);
+  console.log('Favorite Recipe IDs:', favoriteRecipes);
+  const favoritedRecipes = savedRecipes.filter(recipe => {
+    if (!recipe || !recipe.id) return false;
+    const isFavorited = favoriteRecipes.includes(recipe.id);
+    if (searchQuery) {
+      return isFavorited && (
+        recipe.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        recipe.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        recipe.category?.toLowerCase().includes(searchQuery.toLowerCase())
+      );
     }
-    return unique;
-  }, []);
-
-  // Filter recipes to get only the favorited ones
-  const favoritedRecipes = allRecipes.filter(recipe => favoriteRecipes.includes(recipe.id));
+    return isFavorited;
+  });
 
   if (favoritedRecipes.length > 0) {
     return (

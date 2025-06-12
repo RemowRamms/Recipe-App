@@ -1,4 +1,3 @@
-
 export  const fetchRecipesBySearch = async (query) => {
   const res = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${query}`);
   const data = await res.json();
@@ -37,7 +36,6 @@ export function transformMealPayloadToMockDataStructure(payload) {
     }
   }
 
-  
   const methodSteps =
     payload && payload.strInstructions
       ? payload.strInstructions
@@ -46,7 +44,6 @@ export function transformMealPayloadToMockDataStructure(payload) {
           .filter((step) => step !== "")
       : [];
 
- 
   let mealId = null;
   if (payload && payload.idMeal) {
     const parsedId = parseInt(payload.idMeal, 10);
@@ -54,10 +51,20 @@ export function transformMealPayloadToMockDataStructure(payload) {
       mealId = parsedId;
     }
   }
+  
+  let description = "";
+  if (payload.strCategory && payload.strArea) {
+    description = `A delicious ${payload.strArea}-style ${payload.strCategory.toLowerCase()} dish featuring ${payload.strMeal}, prepared with carefully selected ingredients and traditional cooking methods.`;
+  } else if (payload.strCategory) {
+    description = `A mouthwatering ${payload.strCategory.toLowerCase()} recipe featuring ${payload.strMeal}, perfect for any occasion.`;
+  } else {
+    description = `A delightful recipe featuring ${payload.strMeal}, made with love and attention to detail.`;
+  }
 
   return {
     id: mealId,
     title: (payload && payload.strMeal) || "Untitled Recipe",
+    description: description,
     image: (payload && payload.strMealThumb) || null, 
     method: methodSteps,
     ingredients: ingredients,
@@ -69,7 +76,5 @@ export function transformMealPayloadToMockDataStructure(payload) {
     season: null, 
     rating: 0.0, 
     servings: 0,
-
-    
   };
 }

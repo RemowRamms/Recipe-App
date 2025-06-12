@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import logo_light from "../assets/logo-black.png";
 import logo_dark from "../assets/logo-white.png";
 import Login from "./Login";
-import { CircleUserRound, Moon, Sun, Search, LogOut, User } from "lucide-react";
+import { CircleUserRound, Moon, Sun, Search, LogOut } from "lucide-react";
 import { fetchRecipesBySearch, transformMealPayloadToMockDataStructure } from '../api/fetchRecipes';
 
 const Navbar = ({ 
@@ -19,16 +19,53 @@ const Navbar = ({
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const searchInputRef = useRef(null);
   const location = useLocation();
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
-
   const onSearchChange = (e) => {
-    setSearchQuery(e.target.value);
+    const query = e.target.value;
+    setSearchQuery(query);
+
+    // Fetch recipes only if not in favorites page
+    if (location.pathname !== "/favourites") {
+      if (!query.trim()) {
+        setNewData([]);
+        return;
+      }
+
+      fetchRecipesBySearch(query).then((data) => {
+        const transformedData = data.map((meal) =>
+          transformMealPayloadToMockDataStructure(meal)
+        );
+        setNewData(transformedData);
+      });
+    }
+  };
+  
+  const handleCloseSearch = () => {
+    setIsSearchOpen(false);
+    setSearchQuery("");
   };
 
   const toggle_mode = () => {
     setTheme(theme === "light" ? "dark" : "light");
+  };  const handleSearchClick = () => {
+    setIsSearchOpen((prev) => {
+      if (!prev) {
+        // Navigate to recipes only if on home page
+        if (location.pathname === '/') {
+          navigate("/recipes");
+        }
+        setTimeout(() => {
+          searchInputRef.current?.focus();
+        }, 100);
+      } else {
+        setSearchQuery("");
+        setNewData([]);
+      }
+      return !prev;
+    });
   };
 
   const menuItems = [
@@ -51,7 +88,6 @@ const Navbar = ({
     fetchData();
   }, [searchQuery, setNewData]);
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     function handleClickOutside(event) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -62,9 +98,12 @@ const Navbar = ({
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-
-  const getUserInitial = () => {
-    return currentUser?.email?.[0]?.toUpperCase() || '?';
+  const getUserDisplayInfo = () => {
+    if (!currentUser) return { initial: '?', displayName: '' };
+    return {
+      initial: currentUser.displayName?.[0]?.toUpperCase() || currentUser.email?.[0]?.toUpperCase() || '?',
+      displayName: currentUser.displayName || currentUser.email.split('@')[0]
+    };
   };
 
   return (
@@ -109,34 +148,42 @@ const Navbar = ({
         })}
       </ul>
 
-      <div className="flex items-center gap-4">
-        <div className={`transition-all duration-300 ease-in-out overflow-hidden 
+      <div className="flex items-center gap-4">        <div className={`transition-all duration-300 ease-in-out overflow-hidden relative
           ${isSearchOpen ? "w-64 opacity-100 px-4" : "w-0 opacity-0 px-0"} 
           h-10 flex items-center border border-gray-400 rounded-full
           ${theme === "dark" ? "bg-white/20 border-gray-600" : "bg-white"}`}
         >
           <input
+            ref={searchInputRef}
             type="text"
             value={searchQuery}
             onChange={onSearchChange}
             placeholder="Search..."
-            className={`bg-transparent w-full outline-none text-sm ${theme === "dark" ? "text-white" : "text-black"} placeholder:text-gray-500`}
+            className={`bg-transparent w-full outline-none text-sm ${theme === "dark" ? "text-white" : "text-black"} placeholder:text-gray-500 pr-8`}
           />
+          {isSearchOpen && searchQuery && (
+            <button
+              onClick={() => {
+                setIsSearchOpen(false);
+                setSearchQuery("");
+              }}
+              className={`absolute right-2 p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors`}
+            >
+              <span className="text-xl leading-none">&times;</span>
+            </button>
+          )}
         </div>
 
         <button
           className="bg-none border-none cursor-pointer text-inherit flex items-center"
-          onClick={() => {
-            setIsSearchOpen((prev) => !prev);
-            navigate("/recipes");
-          }}
+          onClick={handleSearchClick}
           aria-label="Search"
         >
           <Search className="w-8 h-8" />
         </button>
 
         {isLoggedIn ? (
-          <div className="relative" ref={dropdownRef}>
+          <div className="relative" ref={dropdownRef}>            {/* User Avatar Button */}
             <button
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold 
@@ -144,7 +191,7 @@ const Navbar = ({
                 text-white hover:opacity-90 transition-opacity`}
               aria-label="User menu"
             >
-              {getUserInitial()}
+              {getUserDisplayInfo().initial}
             </button>
 
             {isDropdownOpen && (
@@ -154,7 +201,8 @@ const Navbar = ({
               >
                 <div className="px-4 py-2 text-sm border-b border-gray-200 dark:border-gray-700">
                   Signed in as<br />
-                  <span className="font-semibold">{currentUser?.email}</span>
+                  <span className="font-semibold">{getUserDisplayInfo().displayName}</span>
+                  <span className="block text-xs text-gray-500 dark:text-gray-400 mt-1">{currentUser?.email}</span>
                 </div>
                 <button
                   onClick={() => {

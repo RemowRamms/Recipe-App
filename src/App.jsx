@@ -1,7 +1,7 @@
 import './App.css';
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom"; 
-import recipes from "./data"; 
+// import recipes from "./data"; 
 import Navbar from "./components/Navbar"; 
 import RecipeDetails from "./components/RecipeDetails"; 
 import Home from "./components/Home"; 
@@ -11,10 +11,9 @@ import Favorites from './components/Pages/Favourites';
 import { fetchRecipesBySearch, transformMealPayloadToMockDataStructure } from './api/fetchRecipes';
 import { ClipLoader } from 'react-spinners';
 
-const App = () => {
-  const [newData, setNewData] = useState(() => {
-    const searchedRecipes = JSON.parse(localStorage.getItem('searchedRecipes') || '[]');
-    return searchedRecipes.length > 0 ? searchedRecipes : recipes;
+const App = () => {  const [newData, setNewData] = useState([]);
+  const [searchedRecipes, setSearchedRecipes] = useState(() => {
+    return JSON.parse(localStorage.getItem('searchedRecipes') || '[]');
   });
   const current_theme = localStorage.getItem('current_theme');
   const [theme, setTheme] = useState(current_theme ? current_theme : 'light');
@@ -26,7 +25,6 @@ const App = () => {
   const [currentUser, setCurrentUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Load user data on initial render
   useEffect(() => {
     setIsLoading(true);
     try {
@@ -40,7 +38,6 @@ const App = () => {
       }
     } catch (error) {
       console.error('Error loading user data:', error);
-      // Reset to default state on error
       setCurrentUser(null);
       setIsLoggedIn(false);
       setFavoriteRecipes([]);
@@ -49,8 +46,6 @@ const App = () => {
       setIsLoading(false);
     }
   }, []);
-
-  // Save user data when it changes
   useEffect(() => {
     if (currentUser && isLoggedIn) {
       try {
@@ -59,14 +54,17 @@ const App = () => {
           favorites: favoriteRecipes,
           ratings: recipeRatings
         };
+
         localStorage.setItem('currentUser', JSON.stringify(updatedUser));
         
-        // Update user in users array
         const users = JSON.parse(localStorage.getItem('users') || '[]');
         const updatedUsers = users.map(user => 
           user.email === currentUser.email ? updatedUser : user
         );
         localStorage.setItem('users', JSON.stringify(updatedUsers));
+
+        console.log('Saved user favorites:', favoriteRecipes);
+        console.log('Updated user:', updatedUser);
       } catch (error) {
         console.error('Error saving user data:', error);
       }
@@ -91,43 +89,70 @@ const App = () => {
     setFavoriteRecipes([]);
     setRecipeRatings({});
     localStorage.removeItem('currentUser');
-  };
-
-  const handleSearchChange = (event) => {
+  };  const handleSearchChange = (event) => {
     const query = event.target.value.toLowerCase();  
     setSearchQuery(query);
+    
+    if (!query.trim()) {
+      setNewData([]);
+      return;
+    }
+
     fetchRecipesBySearch(query).then(data => {
+      
       const transformedData = data.map(meal => 
         transformMealPayloadToMockDataStructure(meal)
       );
-      setNewData(transformedData);
       
-      // Store searched recipes in localStorage
+      
       const existingSearchedRecipes = JSON.parse(localStorage.getItem('searchedRecipes') || '[]');
-      const uniqueRecipes = [...existingSearchedRecipes];
       
-      transformedData.forEach(recipe => {
-        if (!uniqueRecipes.some(existing => existing.id === recipe.id)) {
-          uniqueRecipes.push(recipe);
+      const allRecipes = [...existingSearchedRecipes, ...transformedData].reduce((unique, recipe) => {
+        if (!recipe) return unique;
+        const exists = unique.some(item => item.id === recipe.id);
+        if (!exists) {
+          unique.push(recipe);
         }
-      });
+        return unique;
+      }, []);
+
       
-      localStorage.setItem('searchedRecipes', JSON.stringify(uniqueRecipes));
+      localStorage.setItem('searchedRecipes', JSON.stringify(allRecipes));
+      
+      const filteredResults = allRecipes.filter(recipe => 
+        recipe.title.toLowerCase().includes(query.toLowerCase()) ||
+        recipe.description?.toLowerCase().includes(query.toLowerCase()) ||
+        recipe.category?.toLowerCase().includes(query.toLowerCase())
+      );
+      
+      setNewData(filteredResults);
     });
   };
-
   const addToFavorites = (recipeId) => {
     if (!isLoggedIn) {
       setShowLoginModal(true);
       return;
     }
 
-    setFavoriteRecipes(prev => {
-      const newFavorites = prev.includes(recipeId)
-        ? prev.filter(id => id !== recipeId)
-        : [...prev, recipeId];
-      return newFavorites;
-    });
+  
+    const recipeToSave = newData.find(recipe => recipe.id === recipeId);
+    
+    if (recipeToSave) {
+     
+      const savedRecipes = JSON.parse(localStorage.getItem('searchedRecipes') || '[]');
+    
+      if (!savedRecipes.some(recipe => recipe.id === recipeId)) {
+        savedRecipes.push(recipeToSave);
+        localStorage.setItem('searchedRecipes', JSON.stringify(savedRecipes));
+      }
+      
+      setFavoriteRecipes(prev => {
+        const newFavorites = prev.includes(recipeId)
+          ? prev.filter(id => id !== recipeId)
+          : [...prev, recipeId];
+        return newFavorites;
+      });
+    }
   };
 
   const handleRate = (recipeId, rating) => {
@@ -186,24 +211,24 @@ const App = () => {
                       isLoggedIn={isLoggedIn}
                       setShowLoginModal={setShowLoginModal}
                       addToFavorites={addToFavorites}
-                      newData={newData.length > 0 ? newData : recipes}
+                      newData={newData}
                       favoriteRecipes={favoriteRecipes}
                     />
-                  } 
+                  }
                 />
                 <Route 
                   path="/recipe/:id" 
                   element={
                     <RecipeDetails 
+                      theme={theme}
                       isLoggedIn={isLoggedIn}
                       setShowLoginModal={setShowLoginModal}
                       handleRate={handleRate}
                       currentRating={recipeRatings}
+                      currentUser={currentUser}
                     />
                   }
-                />
-                <Route
-                  path="/favourites"
+                />                <Route path="/favourites"
                   element={
                     <Favorites
                       theme={theme}
@@ -211,7 +236,7 @@ const App = () => {
                       setShowLoginModal={setShowLoginModal}
                       addToFavorites={addToFavorites}
                       favoriteRecipes={favoriteRecipes}
-                      recipes={newData.length > 0 ? newData : recipes}
+                      searchQuery={searchQuery}
                     />
                   }
                 />

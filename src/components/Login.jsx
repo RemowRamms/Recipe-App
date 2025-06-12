@@ -4,6 +4,7 @@ import { Eye, EyeOff } from "lucide-react";
 
 const Login = ({ onLogin, theme, setIsLoginVisible }) => {
   const [email, setEmail] = useState("");
+  const [displayName, setDisplayName] = useState("");
   const [password, setPassword] = useState("");
   const [isSignUp, setIsSignUp] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -22,34 +23,29 @@ const Login = ({ onLogin, theme, setIsLoginVisible }) => {
 
     try {
       if (isSignUp) {
-        // Check if user already exists
         const existingUsers = JSON.parse(localStorage.getItem("users") || "[]");
         if (existingUsers.find((user) => user.email === email)) {
           setErrorMessage("User already exists. Please login instead.");
           return;
         }
 
-        // Hash password before storing
         const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(password, salt);
-
-        // Create new user
+        const hashedPassword = await bcrypt.hash(password, salt);        // Create new user
         const newUser = {
           email,
+          displayName: displayName || email.split('@')[0], // Use display name if provided, otherwise use email username
           password: hashedPassword,
           favorites: [],
           ratings: {},
           createdAt: new Date().toISOString(),
         };
 
-        // Save to localStorage
         localStorage.setItem(
           "users",
           JSON.stringify([...existingUsers, newUser])
         );
         onLogin(newUser);
       } else {
-        // Login
         const users = JSON.parse(localStorage.getItem("users") || "[]");
         const user = users.find((u) => u.email === email);
 
@@ -82,11 +78,6 @@ const Login = ({ onLogin, theme, setIsLoginVisible }) => {
         return;
       }
 
-      // In a real app, you would:
-      // 1. Generate a password reset token
-      // 2. Send an email with reset link
-      // 3. Store the token with an expiration time
-      // For demo purposes, we'll just show a success message
       setResetSuccess(true);
       setErrorMessage("");
     } catch (error) {
@@ -191,8 +182,7 @@ const Login = ({ onLogin, theme, setIsLoginVisible }) => {
         </h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-sm mb-1">Email</label>
+          <div>            <label className="block text-sm mb-1">Email</label>
             <input
               type="email"
               className={`w-full px-4 py-2 rounded-md text-sm border focus:outline-none focus:ring-2 transition
@@ -205,6 +195,22 @@ const Login = ({ onLogin, theme, setIsLoginVisible }) => {
               required
             />
           </div>
+
+          {isSignUp && (
+            <div>
+              <label className="block text-sm mb-1">Display Name</label>
+              <input
+                type="text"
+                className={`w-full px-4 py-2 rounded-md text-sm border focus:outline-none focus:ring-2 transition
+                  ${theme === "dark"
+                    ? "bg-[#444] border-[#555] text-white focus:ring-yellow-500"
+                    : "bg-gray-100 border-gray-300 text-black focus:ring-yellow-500"}`}
+                value={displayName}
+                onChange={(e) => setDisplayName(e.target.value)}
+                placeholder="Enter your display name"
+              />
+            </div>
+          )}
 
           <div>
             <label className="block text-sm mb-1">Password</label>
