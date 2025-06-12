@@ -22,15 +22,19 @@ const Navbar = ({
   const searchInputRef = useRef(null);
   const location = useLocation();
   const navigate = useNavigate();
-  const [searchQuery, setSearchQuery] = useState("");
-  const onSearchChange = (e) => {
+  const [searchQuery, setSearchQuery] = useState("");  const onSearchChange = (e) => {
     const query = e.target.value;
     setSearchQuery(query);
 
-    // Fetch recipes only if not in favorites page
+    if (window.setCurrentPage) {
+      window.setCurrentPage(1);
+    }
+
+    
     if (location.pathname !== "/favourites") {
       if (!query.trim()) {
-        setNewData([]);
+        const savedRecipes = JSON.parse(localStorage.getItem('searchedRecipes') || '[]');
+        setNewData(savedRecipes);
         return;
       }
 
@@ -42,8 +46,7 @@ const Navbar = ({
       });
     }
   };
-  
-  const handleCloseSearch = () => {
+    const handleCloseSearch = () => {
     setIsSearchOpen(false);
     setSearchQuery("");
   };
@@ -53,7 +56,6 @@ const Navbar = ({
   };  const handleSearchClick = () => {
     setIsSearchOpen((prev) => {
       if (!prev) {
-        // Navigate to recipes only if on home page
         if (location.pathname === '/') {
           navigate("/recipes");
         }
@@ -61,8 +63,7 @@ const Navbar = ({
           searchInputRef.current?.focus();
         }, 100);
       } else {
-        setSearchQuery("");
-        setNewData([]);
+        handleCloseSearch();
       }
       return !prev;
     });
@@ -161,12 +162,8 @@ const Navbar = ({
             placeholder="Search..."
             className={`bg-transparent w-full outline-none text-sm ${theme === "dark" ? "text-white" : "text-black"} placeholder:text-gray-500 pr-8`}
           />
-          {isSearchOpen && searchQuery && (
-            <button
-              onClick={() => {
-                setIsSearchOpen(false);
-                setSearchQuery("");
-              }}
+          {isSearchOpen && searchQuery && (            <button
+              onClick={handleCloseSearch}
               className={`absolute right-2 p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors`}
             >
               <span className="text-xl leading-none">&times;</span>
@@ -183,7 +180,7 @@ const Navbar = ({
         </button>
 
         {isLoggedIn ? (
-          <div className="relative" ref={dropdownRef}>            {/* User Avatar Button */}
+          <div className="relative" ref={dropdownRef}>         
             <button
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold 

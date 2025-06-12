@@ -11,9 +11,19 @@ export const AllRecipes = ({
   addComment,
   newData,
   favoriteRecipes,
-}) => {
-  const [currentPage, setCurrentPage] = useState(1);
+}) => {  const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    window.setCurrentPage = setCurrentPage;
+    return () => {
+      delete window.setCurrentPage;
+    };
+  }, []);
+
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [newData]);
 
   const validRecipes = newData.filter((recipe) => recipe && recipe.id);
 

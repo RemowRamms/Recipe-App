@@ -11,10 +11,24 @@ import Favorites from './components/Pages/Favourites';
 import { fetchRecipesBySearch, transformMealPayloadToMockDataStructure } from './api/fetchRecipes';
 import { ClipLoader } from 'react-spinners';
 
-const App = () => {  const [newData, setNewData] = useState([]);
+const App = () => {  
   const [searchedRecipes, setSearchedRecipes] = useState(() => {
     return JSON.parse(localStorage.getItem('searchedRecipes') || '[]');
   });
+  const [newData, setNewData] = useState([]); 
+  useEffect(() => {
+    const initialSearch = async () => {
+      try {
+        const data = await fetchRecipesBySearch('');
+        const transformedData = data.map(meal => transformMealPayloadToMockDataStructure(meal));
+        setNewData(transformedData);
+      } catch (error) {
+        console.error('Error loading initial recipes:', error);
+        setNewData(searchedRecipes);
+      }
+    };
+    initialSearch();
+  }, []);
   const current_theme = localStorage.getItem('current_theme');
   const [theme, setTheme] = useState(current_theme ? current_theme : 'light');
   const [searchQuery, setSearchQuery] = useState(""); 
@@ -93,8 +107,10 @@ const App = () => {  const [newData, setNewData] = useState([]);
     const query = event.target.value.toLowerCase();  
     setSearchQuery(query);
     
-    if (!query.trim()) {
-      setNewData([]);
+    if (window.setCurrentPage) {
+      window.setCurrentPage(1);
+    }
+  if (!query.trim()) {
       return;
     }
 

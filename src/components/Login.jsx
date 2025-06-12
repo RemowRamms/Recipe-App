@@ -30,10 +30,10 @@ const Login = ({ onLogin, theme, setIsLoginVisible }) => {
         }
 
         const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(password, salt);        // Create new user
+        const hashedPassword = await bcrypt.hash(password, salt);       
         const newUser = {
           email,
-          displayName: displayName || email.split('@')[0], // Use display name if provided, otherwise use email username
+          displayName: displayName || email.split('@')[0], 
           password: hashedPassword,
           favorites: [],
           ratings: {},
