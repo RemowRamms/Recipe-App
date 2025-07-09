@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import logo_light from "../assets/logo-black.png";
 import logo_dark from "../assets/logo-white.png";
@@ -13,60 +13,28 @@ const Navbar = ({
   isLoggedIn,
   onLogout,
   currentUser,
-  onLogin
+  onLogin,
+  isSearchOpen,
+  onSearchToggle,
+  searchQuery,
+  onSearchChange
 }) => {
-  const [isLoginVisible, setIsLoginVisible] = useState(false);
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isLoginVisible, setIsLoginVisible] = React.useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = React.useState(false);
   const dropdownRef = useRef(null);
   const searchInputRef = useRef(null);
   const location = useLocation();
   const navigate = useNavigate();
-  const [searchQuery, setSearchQuery] = useState("");  const onSearchChange = (e) => {
-    const query = e.target.value;
-    setSearchQuery(query);
-
-    if (window.setCurrentPage) {
-      window.setCurrentPage(1);
-    }
-
-    
-    if (location.pathname !== "/favourites") {
-      if (!query.trim()) {
-        const savedRecipes = JSON.parse(localStorage.getItem('searchedRecipes') || '[]');
-        setNewData(savedRecipes);
-        return;
-      }
-
-      fetchRecipesBySearch(query).then((data) => {
-        const transformedData = data.map((meal) =>
-          transformMealPayloadToMockDataStructure(meal)
-        );
-        setNewData(transformedData);
-      });
-    }
-  };
-    const handleCloseSearch = () => {
-    setIsSearchOpen(false);
-    setSearchQuery("");
-  };
 
   const toggle_mode = () => {
     setTheme(theme === "light" ? "dark" : "light");
-  };  const handleSearchClick = () => {
-    setIsSearchOpen((prev) => {
-      if (!prev) {
-        if (location.pathname === '/') {
-          navigate("/recipes");
-        }
-        setTimeout(() => {
-          searchInputRef.current?.focus();
-        }, 100);
-      } else {
-        handleCloseSearch();
-      }
-      return !prev;
-    });
+  };  
+
+  const handleSearchClick = () => {
+    onSearchToggle();
+    setTimeout(() => {
+      searchInputRef.current?.focus();
+    }, 100);
   };
 
   const menuItems = [
@@ -162,8 +130,9 @@ const Navbar = ({
             placeholder="Search..."
             className={`bg-transparent w-full outline-none text-sm ${theme === "dark" ? "text-white" : "text-black"} placeholder:text-gray-500 pr-8`}
           />
-          {isSearchOpen && searchQuery && (            <button
-              onClick={handleCloseSearch}
+          {isSearchOpen && searchQuery && (
+            <button
+              onClick={onSearchToggle}
               className={`absolute right-2 p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors`}
             >
               <span className="text-xl leading-none">&times;</span>

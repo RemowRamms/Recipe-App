@@ -1,6 +1,6 @@
 import './App.css';
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom"; 
+import { Route, Routes, useNavigate } from "react-router-dom"; 
 // import recipes from "./data"; 
 import Navbar from "./components/Navbar"; 
 import RecipeDetails from "./components/RecipeDetails"; 
@@ -38,6 +38,10 @@ const App = () => {
   const [recipeRatings, setRecipeRatings] = useState({});
   const [currentUser, setCurrentUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  // Add state to control search toggle
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  // Get navigate from react-router
+  const navigate = useNavigate();
 
   useEffect(() => {
     setIsLoading(true);
@@ -183,13 +187,28 @@ const App = () => {
     }));
   };
 
+  // Handler for toggling search
+  const handleSearchToggle = () => {
+    setIsSearchOpen((prev) => {
+      if (!prev) {
+        // Only navigate when opening the search
+        if (window.location.pathname === "/") {
+          navigate("/recipes");
+        }
+        return true;
+      } else {
+        // Only close the search, do not navigate
+        return false;
+      }
+    });
+  };
+
   if (isLoading) {
     return <div className={`min-h-screen ${theme === 'dark' ? 'bg-[#121212] text-white' : 'bg-white text-black'}`}>Loading...</div>;
   }
 
   return (
-    <Router> 
-      <div className={`min-h-screen ${theme === 'dark' ? 'bg-[#121212] text-white' : 'bg-white text-black'}`}>
+      <div className={`min-h-screen w-full ${theme === 'dark' ? 'bg-[#121212] text-white' : 'bg-white text-black'}`}>
         {isLoading ? (
           <div className="flex justify-center items-center min-h-screen">
             <ClipLoader color="#facc15" size={80} />
@@ -206,6 +225,8 @@ const App = () => {
               currentUser={currentUser}
               onLogout={handleLogout}
               onLogin={handleLogin}
+              isSearchOpen={isSearchOpen}
+              onSearchToggle={handleSearchToggle}
             />
 
             {showLoginModal && (
@@ -216,7 +237,7 @@ const App = () => {
               />
             )}
 
-            <div className="container mx-auto px-4">
+            <div className="w-full max-w-none px-0">
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route 
@@ -261,7 +282,6 @@ const App = () => {
           </>
         )}
       </div>
-    </Router>
   );
 }
 
