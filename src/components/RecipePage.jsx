@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import recipes from "../data";
 import RecipeList from "./RecipeList";
-import {Pagination} from "./Pagination2"; 
+import {Pagination} from "./Pagination2";
+import SearchBar from "./SearchBar"; 
 
 const itemsPerPage = 6; 
 
@@ -36,7 +37,7 @@ const RecipePage = () => {
 
   return (
     <div className="min-h-screen py-8 bg-lightBlue dark:bg-darkBlue">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-[7%]">
         <h1 className="text-4xl font-bold text-darkBlue dark:text-lightBlue mb-6 text-center">
           Explore Recipes
         </h1>

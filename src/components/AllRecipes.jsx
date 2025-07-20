@@ -42,7 +42,7 @@ export const AllRecipes = ({
   }, [validRecipes.length]);
 
   return (
-    <div className="container mx-auto py-8">
+    <div className="container mx-auto px-[7%] py-8">
       {isLoading ? (
         <div className="flex justify-center items-center min-h-[300px]">
           <ClipLoader color="#facc15" size={80} />

@@ -40,7 +40,7 @@ function Favorites({
 
   if (favoritedRecipes.length > 0) {
     return (
-      <div className="container mx-auto py-8">
+      <div className="container mx-auto px-[7%] py-8">
         <h2 className="mb-8 text-center text-4xl font-bold">
           Your Favorites
         </h2>

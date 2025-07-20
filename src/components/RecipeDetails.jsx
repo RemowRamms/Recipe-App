@@ -26,12 +26,6 @@ const RecipeDetails = ({ theme, isLoggedIn, setShowLoginModal, currentUser }) =>
     return total / reviewList.length;
   };
 
-  const getUserDisplayName = (email) => {
-    const users = JSON.parse(localStorage.getItem("users") || "[]");
-    const user = users.find(u => u.email === email);
-    return user?.displayName || email.split('@')[0];
-  };
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -146,7 +140,7 @@ const RecipeDetails = ({ theme, isLoggedIn, setShowLoginModal, currentUser }) =>
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-[7%] py-8">
       {error ? (
         <div className="text-red-500 text-center">{error}</div>
       ) : !recipe ? (
@@ -334,7 +328,7 @@ const RecipeDetails = ({ theme, isLoggedIn, setShowLoginModal, currentUser }) =>
                         </button>
                       </div>
                       {review.text && (
-                        <p className={`mt-2 ${theme === "dark" ? "text-gray-300" : "text-gray-900"}`}>{review.text}</p>
+                        <div className={`py-8 px-[7%] ${theme === "dark" ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-900"}`}>{review.text}</div>
                       )}
                     </div>
                   </div>
