@@ -239,7 +239,7 @@ const App = () => {
 
             <div className="w-full max-w-none px-0">
               <Routes>
-                <Route path="/" element={<Home />} />
+                <Route path="/" element={<Home theme={theme} />} />
                 <Route 
                   path="/recipes" 
                   element={

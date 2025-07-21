@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import ClipLoader from "react-spinners/ClipLoader";
 import StarRating from './Ratings';
 import { formatDistanceToNow } from 'date-fns';
-import { MessageSquare, Send, ThumbsUp } from 'lucide-react';
+import { MessageSquare, Send, ThumbsUp, Printer } from 'lucide-react';
 
 import {
   searchById,
@@ -131,6 +131,10 @@ const RecipeDetails = ({ theme, isLoggedIn, setShowLoginModal, currentUser }) =>
     });
   };
 
+  const handlePrint = () => {
+    window.print();
+  };
+
   if (!recipe) {
     return (
       <div className="flex justify-center items-center min-h-[300px]">
@@ -149,82 +153,93 @@ const RecipeDetails = ({ theme, isLoggedIn, setShowLoginModal, currentUser }) =>
         </div>
       ) : (
         <>
-          <div className="flex flex-wrap justify-center">
-            <div className="w-full md:w-1/3 p-4">
-              <img
-                src={recipe.image}
-                alt={`Image of ${recipe.title}`}
-                className="w-full h-auto object-cover rounded-lg shadow-lg mb-6"
-              />
-              <div className="mt-4 text-center">
-                <p className="text-sm text-gray-500">
-                  {reviews.length} {reviews.length === 1 ? 'Review' : 'Reviews'}
-                </p>
+          <div className="recipe-print-container">
+            <div className="flex flex-wrap justify-center">
+              <div className="w-full md:w-1/3 p-4">
+                <img
+                  src={recipe.image}
+                  alt={`Image of ${recipe.title}`}
+                  className="w-full h-auto object-cover rounded-lg shadow-lg mb-6"
+                />
               </div>
-            </div>
 
-            <div className="w-full md:w-2/3 p-4">
-              <h1 className={`text-3xl font-bold mb-6 border-b-4 border-yellow-400 inline-block pb-1
-                ${theme === "dark" ? "text-white" : "text-gray-900"}`}>
-                {recipe.title}
-              </h1>
+              <div className="w-full md:w-2/3 p-4">
+                <div className="flex items-center justify-between mb-6">
+                  <h1 className={`text-3xl font-bold border-b-4 border-yellow-400 inline-block pb-1
+                    ${theme === "dark" ? "text-white" : "text-gray-900"}`}>
+                    {recipe.title}
+                  </h1>
+                  <button 
+                    onClick={handlePrint}
+                    className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors print-button
+                      ${theme === "dark" 
+                        ? "bg-gray-700 hover:bg-gray-600 text-white"
+                        : "bg-gray-200 hover:bg-gray-300 text-gray-800"}`}
+                    aria-label="Print recipe"
+                  >
+                    <Printer size={20} />
+                    <span>Print</span>
+                  </button>
+                </div>
 
-              <div className="flex">
-                <div className="flex w-full h-100 overflow-y-auto">                  <div className="w-1/2 pr-2">
-                    <h2 className={`text-xl font-semibold mb-3
-                      ${theme === "dark" ? "text-white" : "text-gray-900"}`}>
-                      Ingredients
-                    </h2>
-                    <div className="space-y-2">
-                      {recipe.ingredients.map((ingredient, index) => (
-                        <div key={index} className={`flex items-start gap-2 text-lg
-                          ${theme === "dark" ? "text-gray-300" : "text-gray-900"}`}>
-                          <span className="text-yellow-500 mt-1">•</span>
-                          <span>{ingredient}</span>
-                        </div>
-                      ))}
+                <div className="flex">
+                  <div className="flex w-full h-100 overflow-y-auto">
+                    <div className="w-1/2 pr-2">
+                      <h2 className={`text-xl font-semibold mb-3
+                        ${theme === "dark" ? "text-white" : "text-gray-900"}`}>
+                        Ingredients
+                      </h2>
+                      <div className="space-y-2">
+                        {recipe.ingredients.map((ingredient, index) => (
+                          <div key={index} className={`flex items-start gap-2 text-lg
+                            ${theme === "dark" ? "text-gray-300" : "text-gray-900"}`}>
+                            <span className="text-yellow-500 mt-1">•</span>
+                            <span>{ingredient}</span>
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                  </div>
 
-                  <div className="w-1/2 pl-2">
-                    {recipe.method && Array.isArray(recipe.method) ? (
-                      <>
-                        <h2 className={`text-xl font-semibold mb-2
-                          ${theme === "dark" ? "text-white" : "text-gray-900"}`}>
-                          Instructions
-                        </h2>
-                        <div className="space-y-3">
-                          {recipe.method.map((step, index) => (
-                            <div key={index} className="flex items-start gap-3">
-                              <div className="flex-shrink-0 pt-2.5">
-                                <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
+                    <div className="w-1/2 pl-2">
+                      {recipe.method && Array.isArray(recipe.method) ? (
+                        <>
+                          <h2 className={`text-xl font-semibold mb-2
+                            ${theme === "dark" ? "text-white" : "text-gray-900"}`}>
+                            Instructions
+                          </h2>
+                          <div className="space-y-3">
+                            {recipe.method.map((step, index) => (
+                              <div key={index} className="flex items-start gap-3">
+                                <div className="flex-shrink-0 pt-2.5">
+                                  <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
+                                </div>
+                                <p className={`flex-grow text-lg ${theme === "dark" ? "text-gray-300" : "text-gray-700"}`}>
+                                  {step.replace(/^\d+\.\s*/, '')}
+                                </p>
                               </div>
-                              <p className={`flex-grow text-lg ${theme === "dark" ? "text-gray-300" : "text-gray-700"}`}>
-                                {step.replace(/^\d+\.\s*/, '')}
-                              </p>
-                            </div>
-                          ))}
-                        </div>
-                      </>
-                    ) : recipe.method ? (
-                      <>
-                        <h2 className={`text-xl font-semibold mb-2
-                          ${theme === "dark" ? "text-white" : "text-gray-900"}`}>
-                          Method
-                        </h2>
-                        <p className={`text-lg
-                          ${theme === "dark" ? "text-gray-300" : "text-gray-700"}`}>
-                          {recipe.method}
-                        </p>
-                      </>
-                    ) : null}
+                            ))}
+                          </div>
+                        </>
+                      ) : recipe.method ? (
+                        <>
+                          <h2 className={`text-xl font-semibold mb-2
+                            ${theme === "dark" ? "text-white" : "text-gray-900"}`}>
+                            Method
+                          </h2>
+                          <p className={`text-lg
+                            ${theme === "dark" ? "text-gray-300" : "text-gray-700"}`}>
+                            {recipe.method}
+                          </p>
+                        </>
+                      ) : null}
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="mt-12 max-w-4xl mx-auto">
+          <div className="mt-12 max-w-4xl mx-auto reviews-section">
             <div className="flex items-center gap-2 mb-6">
               <MessageSquare className={theme === "dark" ? "text-white" : "text-gray-900"} />
               <h2 className={`text-2xl font-bold ${theme === "dark" ? "text-white" : "text-gray-900"}`}>
@@ -289,7 +304,6 @@ const RecipeDetails = ({ theme, isLoggedIn, setShowLoginModal, currentUser }) =>
               </div>
             )}
 
-            
             <div className="space-y-6">
               {reviews.map((review) => (
                 <div 
@@ -315,7 +329,8 @@ const RecipeDetails = ({ theme, isLoggedIn, setShowLoginModal, currentUser }) =>
                                 noOfStars={5}
                                 theme={theme}
                               />
-                            )}                            <p className={`text-sm ${theme === "dark" ? "text-gray-400" : "text-gray-600"}`}>
+                            )}
+                            <p className={`text-sm ${theme === "dark" ? "text-gray-400" : "text-gray-600"}`}>
                               {formatDistanceToNow(new Date(review.createdAt), { addSuffix: true })}
                             </p>
                           </div>
