@@ -193,14 +193,18 @@ const RecipeDetails = ({ theme, isLoggedIn, setShowLoginModal, currentUser }) =>
                           ${theme === "dark" ? "text-white" : "text-gray-900"}`}>
                           Instructions
                         </h2>
-                        <ol className="list-decimal pl-5 mb-4 list-outside">
+                        <div className="space-y-3">
                           {recipe.method.map((step, index) => (
-                            <li key={index} className={`text-lg
-                              ${theme === "dark" ? "text-gray-300" : "text-gray-700"}`}>
-                              {step}
-                            </li>
+                            <div key={index} className="flex items-start gap-3">
+                              <div className="flex-shrink-0 pt-2.5">
+                                <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
+                              </div>
+                              <p className={`flex-grow text-lg ${theme === "dark" ? "text-gray-300" : "text-gray-700"}`}>
+                                {step.replace(/^\d+\.\s*/, '')}
+                              </p>
+                            </div>
                           ))}
-                        </ol>
+                        </div>
                       </>
                     ) : recipe.method ? (
                       <>
