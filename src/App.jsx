@@ -1,7 +1,7 @@
 import './App.css';
 import React, { useState, useEffect } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom"; 
-// import recipes from "./data"; 
+
 import Navbar from "./components/Navbar"; 
 import RecipeDetails from "./components/RecipeDetails"; 
 import Home from "./components/Home"; 
@@ -38,9 +38,9 @@ const App = () => {
   const [recipeRatings, setRecipeRatings] = useState({});
   const [currentUser, setCurrentUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  // Add state to control search toggle
+
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  // Get navigate from react-router
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -187,17 +187,17 @@ const App = () => {
     }));
   };
 
-  // Handler for toggling search
+
   const handleSearchToggle = () => {
     setIsSearchOpen((prev) => {
       if (!prev) {
-        // Only navigate when opening the search
+
         if (window.location.pathname === "/") {
           navigate("/recipes");
         }
         return true;
       } else {
-        // Only close the search, do not navigate
+
         return false;
       }
     });

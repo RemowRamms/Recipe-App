@@ -22,7 +22,7 @@ const RecipePage = () => {
     setCurrentPage(1);
   };
 
-  // Pagination Calculation
+
   const totalItems = filteredRecipes.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
@@ -44,7 +44,7 @@ const RecipePage = () => {
         <SearchBar searchQuery={searchQuery} onSearchChange={handleSearchChange} />
         <RecipeList recipes={recipesToDisplay} /> 
 
-        {/* Pagination Component */}
+
         {totalPages > 1 && (  
           <Pagination
             currentPage={currentPage}

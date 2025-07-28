@@ -18,6 +18,20 @@ export  const searchById= async (query) => {
   
 };
 
+export const fetchMealOfTheDay = async () => {
+  try {
+    const res = await fetch('https://www.themealdb.com/api/json/v1/1/random.php');
+    const data = await res.json();
+    
+    console.log('Meal of the Day:', data);
+    
+    return data.meals && data.meals.length > 0 ? data.meals[0] : null;
+  } catch (error) {
+    console.error('Error fetching meal of the day:', error);
+    return null;
+  }
+};
+
 export function transformMealPayloadToMockDataStructure(payload) {
   const ingredients = [];
   if (payload) {
