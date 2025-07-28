@@ -63,7 +63,7 @@ const Home = ({ theme }) => {
 
             <Link
               to="/recipes"
-              className="inline-block bg-yellow-500 text-white px-4 sm:px-6 md:px-8 py-2 sm:py-3 md:py-4 rounded-lg text-sm sm:text-base md:text-lg font-semibold shadow-lg hover:bg-yellow-600 transition-all transform hover:scale-105 view-recipes-btn"
+              className="inline-flex items-center bg-gradient-to-r from-yellow-500 to-orange-500 text-white px-6 py-3 rounded-lg font-semibold shadow-lg hover:from-yellow-600 hover:to-orange-600 transform hover:-translate-y-1 transition-all duration-200"
             >
               SEE THE RECIPES
             </Link>
@@ -75,7 +75,7 @@ const Home = ({ theme }) => {
       <div className="py-16">
         <div className="text-center mb-12">
           <h2 className={`text-4xl font-bold mb-4 ${theme === 'dark' ? 'text-white' : 'text-gray-800'}`}>
-            🌟 Meal of the Day
+             Meal of the Day
           </h2>
           <p className={`text-lg ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
             Fresh inspiration for today's cooking adventure
@@ -98,7 +98,7 @@ const Home = ({ theme }) => {
         ) : mealOfTheDay ? (
           <div className={`max-w-4xl mx-auto rounded-2xl overflow-hidden shadow-2xl transform hover:scale-[1.02] transition-all duration-300 ${
             theme === 'dark' 
-              ? 'bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700' 
+              ? 'bg-[#1E1E1E] text-white border-gray-800 shadow-md shadow-black/30' 
               : 'bg-gradient-to-br from-white to-gray-50 border border-gray-200'
           }`}>
             <div className="md:flex">
@@ -185,7 +185,7 @@ const Home = ({ theme }) => {
 
       <div className="py-24">
         <div className="text-center mb-16">
-          <h2 className={`text-4xl font-bold ${theme === 'dark' ? 'text-white' : 'text-gray-800'}`}>Your Culinary Adventure Starts Here</h2>
+          <h2 className={`text-4xl font-bold ${theme === 'dark' ? 'text-white' : 'text-gray-800'}`}>Culinary Adventure</h2>
           <p className={`text-lg mt-3 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>Everything you need to make your next meal a success.</p>
         </div>
         <div className="grid md:grid-cols-3 gap-10">
@@ -223,7 +223,7 @@ const Home = ({ theme }) => {
         <div className="text-center mt-20">
           <Link
             to="/recipes"
-            className="bg-yellow-500 text-white px-10 py-4 rounded-lg text-xl font-semibold shadow-lg hover:bg-yellow-600 transition-all"
+            className="inline-flex items-center bg-gradient-to-r from-yellow-500 to-orange-500 text-white px-6 py-3 rounded-lg font-semibold shadow-lg hover:from-yellow-600 hover:to-orange-600 transform hover:-translate-y-1 transition-all duration-200"
           >
             Explore Recipes »
           </Link>
