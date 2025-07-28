@@ -84,7 +84,7 @@ const Navbar = ({
         <div className="flex items-center justify-between h-16">
 
           <Link to="/" className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
-            <img
+               <img
               src={theme === "light" ? logo_light : logo_dark}
               alt="Logo"
               className="h-8 sm:h-10 w-auto"
