@@ -19,7 +19,7 @@ const App = () => {
   useEffect(() => {
     const initialSearch = async () => {
       try {
-        const data = await fetchRecipesBySearch('');
+        const data = await fetchRecipesBySearch('cake');
         const transformedData = data.map(meal => transformMealPayloadToMockDataStructure(meal));
         setNewData(transformedData);
       } catch (error) {
