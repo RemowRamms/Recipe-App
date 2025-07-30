@@ -8,7 +8,8 @@ function Favorites({
   theme,
   setShowLoginModal,
   addToFavorites,
-  searchQuery 
+  searchQuery,
+  setSearchQuery 
 }) {
   if (!isLoggedIn) {
     return (
@@ -21,7 +22,7 @@ function Favorites({
     );
   }
   const savedRecipes = JSON.parse(localStorage.getItem('searchedRecipes') || '[]');
-  
+  setSearchQuery("");
 
   console.log('Saved Recipes:', savedRecipes);
   console.log('Favorite Recipe IDs:', favoriteRecipes);

@@ -45,7 +45,7 @@ const Navbar = ({
 
   useEffect(() => {
     const fetchData = async () => {
-      fetchRecipesBySearch(searchQuery).then((data) => {
+      fetchRecipesBySearch(searchQuery || 'cake').then((data) => {
         console.log(data);
         const transformedData = data.map((meal) =>
           transformMealPayloadToMockDataStructure(meal)

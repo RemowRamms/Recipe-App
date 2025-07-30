@@ -24,7 +24,7 @@ const App = () => {
         setNewData(transformedData);
       } catch (error) {
         console.error('Error loading initial recipes:', error);
-        setNewData(searchedRecipes);
+        // setNewData(searchedRecipes);
       }
     };
     initialSearch();
@@ -197,7 +197,7 @@ const App = () => {
         }
         return true;
       } else {
-
+        setSearchQuery("");
         return false;
       }
     });
@@ -274,6 +274,7 @@ const App = () => {
                       addToFavorites={addToFavorites}
                       favoriteRecipes={favoriteRecipes}
                       searchQuery={searchQuery}
+                      setSearchQuery={setSearchQuery}
                     />
                   }
                 />
