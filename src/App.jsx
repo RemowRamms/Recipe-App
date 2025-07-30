@@ -194,24 +194,22 @@ const App = () => {
       return;
     }
 
-  
+    setFavoriteRecipes(prev => {
+      const newFavorites = prev.includes(recipeId)
+        ? prev.filter(id => id !== recipeId)
+        : [...prev, recipeId];
+      return newFavorites;
+    });
+
     const recipeToSave = newData.find(recipe => recipe.id === recipeId);
     
     if (recipeToSave) {
-     
       const savedRecipes = JSON.parse(localStorage.getItem('searchedRecipes') || '[]');
     
       if (!savedRecipes.some(recipe => recipe.id === recipeId)) {
         savedRecipes.push(recipeToSave);
         localStorage.setItem('searchedRecipes', JSON.stringify(savedRecipes));
       }
-      
-      setFavoriteRecipes(prev => {
-        const newFavorites = prev.includes(recipeId)
-          ? prev.filter(id => id !== recipeId)
-          : [...prev, recipeId];
-        return newFavorites;
-      });
     }
   };
 
