@@ -43,26 +43,40 @@ const App = () => {
 
   const navigate = useNavigate();
 
+  // Load user data on initial render
   useEffect(() => {
-    setIsLoading(true);
-    try {
-      const savedUser = localStorage.getItem('currentUser');
-      if (savedUser) {
-        const user = JSON.parse(savedUser);
-        setCurrentUser(user);
-        setIsLoggedIn(true);
-        setFavoriteRecipes(user.favorites || []);
-        setRecipeRatings(user.ratings || {});
+    const loadUserData = () => {
+      setIsLoading(true);
+      try {
+        const savedUser = localStorage.getItem('currentUser');
+        if (savedUser) {
+          const user = JSON.parse(savedUser);
+          // Only set the user if we're not in the process of logging out
+          if (user) {
+            setCurrentUser(user);
+            setIsLoggedIn(true);
+            setFavoriteRecipes(user.favorites || []);
+            setRecipeRatings(user.ratings || {});
+          }
+        } else {
+          // Explicitly clear user data if no user is found
+          setCurrentUser(null);
+          setIsLoggedIn(false);
+          setFavoriteRecipes([]);
+          setRecipeRatings({});
+        }
+      } catch (error) {
+        console.error('Error loading user data:', error);
+        setCurrentUser(null);
+        setIsLoggedIn(false);
+        setFavoriteRecipes([]);
+        setRecipeRatings({});
+      } finally {
+        setIsLoading(false);
       }
-    } catch (error) {
-      console.error('Error loading user data:', error);
-      setCurrentUser(null);
-      setIsLoggedIn(false);
-      setFavoriteRecipes([]);
-      setRecipeRatings({});
-    } finally {
-      setIsLoading(false);
-    }
+    };
+
+    loadUserData();
   }, []);
   useEffect(() => {
     if (currentUser && isLoggedIn) {
@@ -102,12 +116,38 @@ const App = () => {
   };
 
   const handleLogout = () => {
+    console.log('Logout initiated');
+    
+    // Clear user data from localStorage first
+    console.log('Removing user from localStorage...');
+    localStorage.removeItem('currentUser');
+    
+    // Clear all user-related state
+    console.log('Clearing user state...');
     setCurrentUser(null);
     setIsLoggedIn(false);
     setFavoriteRecipes([]);
     setRecipeRatings({});
-    localStorage.removeItem('currentUser');
-  };  const handleSearchChange = (event) => {
+    
+    // Force state updates to complete before navigation
+    setTimeout(() => {
+      console.log('Verifying logout...');
+      console.log('isLoggedIn:', isLoggedIn);
+      console.log('currentUser:', currentUser);
+      
+      // Navigate to home page
+      console.log('Navigating to home page...');
+      navigate('/', { replace: true });
+      
+      // Force a page reload after a short delay to ensure all state is reset
+      setTimeout(() => {
+        console.log('Forcing page reload...');
+        window.location.reload();
+      }, 100);
+    }, 0);
+  };
+
+  const handleSearchChange = (event) => {
     const query = event.target.value.toLowerCase();  
     setSearchQuery(query);
     

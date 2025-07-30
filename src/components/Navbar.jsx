@@ -20,9 +20,11 @@ const Navbar = ({
   onSearchChange
 }) => {
   const [isLoginVisible, setIsLoginVisible] = React.useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = React.useState(false);
+  const [isDesktopDropdownOpen, setIsDesktopDropdownOpen] = React.useState(false);
+  const [isMobileDropdownOpen, setIsMobileDropdownOpen] = React.useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
-  const dropdownRef = useRef(null);
+  const desktopDropdownRef = useRef(null);
+  const mobileDropdownRef = useRef(null);
   const searchInputRef = useRef(null);
   const location = useLocation();
 
@@ -59,8 +61,11 @@ const Navbar = ({
 
   useEffect(() => {
     function handleClickOutside(event) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setIsDropdownOpen(false);
+      if (desktopDropdownRef.current && !desktopDropdownRef.current.contains(event.target)) {
+        setIsDesktopDropdownOpen(false);
+      }
+      if (mobileDropdownRef.current && !mobileDropdownRef.current.contains(event.target)) {
+        setIsMobileDropdownOpen(false);
       }
     }
 
@@ -156,11 +161,10 @@ const Navbar = ({
               <Search className="w-6 h-6 lg:w-8 lg:h-8" />
             </button>
 
-
             {isLoggedIn ? (
-              <div className="relative" ref={dropdownRef}>
+              <div className="relative" ref={desktopDropdownRef}>
                 <button
-                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                  onClick={() => setIsDesktopDropdownOpen(!isDesktopDropdownOpen)}
                   className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold 
                     ${theme === "dark" ? "bg-yellow-500" : "bg-yellow-400"} 
                     text-white hover:opacity-90 transition-opacity`}
@@ -169,7 +173,7 @@ const Navbar = ({
                   {getUserDisplayInfo().initial}
                 </button>
 
-                {isDropdownOpen && (
+                {isDesktopDropdownOpen && (
                   <div className={`absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 z-50
                     ${theme === "dark" ? "bg-[#2d2d2d] text-white" : "bg-white text-gray-900"}
                     border ${theme === "dark" ? "border-gray-700" : "border-gray-200"}`}
@@ -180,14 +184,15 @@ const Navbar = ({
                       <span className="block text-xs text-gray-500 dark:text-gray-400 mt-1">{currentUser?.email}</span>
                     </div>
                     <button
-                      onClick={() => {
+                      onClick={(e) => {
+                        e.stopPropagation();
                         onLogout();
-                        setIsDropdownOpen(false);
+                        setIsDesktopDropdownOpen(false);
                       }}
                       className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2"
                     >
                       <LogOut className="w-4 h-4" />
-                      Sign out
+                      <span>Sign out</span>
                     </button>
                   </div>
                 )}
@@ -227,11 +232,10 @@ const Navbar = ({
               <Search className="w-6 h-6" />
             </button>
 
-
             {isLoggedIn ? (
-              <div className="relative" ref={dropdownRef}>
+              <div className="relative" ref={mobileDropdownRef}>
                 <button
-                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                  onClick={() => setIsMobileDropdownOpen(!isMobileDropdownOpen)}
                   className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold 
                     ${theme === "dark" ? "bg-yellow-500" : "bg-yellow-400"} 
                     text-white hover:opacity-90 transition-opacity`}
@@ -240,7 +244,7 @@ const Navbar = ({
                   {getUserDisplayInfo().initial}
                 </button>
 
-                {isDropdownOpen && (
+                {isMobileDropdownOpen && (
                   <div className={`absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 z-50
                     ${theme === "dark" ? "bg-[#2d2d2d] text-white" : "bg-white text-gray-900"}
                     border ${theme === "dark" ? "border-gray-700" : "border-gray-200"}`}
@@ -251,14 +255,15 @@ const Navbar = ({
                       <span className="block text-xs text-gray-500 dark:text-gray-400 mt-1">{currentUser?.email}</span>
                     </div>
                     <button
-                      onClick={() => {
+                      onClick={(e) => {
+                        e.stopPropagation();
                         onLogout();
-                        setIsDropdownOpen(false);
+                        setIsMobileDropdownOpen(false);
                       }}
                       className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2"
                     >
                       <LogOut className="w-4 h-4" />
-                      Sign out
+                      <span>Sign out</span>
                     </button>
                   </div>
                 )}
