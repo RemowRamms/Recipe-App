@@ -76,7 +76,7 @@ const Navbar = ({
   };
 
   return (
-    <nav className={`w-full transition duration-200 relative z-50
+    <nav className={`w-full transition duration-200 relative z-50 sticky top-0
       ${theme === "dark" ? "bg-[#1A1A1A] text-white" : "bg-white text-gray-900 shadow-md"}`}
     >
 
