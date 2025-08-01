@@ -211,19 +211,23 @@ const App = () => {
     const query = event.target.value.toLowerCase();  
     setSearchQuery(query);
     
+    // Reset selected category when user starts typing
+    if (query.trim() && selectedCategory !== 'All') {
+      setSelectedCategory('All');
+    }
+    
     if (window.setCurrentPage) {
       window.setCurrentPage(1);
     }
-  if (!query.trim()) {
+    
+    if (!query.trim()) {
       return;
     }
 
     fetchRecipesBySearch(query).then(data => {
-      
       const transformedData = data.map(meal => 
         transformMealPayloadToMockDataStructure(meal)
       );
-      
       
       const existingSearchedRecipes = JSON.parse(localStorage.getItem('searchedRecipes') || '[]');
       
@@ -236,7 +240,6 @@ const App = () => {
         return unique;
       }, []);
 
-      
       localStorage.setItem('searchedRecipes', JSON.stringify(allRecipes));
       
       const filteredResults = allRecipes.filter(recipe => 

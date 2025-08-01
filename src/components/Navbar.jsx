@@ -21,7 +21,9 @@ const Navbar = ({
   const [isLoginVisible, setIsLoginVisible] = React.useState(false);
   const [isDesktopDropdownOpen, setIsDesktopDropdownOpen] = React.useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
+  const [isMobileDropdownOpen, setIsMobileDropdownOpen] = React.useState(false);
   const desktopDropdownRef = useRef(null);
+  const mobileDropdownRef = useRef(null);
   const searchInputRef = useRef(null);
   const location = useLocation();
 
@@ -43,6 +45,9 @@ const Navbar = ({
     function handleClickOutside(event) {
       if (desktopDropdownRef.current && !desktopDropdownRef.current.contains(event.target)) {
         setIsDesktopDropdownOpen(false);
+      }
+      if (mobileDropdownRef.current && !mobileDropdownRef.current.contains(event.target)) {
+        setIsMobileDropdownOpen(false);
       }
     }
 
@@ -188,9 +193,9 @@ const Navbar = ({
           <div class="flex md:hidden items-center gap-2">
 
             {isLoggedIn ? (
-              <div className="relative" ref={desktopDropdownRef}>
+              <div className="relative" ref={mobileDropdownRef}>
                 <button
-                  onClick={() => setIsDesktopDropdownOpen(!isDesktopDropdownOpen)}
+                  onClick={() => setIsMobileDropdownOpen(!isMobileDropdownOpen)}
                   className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold 
                     ${theme === "dark" ? "bg-yellow-500" : "bg-yellow-400"} 
                     text-white hover:opacity-90 transition-opacity`}
@@ -199,7 +204,7 @@ const Navbar = ({
                   {getUserDisplayInfo().initial}
                 </button>
 
-                {isDesktopDropdownOpen && (
+                {isMobileDropdownOpen && (
                   <div className={`absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 z-50
                     ${theme === "dark" ? "bg-[#2d2d2d] text-white" : "bg-white text-gray-900"}
                     border ${theme === "dark" ? "border-gray-700" : "border-gray-200"}`}>
@@ -212,7 +217,8 @@ const Navbar = ({
                       onClick={(e) => {
                         e.stopPropagation();
                         onLogout();
-                        setIsDesktopDropdownOpen(false);
+                        setIsMobileDropdownOpen(false);
+                        setIsMobileMenuOpen(false);
                       }}
                       className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2"
                     >
