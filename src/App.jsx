@@ -1,6 +1,6 @@
 import './App.css';
 import React, { useState, useEffect } from "react";
-import { Route, Routes, useNavigate } from "react-router-dom"; 
+import { Route, Routes, useNavigate, useLocation } from "react-router-dom"; 
 
 import Navbar from "./components/Navbar"; 
 import RecipeDetails from "./components/RecipeDetails"; 
@@ -8,41 +8,99 @@ import Home from "./components/Home";
 import { AllRecipes } from './components/AllRecipes';
 import Login from "./components/Login";
 import Favorites from './components/Pages/Favourites';
-import { fetchRecipesBySearch, transformMealPayloadToMockDataStructure } from './api/fetchRecipes';
+import { fetchRecipesBySearch, transformMealPayloadToMockDataStructure, fetchRecipesByCategory, fetchAllCategories } from './api/fetchRecipes';
 import { ClipLoader } from 'react-spinners';
 import Footer from "./components/Footer";
 
 const App = () => {  
-  const [searchedRecipes, setSearchedRecipes] = useState(() => {
-    return JSON.parse(localStorage.getItem('searchedRecipes') || '[]');
-  });
-  const [newData, setNewData] = useState([]); 
-  useEffect(() => {
-    const initialSearch = async () => {
-      try {
-        const data = await fetchRecipesBySearch('cake');
-        const transformedData = data.map(meal => transformMealPayloadToMockDataStructure(meal));
-        setNewData(transformedData);
-      } catch (error) {
-        console.error('Error loading initial recipes:', error);
-        // setNewData(searchedRecipes);
-      }
-    };
-    initialSearch();
-  }, []);
+  const location = useLocation();  
+
+  const [newData, setNewData] = useState([]);
   const current_theme = localStorage.getItem('current_theme');
   const [theme, setTheme] = useState(current_theme ? current_theme : 'light');
-  const [searchQuery, setSearchQuery] = useState(""); 
+  const [searchQuery, setSearchQuery] = useState("");
+  const [favoritesSearchQuery, setFavoritesSearchQuery] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [favoriteRecipes, setFavoriteRecipes] = useState([]);
   const [recipeRatings, setRecipeRatings] = useState({});
   const [currentUser, setCurrentUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [categories, setCategories] = useState([]);
+
+
+  useEffect(() => {
+    const getCategories = async () => {
+      try {
+        const categoryData = await fetchAllCategories();
+        setCategories([{ strCategory: 'All' }, ...categoryData]);
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+      }
+    };
+    getCategories();
+  }, []);
+
+
+  useEffect(() => {
+    const fetchCategoryRecipes = async () => {
+
+      if (selectedCategory === 'All') return;
+
+      setIsLoading(true);
+      try {
+        const data = await fetchRecipesByCategory(selectedCategory);
+        const transformedData = data.map(meal => transformMealPayloadToMockDataStructure(meal));
+        setNewData(transformedData);
+      } catch (error) {
+        console.error(`Error fetching recipes for category ${selectedCategory}:`, error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchCategoryRecipes();
+  }, [selectedCategory]);
+
+
+  useEffect(() => {
+
+    if (selectedCategory !== 'All') return;
+
+    const fetchSearchRecipes = async () => {
+      setIsLoading(true);
+      try {
+        const data = await fetchRecipesBySearch(searchQuery || 'cake');
+        const transformedData = data.map(meal => transformMealPayloadToMockDataStructure(meal));
+        setNewData(transformedData);
+      } catch (error) {
+        console.error('Error fetching recipes by search:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    const handler = setTimeout(() => {
+      fetchSearchRecipes();
+    }, 300);
+
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [searchQuery, selectedCategory]);
+
+  const handleCategorySelect = (category) => {
+    if (selectedCategory !== category) {
+      setSearchQuery('');
+      setSelectedCategory(category);
+    }
+  };
 
   const navigate = useNavigate();
 
-  // Load user data on initial render
+
   useEffect(() => {
     const loadUserData = () => {
       setIsLoading(true);
@@ -232,30 +290,22 @@ const App = () => {
 
   
 
-  if (isLoading) {
-    return <div className={`min-h-screen ${theme === 'dark' ? 'bg-[#121212] text-white' : 'bg-white text-black'}`}>Loading...</div>;
-  }
+
 
   return (
-      <div className={`min-h-screen w-full ${theme === 'dark' ? 'bg-[#121212] text-white' : 'bg-white text-black'}`}>
-        {isLoading ? (
-          <div className="flex justify-center items-center min-h-screen">
-            <ClipLoader color="#facc15" size={80} />
-          </div>
-        ) : (
-          <>
-            <Navbar 
-              theme={theme} 
-              setTheme={setTheme} 
-              searchQuery={searchQuery} 
-              onSearchChange={handleSearchChange} 
-              onSearchSubmit={handleSearchSubmit}
-              setNewData={setNewData}
-              isLoggedIn={isLoggedIn}
-              currentUser={currentUser}
-              onLogout={handleLogout}
-              onLogin={handleLogin}
-            />
+    <div className={`min-h-screen w-full ${theme === 'dark' ? 'bg-[#121212] text-white' : 'bg-white text-black'}`}>
+      <>
+        <Navbar 
+          theme={theme} 
+          setTheme={setTheme} 
+          searchQuery={location.pathname === '/favourites' ? favoritesSearchQuery : searchQuery} 
+          onSearchChange={location.pathname === '/favourites' ? (e) => setFavoritesSearchQuery(e.target.value) : handleSearchChange} 
+          onSearchSubmit={handleSearchSubmit}
+          isLoggedIn={isLoggedIn}
+          currentUser={currentUser}
+          onLogout={handleLogout}
+          onLogin={handleLogin}
+        />
 
             {showLoginModal && (
               <Login
@@ -277,7 +327,11 @@ const App = () => {
                       setShowLoginModal={setShowLoginModal}
                       addToFavorites={addToFavorites}
                       newData={newData}
+                      selectedCategory={selectedCategory}
+                      onSelectCategory={handleCategorySelect}
                       favoriteRecipes={favoriteRecipes}
+                      categories={categories}
+                      isLoading={isLoading}
                     />
                   }
                 />
@@ -301,16 +355,15 @@ const App = () => {
                       setShowLoginModal={setShowLoginModal}
                       addToFavorites={addToFavorites}
                       favoriteRecipes={favoriteRecipes}
-                      searchQuery={searchQuery}
-                      setSearchQuery={setSearchQuery}
+                      searchQuery={favoritesSearchQuery}
+                      setSearchQuery={setFavoritesSearchQuery}
                     />
                   }
                 />
               </Routes>
             </div>
             <Footer theme={theme} />
-          </>
-        )}
+        </>
       </div>
   );
 }

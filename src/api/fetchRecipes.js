@@ -1,5 +1,5 @@
-export  const fetchRecipesBySearch = async (query) => {
-  const res = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${query}`);
+export const fetchRecipesBySearch = async (query) => {
+  const res = await fetch(`/api/search.php?s=${query}`);
   const data = await res.json();
 
   console.log(data);
@@ -8,8 +8,8 @@ export  const fetchRecipesBySearch = async (query) => {
   
 };
 
-export  const searchById= async (query) => {
-  const res = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${query}`);
+export const searchById = async (query) => {
+  const res = await fetch(`/api/lookup.php?i=${query}`);
   const data = await res.json();
 
   console.log(data);
@@ -18,10 +18,34 @@ export  const searchById= async (query) => {
   
 };
 
+
+export const fetchRecipesByCategory = async (category) => {
+  try {
+    const res = await fetch(`/api/filter.php?c=${category}`);
+    const data = await res.json();
+    // The filter endpoint returns a list of meals with summary data (id, name, thumbnail)
+    // We will return this directly to avoid making a request for each meal.
+    return data.meals || [];
+  } catch (error) {
+    console.error(`Error fetching recipes for category ${category}:`, error);
+    return [];
+  }
+};
+
+export const fetchAllCategories = async () => {
+  try {
+    const res = await fetch('/api/categories.php');
+    const data = await res.json();
+    return data.categories || [];
+  } catch (error) {
+    console.error('Error fetching categories:', error);
+    return [];
+  }
+};
 
 export const fetchMealOfTheDay = async () => {
   try {
-    const res = await fetch('https://www.themealdb.com/api/json/v1/1/random.php');
+    const res = await fetch('/api/random.php');
     const data = await res.json();
     
     console.log('Meal of the Day:', data);
@@ -34,6 +58,26 @@ export const fetchMealOfTheDay = async () => {
 };
 
 export function transformMealPayloadToMockDataStructure(payload) {
+  // Handle summary payload from filter.php, which has a different structure
+  if (!payload.strInstructions) {
+    return {
+      id: payload.idMeal,
+      title: payload.strMeal,
+      image: payload.strMealThumb,
+      // Provide default values for fields not present in summary view
+      description: `A delicious ${payload.strMeal}. Click to see more details.`,
+      method: [],
+      ingredients: [],
+      category: "General",
+      diet: null,
+      meat: null,
+      trending: false,
+      holiday: null,
+      season: null,
+      rating: 0.0,
+      servings: 0,
+    };
+  }
   const ingredients = [];
   if (payload) {
     for (let i = 1; i <= 20; i++) {
