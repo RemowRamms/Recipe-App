@@ -108,7 +108,7 @@ const App = () => {
         const savedUser = localStorage.getItem('currentUser');
         if (savedUser) {
           const user = JSON.parse(savedUser);
-          // Only set the user if we're not in the process of logging out
+          
           if (user) {
             setCurrentUser(user);
             setIsLoggedIn(true);
@@ -116,7 +116,7 @@ const App = () => {
             setRecipeRatings(user.ratings || {});
           }
         } else {
-          // Explicitly clear user data if no user is found
+          
           setCurrentUser(null);
           setIsLoggedIn(false);
           setFavoriteRecipes([]);
@@ -175,28 +175,26 @@ const App = () => {
   const handleLogout = () => {
     console.log('Logout initiated');
     
-    // Clear user data from localStorage first
+    
     console.log('Removing user from localStorage...');
     localStorage.removeItem('currentUser');
     
-    // Clear all user-related state
     console.log('Clearing user state...');
     setCurrentUser(null);
     setIsLoggedIn(false);
     setFavoriteRecipes([]);
     setRecipeRatings({});
     
-    // Force state updates to complete before navigation
     setTimeout(() => {
       console.log('Verifying logout...');
       console.log('isLoggedIn:', isLoggedIn);
       console.log('currentUser:', currentUser);
       
-      // Navigate to home page
+    
       console.log('Navigating to home page...');
       navigate('/', { replace: true });
       
-      // Force a page reload after a short delay to ensure all state is reset
+     
       setTimeout(() => {
         console.log('Forcing page reload...');
         window.location.reload();

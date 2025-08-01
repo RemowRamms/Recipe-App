@@ -23,8 +23,7 @@ export const fetchRecipesByCategory = async (category) => {
   try {
     const res = await fetch(`/api/filter.php?c=${category}`);
     const data = await res.json();
-    // The filter endpoint returns a list of meals with summary data (id, name, thumbnail)
-    // We will return this directly to avoid making a request for each meal.
+   
     return data.meals || [];
   } catch (error) {
     console.error(`Error fetching recipes for category ${category}:`, error);
@@ -58,13 +57,13 @@ export const fetchMealOfTheDay = async () => {
 };
 
 export function transformMealPayloadToMockDataStructure(payload) {
-  // Handle summary payload from filter.php, which has a different structure
+  
   if (!payload.strInstructions) {
     return {
       id: payload.idMeal,
       title: payload.strMeal,
       image: payload.strMealThumb,
-      // Provide default values for fields not present in summary view
+      
       description: `A delicious ${payload.strMeal}. Click to see more details.`,
       method: [],
       ingredients: [],

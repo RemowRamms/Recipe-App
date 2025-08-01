@@ -129,7 +129,7 @@ const Navbar = ({
                 <button
                   onClick={() => setIsDesktopDropdownOpen(!isDesktopDropdownOpen)}
                   className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold 
-                    ${theme === "dark" ? "bg-orange-500" : "bg-orange-400"} 
+                    ${theme === "dark" ? "bg-yellow-500" : "bg-yellow-400"} 
                     text-white hover:opacity-90 transition-opacity`}
                   aria-label="User menu"
                 >
