@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import RecipeCard from "./RecipeCard";
-import { Pagination } from "./Pagination2";
 import ClipLoader from "react-spinners/ClipLoader";
 
 export const AllRecipes = ({
@@ -11,35 +10,23 @@ export const AllRecipes = ({
   addComment,
   newData,
   favoriteRecipes,
-}) => {  const [currentPage, setCurrentPage] = useState(1);
+}) => {
   const [isLoading, setIsLoading] = useState(true);
-  useEffect(() => {
-    window.setCurrentPage = setCurrentPage;
-    return () => {
-      delete window.setCurrentPage;
-    };
-  }, []);
-
-
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [newData]);
+  const [visibleRecipesCount, setVisibleRecipesCount] = useState(8); // Show 8 recipes initially
 
   const validRecipes = newData.filter((recipe) => recipe && recipe.id);
-
-  const recipesPerPage = 8;
-  const indexOfLastRecipe = currentPage * recipesPerPage;
-  const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage;
-  const currentRecipes = validRecipes.slice(indexOfFirstRecipe, indexOfLastRecipe);
-
-  const totalPages = Math.ceil(validRecipes.length / recipesPerPage);
-  const pages = [...Array(totalPages)].map((_, index) => index + 1);
 
   useEffect(() => {
     if (validRecipes.length > 0) {
       setIsLoading(false);
     }
   }, [validRecipes.length]);
+
+  const loadMoreRecipes = () => {
+    setVisibleRecipesCount(prevCount => prevCount + 8);
+  };
+
+  const currentRecipes = validRecipes.slice(0, visibleRecipesCount);
 
   return (
     <div className="container mx-auto px-[7%] py-8">
@@ -63,13 +50,14 @@ export const AllRecipes = ({
               />
             ))}
           </div>
-          {totalPages > 1 && (
-            <div className="mt-2 w-full p-[40px] flex justify-center">
-              <Pagination
-                setCurrentPage={setCurrentPage}
-                pages={pages}
-                currentPage={currentPage}
-              />
+          {visibleRecipesCount < validRecipes.length && (
+            <div className="mt-8 w-full flex justify-center">
+              <button
+                onClick={loadMoreRecipes}
+                className="bg-yellow-500 text-white px-6 py-3 rounded-lg font-semibold shadow-lg hover:bg-yellow-600 transform hover:-translate-y-1 transition-all duration-200"
+              >
+                Load More
+              </button>
             </div>
           )}
         </>

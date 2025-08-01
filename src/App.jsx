@@ -10,6 +10,7 @@ import Login from "./components/Login";
 import Favorites from './components/Pages/Favourites';
 import { fetchRecipesBySearch, transformMealPayloadToMockDataStructure } from './api/fetchRecipes';
 import { ClipLoader } from 'react-spinners';
+import Footer from "./components/Footer";
 
 const App = () => {  
   const [searchedRecipes, setSearchedRecipes] = useState(() => {
@@ -38,8 +39,6 @@ const App = () => {
   const [recipeRatings, setRecipeRatings] = useState({});
   const [currentUser, setCurrentUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   const navigate = useNavigate();
 
@@ -147,6 +146,11 @@ const App = () => {
     }, 0);
   };
 
+  const handleSearchSubmit = (event) => {
+    event.preventDefault();
+    navigate('/recipes');
+  };
+
   const handleSearchChange = (event) => {
     const query = event.target.value.toLowerCase();  
     setSearchQuery(query);
@@ -226,20 +230,7 @@ const App = () => {
   };
 
 
-  const handleSearchToggle = () => {
-    setIsSearchOpen((prev) => {
-      if (!prev) {
-
-        if (window.location.pathname === "/") {
-          navigate("/recipes");
-        }
-        return true;
-      } else {
-        setSearchQuery("");
-        return false;
-      }
-    });
-  };
+  
 
   if (isLoading) {
     return <div className={`min-h-screen ${theme === 'dark' ? 'bg-[#121212] text-white' : 'bg-white text-black'}`}>Loading...</div>;
@@ -258,13 +249,12 @@ const App = () => {
               setTheme={setTheme} 
               searchQuery={searchQuery} 
               onSearchChange={handleSearchChange} 
+              onSearchSubmit={handleSearchSubmit}
               setNewData={setNewData}
               isLoggedIn={isLoggedIn}
               currentUser={currentUser}
               onLogout={handleLogout}
               onLogin={handleLogin}
-              isSearchOpen={isSearchOpen}
-              onSearchToggle={handleSearchToggle}
             />
 
             {showLoginModal && (
@@ -318,6 +308,7 @@ const App = () => {
                 />
               </Routes>
             </div>
+            <Footer theme={theme} />
           </>
         )}
       </div>

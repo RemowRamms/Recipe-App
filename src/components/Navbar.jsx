@@ -14,17 +14,14 @@ const Navbar = ({
   onLogout,
   currentUser,
   onLogin,
-  isSearchOpen,
-  onSearchToggle,
   searchQuery,
-  onSearchChange
+  onSearchChange,
+  onSearchSubmit
 }) => {
   const [isLoginVisible, setIsLoginVisible] = React.useState(false);
   const [isDesktopDropdownOpen, setIsDesktopDropdownOpen] = React.useState(false);
-  const [isMobileDropdownOpen, setIsMobileDropdownOpen] = React.useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
   const desktopDropdownRef = useRef(null);
-  const mobileDropdownRef = useRef(null);
   const searchInputRef = useRef(null);
   const location = useLocation();
 
@@ -32,12 +29,7 @@ const Navbar = ({
     setTheme(theme === "light" ? "dark" : "light");
   };  
 
-  const handleSearchClick = () => {
-    onSearchToggle();
-    setTimeout(() => {
-      searchInputRef.current?.focus();
-    }, 100);
-  };
+  
 
   const menuItems = [
     { name: "Home", path: "/" },
@@ -63,9 +55,6 @@ const Navbar = ({
     function handleClickOutside(event) {
       if (desktopDropdownRef.current && !desktopDropdownRef.current.contains(event.target)) {
         setIsDesktopDropdownOpen(false);
-      }
-      if (mobileDropdownRef.current && !mobileDropdownRef.current.contains(event.target)) {
-        setIsMobileDropdownOpen(false);
       }
     }
 
@@ -130,36 +119,22 @@ const Navbar = ({
 
           <div className="hidden md:flex items-center gap-3 lg:gap-4">
 
-            <div className={`transition-all duration-300 ease-in-out overflow-hidden relative
-              ${isSearchOpen ? "w-48 lg:w-64 opacity-100 px-4" : "w-0 opacity-0 px-0"} 
-              h-10 flex items-center border border-gray-400 rounded-full
-              ${theme === "dark" ? "bg-white/20 border-gray-600" : "bg-white"}`}
-            >
-              <input
-                ref={searchInputRef}
-                type="text"
-                value={searchQuery}
-                onChange={onSearchChange}
-                placeholder="Search..."
-                className={`bg-transparent w-full outline-none text-sm ${theme === "dark" ? "text-white" : "text-black"} placeholder:text-gray-500 pr-8`}
-              />
-              {isSearchOpen && searchQuery && (
-                <button
-                  onClick={onSearchToggle}
-                  className={`absolute right-2 p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors`}
-                >
-                  <span className="text-xl leading-none">&times;</span>
-                </button>
-              )}
+            <div className="hidden md:flex items-center">
+              <form onSubmit={onSearchSubmit} className="relative w-64">
+                <input
+                  ref={searchInputRef}
+                  type="text"
+                  value={searchQuery}
+                  onChange={onSearchChange}
+                  placeholder="Search recipes..."
+                  className={`bg-transparent w-full h-10 pl-10 pr-4 border rounded-full outline-none
+                    ${theme === 'dark' ? 'border-orange-300 text-white placeholder-gray-400' : 'border-orange-300 text-black placeholder-gray-500'}`}
+                />
+                <div className="absolute left-3 top-1/2 -translate-y-1/2">
+                  <Search className={`w-5 h-5 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-500'}`} />
+                </div>
+              </form>
             </div>
-
-            <button
-              className="bg-none border-none cursor-pointer text-inherit flex items-center p-1"
-              onClick={handleSearchClick}
-              aria-label="Search"
-            >
-              <Search className="w-6 h-6 lg:w-8 lg:h-8" />
-            </button>
 
             {isLoggedIn ? (
               <div className="relative" ref={desktopDropdownRef}>
@@ -226,75 +201,7 @@ const Navbar = ({
 
             <button
               className="bg-none border-none cursor-pointer text-inherit flex items-center p-1"
-              onClick={handleSearchClick}
-              aria-label="Search"
-            >
-              <Search className="w-6 h-6" />
-            </button>
-
-            {isLoggedIn ? (
-              <div className="relative" ref={mobileDropdownRef}>
-                <button
-                  onClick={() => setIsMobileDropdownOpen(!isMobileDropdownOpen)}
-                  className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold 
-                    ${theme === "dark" ? "bg-yellow-500" : "bg-yellow-400"} 
-                    text-white hover:opacity-90 transition-opacity`}
-                  aria-label="User menu"
-                >
-                  {getUserDisplayInfo().initial}
-                </button>
-
-                {isMobileDropdownOpen && (
-                  <div className={`absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 z-50
-                    ${theme === "dark" ? "bg-[#2d2d2d] text-white" : "bg-white text-gray-900"}
-                    border ${theme === "dark" ? "border-gray-700" : "border-gray-200"}`}
-                  >
-                    <div className="px-4 py-2 text-sm border-b border-gray-200 dark:border-gray-700">
-                      Signed in as<br />
-                      <span className="font-semibold">{getUserDisplayInfo().displayName}</span>
-                      <span className="block text-xs text-gray-500 dark:text-gray-400 mt-1">{currentUser?.email}</span>
-                    </div>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onLogout();
-                        setIsMobileDropdownOpen(false);
-                      }}
-                      className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2"
-                    >
-                      <LogOut className="w-4 h-4" />
-                      <span>Sign out</span>
-                    </button>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <button
-                className="bg-none border-none cursor-pointer text-inherit flex items-center p-1"
-                onClick={() => setIsLoginVisible(true)}
-                aria-label="Sign in or sign up"
-              >
-                <CircleUserRound className="w-6 h-6" />
-              </button>
-            )}
-
-
-            <button
-              className="bg-none border-none cursor-pointer text-inherit flex items-center p-1"
-              onClick={toggle_mode}
-              aria-label="Toggle theme"
-            >
-              {theme === "light" ? (
-                <Moon className="w-6 h-6" />
-              ) : (
-                <Sun className="w-6 h-6" />
-              )}
-            </button>
-
-
-            <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="bg-none border-none cursor-pointer text-inherit flex items-center p-1 ml-2"
               aria-label="Toggle mobile menu"
             >
               <div className="w-6 h-6 flex flex-col justify-center items-center">
@@ -313,11 +220,9 @@ const Navbar = ({
         </div>
 
 
-        {isSearchOpen && (
-          <div className="md:hidden pb-4">
-            <div className={`w-full px-4 h-10 flex items-center border border-gray-400 rounded-full
-              ${theme === "dark" ? "bg-white/20 border-gray-600" : "bg-white"}`}
-            >
+        <div className="md:hidden pb-4">
+            <form onSubmit={onSearchSubmit} className={`w-full px-4 h-10 flex items-center border rounded-full
+              ${theme === "dark" ? "bg-white/20 border-gray-600" : "bg-white border-gray-300"}`}>
               <input
                 ref={searchInputRef}
                 type="text"
@@ -326,17 +231,8 @@ const Navbar = ({
                 placeholder="Search..."
                 className={`bg-transparent w-full outline-none text-sm ${theme === "dark" ? "text-white" : "text-black"} placeholder:text-gray-500 pr-8`}
               />
-              {searchQuery && (
-                <button
-                  onClick={onSearchToggle}
-                  className={`p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors`}
-                >
-                  <span className="text-xl leading-none">&times;</span>
-                </button>
-              )}
-            </div>
+            </form>
           </div>
-        )}
 
 
         {isMobileMenuOpen && (

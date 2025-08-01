@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import RecipeCard from "../RecipeCard";
 import "../Styles/Favourites.css";
 
@@ -11,6 +11,12 @@ function Favorites({
   searchQuery,
   setSearchQuery 
 }) {
+  const [visibleCount, setVisibleCount] = useState(8);
+
+  useEffect(() => {
+    setSearchQuery("");
+  }, [setSearchQuery]);
+
   if (!isLoggedIn) {
     return (
       <div className="text-center p-16 bg-white/5 rounded-xl max-w-xl mx-auto my-8">
@@ -21,11 +27,9 @@ function Favorites({
       </div>
     );
   }
-  const savedRecipes = JSON.parse(localStorage.getItem('searchedRecipes') || '[]');
-  setSearchQuery("");
 
-  console.log('Saved Recipes:', savedRecipes);
-  console.log('Favorite Recipe IDs:', favoriteRecipes);
+  const savedRecipes = JSON.parse(localStorage.getItem('searchedRecipes') || '[]');
+  
   const favoritedRecipes = savedRecipes.filter(recipe => {
     if (!recipe || !recipe.id) return false;
     const isFavorited = favoriteRecipes.includes(recipe.id);
@@ -39,6 +43,10 @@ function Favorites({
     return isFavorited;
   });
 
+  const loadMore = () => {
+    setVisibleCount(prevCount => prevCount + 8);
+  };
+
   if (favoritedRecipes.length > 0) {
     return (
       <div className="container mx-auto px-[7%] py-8">
@@ -46,7 +54,7 @@ function Favorites({
           Your Favorites
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {favoritedRecipes.map((recipe) => (
+          {favoritedRecipes.slice(0, visibleCount).map((recipe) => (
             <div key={recipe.id} className="recipe-card">
               <RecipeCard 
                 recipe={recipe}
@@ -59,6 +67,16 @@ function Favorites({
             </div>
           ))}
         </div>
+        {visibleCount < favoritedRecipes.length && (
+          <div className="mt-8 w-full flex justify-center">
+            <button
+              onClick={loadMore}
+              className="bg-yellow-500 text-white px-6 py-3 rounded-lg font-semibold shadow-lg hover:bg-yellow-600 transform hover:-translate-y-1 transition-all duration-200"
+            >
+              Load More
+            </button>
+          </div>
+        )}
       </div>
     );
   }
