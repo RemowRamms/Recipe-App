@@ -211,7 +211,7 @@ const App = () => {
     const query = event.target.value.toLowerCase();  
     setSearchQuery(query);
     
-    // Reset selected category when user starts typing
+  
     if (query.trim() && selectedCategory !== 'All') {
       setSelectedCategory('All');
     }
