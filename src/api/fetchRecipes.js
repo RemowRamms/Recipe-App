@@ -119,6 +119,26 @@ export function transformMealPayloadToMockDataStructure(payload) {
     description = `A delightful recipe featuring ${payload.strMeal}, made with love and attention to detail.`;
   }
 
+  // Format preparation time (TheMealDB doesn't provide this, so we'll estimate based on category)
+  const category = (payload && payload.strCategory) || "";
+  let prepTime = "30-45 minutes"; // Default
+  
+  if (category.toLowerCase().includes("beef") || category.toLowerCase().includes("lamb")) {
+    prepTime = "1-2 hours";
+  } else if (category.toLowerCase().includes("chicken") || category.toLowerCase().includes("poultry")) {
+    prepTime = "45-60 minutes";
+  } else if (category.toLowerCase().includes("dessert")) {
+    prepTime = "20-30 minutes";
+  } else if (category.toLowerCase().includes("pasta") || category.toLowerCase().includes("pork")) {
+    prepTime = "30-45 minutes";
+  } else if (category.toLowerCase().includes("seafood")) {
+    prepTime = "20-40 minutes";
+  } else if (category.toLowerCase().includes("side") || category.toLowerCase().includes("salad")) {
+    prepTime = "15-30 minutes";
+  } else if (category.toLowerCase().includes("breakfast")) {
+    prepTime = "15-25 minutes";
+  }
+
   return {
     id: mealId,
     title: (payload && payload.strMeal) || "Untitled Recipe",
@@ -134,5 +154,6 @@ export function transformMealPayloadToMockDataStructure(payload) {
     season: null, 
     rating: 0.0, 
     servings: 0,
+    prepTime: prepTime,
   };
 }

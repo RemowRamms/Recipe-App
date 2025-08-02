@@ -38,7 +38,7 @@ const RecipeCard = ({
     if (!isLoggedIn) {
       setShowLoginModal(true);
     } else {
-      addToFavorites(recipe.id);
+      addToFavorites(recipe.id, recipe);
     }
   };
 

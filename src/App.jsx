@@ -251,7 +251,7 @@ const App = () => {
       setNewData(filteredResults);
     });
   };
-  const addToFavorites = (recipeId) => {
+  const addToFavorites = (recipeId, recipeData = null) => {
     if (!isLoggedIn) {
       setShowLoginModal(true);
       return;
@@ -264,15 +264,24 @@ const App = () => {
       return newFavorites;
     });
 
-    const recipeToSave = newData.find(recipe => recipe.id === recipeId);
+    // If recipeData is provided, use it; otherwise try to find it in newData
+    const recipeToSave = recipeData || newData.find(recipe => recipe.id === recipeId);
     
     if (recipeToSave) {
       const savedRecipes = JSON.parse(localStorage.getItem('searchedRecipes') || '[]');
-    
-      if (!savedRecipes.some(recipe => recipe.id === recipeId)) {
+      
+      // Check if recipe already exists in savedRecipes
+      const existingRecipeIndex = savedRecipes.findIndex(recipe => recipe.id === recipeId);
+      
+      if (existingRecipeIndex === -1) {
+        // If recipe doesn't exist, add it
         savedRecipes.push(recipeToSave);
-        localStorage.setItem('searchedRecipes', JSON.stringify(savedRecipes));
+      } else if (recipeData) {
+        // If recipe exists and we have new data, update it
+        savedRecipes[existingRecipeIndex] = recipeToSave;
       }
+      
+      localStorage.setItem('searchedRecipes', JSON.stringify(savedRecipes));
     }
   };
 
@@ -343,8 +352,6 @@ const App = () => {
                       theme={theme}
                       isLoggedIn={isLoggedIn}
                       setShowLoginModal={setShowLoginModal}
-                      handleRate={handleRate}
-                      currentRating={recipeRatings}
                       currentUser={currentUser}
                     />
                   }

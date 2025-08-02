@@ -2,7 +2,14 @@ import React, { useState } from "react";
 import RecipeCard from "./RecipeCard";
 import { Pagination } from "./Pagination2";
 
-const RecipeList = ({ recipes }) => {
+const RecipeList = ({ 
+  recipes, 
+  theme, 
+  isLoggedIn, 
+  setShowLoginModal, 
+  addToFavorites, 
+  favoriteRecipes = [] 
+}) => {
   const [currentPage, setCurrentPage] = useState(1);
   const recipesPerPage = 6;
 
@@ -18,7 +25,15 @@ const RecipeList = ({ recipes }) => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {currentRecipes.length > 0 ? (
           currentRecipes.map((recipe) => (
-            <RecipeCard key={recipe.id} recipe={recipe} />
+            <RecipeCard 
+              key={recipe.id} 
+              recipe={recipe}
+              theme={theme}
+              isLoggedIn={isLoggedIn}
+              setShowLoginModal={setShowLoginModal}
+              addToFavorites={addToFavorites}
+              isFavorite={favoriteRecipes.includes(recipe.id)}
+            />
           ))
         ) : (
           <div className="col-span-3 text-center text-xl font-semibold text-darkBlue dark:text-lightBlue">

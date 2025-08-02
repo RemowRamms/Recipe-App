@@ -49,7 +49,7 @@ export const AllRecipes = ({
                   theme={theme} 
                   isLoggedIn={isLoggedIn}
                   setShowLoginModal={setShowLoginModal}
-                  onAddToFavorites={() => addToFavorites(recipe.id)}
+                  addToFavorites={addToFavorites}
                   isFavorite={favoriteRecipes.includes(recipe.id)}
                 />
               ))}
