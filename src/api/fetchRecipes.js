@@ -1,5 +1,5 @@
 export const fetchRecipesBySearch = async (query) => {
-  const res = await fetch(`/api/search.php?s=${query}`);
+  const res = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${query}`);
   const data = await res.json();
 
   console.log(data);
@@ -9,7 +9,7 @@ export const fetchRecipesBySearch = async (query) => {
 };
 
 export const searchById = async (query) => {
-  const res = await fetch(`/api/lookup.php?i=${query}`);
+  const res = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${query}`);
   const data = await res.json();
 
   console.log(data);
@@ -21,7 +21,7 @@ export const searchById = async (query) => {
 
 export const fetchRecipesByCategory = async (category) => {
   try {
-    const res = await fetch(`/api/filter.php?c=${category}`);
+    const res = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`);
     const data = await res.json();
    
     return data.meals || [];
@@ -33,7 +33,7 @@ export const fetchRecipesByCategory = async (category) => {
 
 export const fetchAllCategories = async () => {
   try {
-    const res = await fetch('/api/categories.php');
+    const res = await fetch('https://www.themealdb.com/api/json/v1/1/categories.php');
     const data = await res.json();
     return data.categories || [];
   } catch (error) {
@@ -44,7 +44,7 @@ export const fetchAllCategories = async () => {
 
 export const fetchMealOfTheDay = async () => {
   try {
-    const res = await fetch('/api/random.php');
+    const res = await fetch('https://www.themealdb.com/api/json/v1/1/random.php');
     const data = await res.json();
     
     console.log('Meal of the Day:', data);
@@ -119,9 +119,8 @@ export function transformMealPayloadToMockDataStructure(payload) {
     description = `A delightful recipe featuring ${payload.strMeal}, made with love and attention to detail.`;
   }
 
-  // Format preparation time (TheMealDB doesn't provide this, so we'll estimate based on category)
   const category = (payload && payload.strCategory) || "";
-  let prepTime = "30-45 minutes"; // Default
+  let prepTime = "30-45 minutes"; 
   
   if (category.toLowerCase().includes("beef") || category.toLowerCase().includes("lamb")) {
     prepTime = "1-2 hours";
