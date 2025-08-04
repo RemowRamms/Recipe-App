@@ -196,7 +196,7 @@ const Home = ({ theme }) => {
             }`}>
             <img src="https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg" alt="Find Recipes" className="w-full h-56 object-cover rounded-lg mb-6"/>
             <h3 className={`text-2xl font-semibold mb-3 ${theme === "dark" ? "text-white" : "text-gray-900"}`}>Find Perfect Recipes</h3>
-            <p className={`${theme === "dark" ? "text-gray-300" : "text-gray-600"}`}>Explore thousands of dishes. Our powerful search helps you find the perfect meal by name or ingredient.</p>
+            <p className={`${theme === "dark" ? "text-gray-300" : "text-gray-600"}`}>Explore thousands of dishes. Our powerful search and filter helps you find the perfect meal by name or ingredient.</p>
           </div>
 
           <div className={`text-center p-6 rounded-xl transform hover:-translate-y-2 transition-transform duration-300 border
@@ -205,7 +205,7 @@ const Home = ({ theme }) => {
               : "bg-white text-gray-800 shadow-lg border-gray-200"
             }`}>
             <img src="https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg" alt="Save Favorites" className="w-full h-56 object-cover rounded-lg mb-6"/>
-            <h3 className={`text-2xl font-semibold mb-3 ${theme === "dark" ? "text-white" : "text-gray-900"}`}>Save Your Favorites</h3>
+            <h3 className={`text-2xl font-semibold mb-3 ${theme === "dark" ? "text-white" : "text-gray-900"}`}>Save & Share Your Favorites</h3>
             <p className={`${theme === "dark" ? "text-gray-300" : "text-gray-600"}`}>Create a personal account to save and organize your favorite recipes, building your own digital cookbook.</p>
           </div>
 
