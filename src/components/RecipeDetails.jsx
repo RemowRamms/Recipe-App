@@ -163,7 +163,7 @@ const RecipeDetails = ({ theme, isLoggedIn, setShowLoginModal, currentUser }) =>
                 <img 
                   src={recipe.image} 
                   alt={recipe.title} 
-                  className="w-full h-auto max-h-[500px] object-contain object-center mx-auto"
+                  className="w-1/2 h-auto max-h-[500px] object-contain ml-0"
                   loading="lazy"
                   style={{ maxWidth: '100%', height: 'auto' }}
                 />

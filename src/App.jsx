@@ -264,20 +264,20 @@ const App = () => {
       return newFavorites;
     });
 
-    // If recipeData is provided, use it; otherwise try to find it in newData
+    
     const recipeToSave = recipeData || newData.find(recipe => recipe.id === recipeId);
     
     if (recipeToSave) {
       const savedRecipes = JSON.parse(localStorage.getItem('searchedRecipes') || '[]');
       
-      // Check if recipe already exists in savedRecipes
+      
       const existingRecipeIndex = savedRecipes.findIndex(recipe => recipe.id === recipeId);
       
       if (existingRecipeIndex === -1) {
-        // If recipe doesn't exist, add it
+      
         savedRecipes.push(recipeToSave);
       } else if (recipeData) {
-        // If recipe exists and we have new data, update it
+
         savedRecipes[existingRecipeIndex] = recipeToSave;
       }
       
